@@ -28,6 +28,5 @@
   <feature name="StatusBar">
     <param name="ios-package" onload="true" value="CDVStatusBar"/>
   </feature>
-  <plugin name="cordova-sqlite-storage" spec="~2.0.0"/>
   <allow-navigation href="http://10.0.0.148:8000"/>
 </widget>
