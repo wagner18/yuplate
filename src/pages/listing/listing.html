@@ -1,0 +1,119 @@
+<ion-header class="listing-header">
+  <ion-navbar>
+
+    <button ion-button menuToggle>
+      <!-- <ion-icon name="menu"></ion-icon> -->
+      <ion-icon ios="ios-contact" md="md-contact"></ion-icon>
+    </button>
+
+    <ion-title>
+      <div class="header-logo">
+        Yuplate
+        <!-- <preload-image [ratio]="{w:583, h:100}" src="./assets/images/header_logo_white.png"></preload-image> -->
+      </div>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="listing-content">
+
+  <ion-row class="heading-row">
+<!--     <ion-col col-center width-100>
+      <h2 class="main-title">{{listing.banner_title}}</h2>
+    </ion-col> -->
+
+    <ion-col width-25>
+      <button ion-button small icon-only clear no-padding class="heading-button">
+        <ion-icon ios="ios-heart" md="md-heart"></ion-icon>
+      </button>
+    </ion-col>
+
+    <ion-col width-25>
+      <button ion-button small icon-only clear no-padding class="heading-button">
+        <ion-icon ios="ios-browsers" md="md-browsers"></ion-icon>
+      </button>
+    </ion-col>
+
+    <ion-col width-25>
+      <button ion-button small icon-only clear no-padding class="heading-button">
+        <ion-icon ios="ios-navigate" md="md-navigate"></ion-icon>
+      </button>
+    </ion-col>
+
+    <ion-col width-25>
+      <button ion-button small icon-only clear no-padding class="heading-button">
+        <ion-icon ios="ios-search" md="md-search"></ion-icon>
+      </button>
+    </ion-col>
+
+  </ion-row>
+
+  <h4 class="categories-title">Popular</h4>
+  <ion-scroll scrollX="true" class="horizontal-categories">
+    <ion-row class="categories-row">
+<!--       <ion-col width-30 class="horizontal-item" *ngFor="let popular of items.populars">
+        <preload-image [ratio]="{w:1, h:1}" [src]="popular.image" title="popular.title"></preload-image>
+      </ion-col> -->
+    </ion-row>
+  </ion-scroll>
+
+  <h4 class="categories-title">Browse you dish!</h4>
+
+  <ion-row class="feed-item" *ngFor="let dish of dishes">
+
+    <ion-card>
+      
+      <ion-card-content>
+
+        <ion-slides [options]="slideOptions">
+          <ion-slide *ngFor="let media of dish.medias" style="background-color: white">
+            <preload-image [ratio]="{w:3, h:2}" [src]="media.media_path" title="item.title"></preload-image>
+          </ion-slide>
+        </ion-slides>
+
+        <ion-card-title class="item-title">
+          {{dish.title}}  {{dish.$key}}
+        </ion-card-title>
+        <p class="item-text">
+          {{dish.description}}
+        </p>
+      </ion-card-content>
+      <ion-row no-padding class="actions-row">
+        <ion-col no-padding width-30 text-left>
+          <button class="action-button" ion-button clear small icon-left>
+            <ion-icon isActive="{{dish.liked}}" name='heart'></ion-icon>
+            {{dish.likes}} Likes
+          </button>
+        </ion-col>
+        <ion-col no-padding width-45 text-center>
+          <button class="action-button" ion-button clear small icon-left>
+            <ion-icon name='chatbubbles'></ion-icon>
+            {{dish.total_reviews}} Reviews
+          </button>
+        </ion-col>
+        <ion-col no-padding width-25 text-right>
+          <button class="action-button" ion-button clear small icon-left>
+            <ion-icon name='share-alt'></ion-icon>
+            Share
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+
+  </ion-row>
+
+  <h4 class="categories-title">Browse categories</h4>
+
+  <ion-row class="grid-categories">
+    <!-- <ion-col width-50 class="category-item" *ngFor="let category of listing.categories">
+      <background-image class="category-heading" [src]="category.image" (click)="goToFeed(category)">
+        <ion-row class="heading-row">
+          <ion-col no-padding width-100>
+            <h2 class="category-title">{{category.title}}</h2>
+          </ion-col>
+        </ion-row>
+      </background-image>
+    </ion-col> -->
+  </ion-row>
+
+</ion-content>

@@ -1,0 +1,81 @@
+$SIDEMENU_TOP: color($colors, sidemenu, base);
+$SIDEMENU_BOTTOM: $white;
+$SIDEMENU_TRANSPARENCY: rgba(255,255,255,0.4);
+
+ion-menu {
+
+	.menu-content {
+		background-color: color($colors, background, base);
+	}
+
+	.side-menu-gradient {
+	    background: -webkit-linear-gradient(left top, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+	    background: -o-linear-gradient(bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+	    background: -moz-linear-gradient(bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+	    background: linear-gradient(to bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+	}
+
+	.menu-list
+	{
+		margin-top: 0vh;
+
+		.item {
+
+			background:none;
+		    color:white;
+		    font-weight:300;
+		    border:0px;
+		    padding-right: 32px;
+
+		    .item-content{
+		        background:none;
+		        &.activated{
+		            background: $SIDEMENU_TRANSPARENCY;
+		        }
+		    }
+		    &.active-page-highlight{
+		        .item-content{
+		            background: $SIDEMENU_TRANSPARENCY;
+		        }
+		    }
+
+			&:first-child
+			{
+				border-top: solid 1px rgba($white-d, 0.15);
+			}
+
+			&:last-child
+			{
+				border-bottom: solid 0px;
+			}
+
+			.item-inner
+			{
+				border-bottom: 1px solid rgba($white-d, 0.15);
+				letter-spacing: 1px;
+			}
+
+			.item-icon
+			{
+				color: $white;
+				font-size: 3.4rem;
+			}
+
+		}
+	}
+
+	.profile-image{
+		text-align: center;
+	    img{
+	        border-radius:50%;
+	        margin:10px;
+	        width: 115px;
+	        height: 115px;
+	        border: 4px solid $SIDEMENU_TRANSPARENCY;
+	        -webkit-box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);
+	        -moz-box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);
+	        box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);
+	    }
+	}
+}
+

@@ -10,8 +10,24 @@
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
+$white: #FFFFFF;
+$white-a: darken($white, 3%);
+$white-b: darken($white, 6%);
+$white-c: darken($white, 12%);
+$white-d: darken($white, 24%);
 
+$black: rgba(#000000, .8);
+$black-a: lighten($black, 10%);
+$black-b: lighten($black, 20%);
+$black-c: lighten($black, 40%);
+$black-d: lighten($black, 60%);
 
+$theme-color-1: #BA68C8; // primer color 500
+$theme-color-2: #7B1FA2; // Bold color 700 
+$theme-color-3: #E1BEE7; // light color 300
+$theme-color-4: #AA00FF; // Accent color A400
+
+$text-color: $black-d;
 
 // Named Color Variables
 // --------------------------------------------------
@@ -22,33 +38,62 @@
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #387ef5,
+  primary:    #C5CAE9,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #222,
+  favorite:   #69BB7B,
+
+  walkthrough:(
+    base: #ff0080,
+    contrast: $white
+  ),
+  walkthrough-alt:(
+    base: $theme-color-2,
+    contrast: $white
+  ),
+  walkthrough-header:(
+    base: transparent,
+    contrast: $white
+  ),
+  sidemenu:(
+    base: $theme-color-2,
+    contrast: $white
+  ),
+  header:(
+    base: $theme-color-1,
+    contrast: $white
+  ),
+  header-alt:(
+    base: $theme-color-3,
+    contrast: $white
+  ),
+  button:(
+    base: $theme-color-4,
+    contrast: $white
+  ),
+  button-alt:(
+    base: $theme-color-4,
+    contrast: $white
+  ),
+  background:(
+    base: $white-a,
+    contrast: $black-b
+  ),
+  tabs-navigation:(
+    base: $white,
+    contrast: $white-d
+  ),
+  facebook:(
+    base: #3b5998,
+    contrast: $white
+  ),
+  google:(
+    base: #cc181e,
+    contrast: $white
+  )
 );
-
-
-// App iOS Variables
-// --------------------------------------------------
-// iOS only Sass variables can go here
-
-
-
-
-// App Material Design Variables
-// --------------------------------------------------
-// Material Design only Sass variables can go here
-
-
-
-
-// App Windows Variables
-// --------------------------------------------------
-// Windows only Sass variables can go here
-
-
 
 
 // App Theme

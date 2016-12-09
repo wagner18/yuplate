@@ -45,7 +45,15 @@
       "platform": "ios",
       "version": "",
       "locator": "ios"
+    },
+    {
+      "platform": "android",
+      "version": "",
+      "locator": "android"
     }
   ],
-  "description": "yuplate: An Ionic project"
+  "description": "yuplate: An Ionic project",
+  "config": {
+    "ionic_sass": "./config/sass.config.js"
+  }
 }
