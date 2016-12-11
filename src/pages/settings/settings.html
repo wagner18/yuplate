@@ -14,7 +14,7 @@
   <div class="user-image-content">
     <ion-row no-padding class="user-image-row">
       <ion-col no-padding width-40>
-        <preload-image class="user-image" [ratio]="{w:1, h:1}" src="{{profile.image | async}}" alt="aca va la img" title="IMAGE!"></preload-image>
+        <preload-image class="user-image" [ratio]="{w:1, h:1}" [src]="profile.image" alt="aca va la img" title="IMAGE!"></preload-image>
       </ion-col>
     </ion-row>
     <h3 class="image-action">Change profile picture</h3>
@@ -35,8 +35,8 @@
         <ion-input type="text" formControlName="location"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label stacked>Description</ion-label>
-        <ion-textarea formControlName="description" rows="5" placeholder="Your description here..."></ion-textarea>
+        <ion-label stacked>About you</ion-label>
+        <ion-textarea formControlName="about" rows="5" placeholder="Let's your costumers know more about you!"></ion-textarea>
       </ion-item>
     </ion-list>
 

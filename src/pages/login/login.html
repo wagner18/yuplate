@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content class="login-content auth-content">
-  <form class="login-form auth-form" [formGroup]="login" (ngSubmit)="loginUser()">
+  <form class="login-form auth-form" [formGroup]="login" (ngSubmit)="signInUser()">
     <ion-item>
       <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
     </ion-item>

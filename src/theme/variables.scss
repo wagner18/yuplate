@@ -22,12 +22,14 @@ $black-b: lighten($black, 20%);
 $black-c: lighten($black, 40%);
 $black-d: lighten($black, 60%);
 
-$theme-color-1: #BA68C8; // primer color 500
-$theme-color-2: #7B1FA2; // Bold color 700 
-$theme-color-3: #E1BEE7; // light color 300
-$theme-color-4: #AA00FF; // Accent color A400
+$theme-color-1: #999999; // primer color 500
+$theme-color-2: #336699; // Bold color 700 
+$theme-color-3: #666666; // light color 300
+$theme-color-4: #9933ff; // Accent color A400
 
-$text-color: $black-d;
+$theme-color-5: #333333; // Title text Colors
+$theme-color-6: #666666; // Secundary texts
+
 
 // Named Color Variables
 // --------------------------------------------------
@@ -37,8 +39,10 @@ $text-color: $black-d;
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
 
+$text-color: #000099;
+
 $colors: (
-  primary:    #C5CAE9,
+  primary:    #387ef5,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,

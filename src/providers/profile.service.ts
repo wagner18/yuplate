@@ -1,51 +1,53 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
 import 'rxjs/add/operator/map';
 import { Http } from '@angular/http';
 
-import firebase from 'firebase';
-
+import { AuthService } from './auth.service';
+import { DataService } from './data.service';
 import { ProfileModel } from '../pages/profile/profile.model';
 
 @Injectable()
 export class ProfileService {
 
-	private currentUser: any;
-  private profile:any;
-  private PROFILE_REF: string = "/profiles"; 
+	
+  private PROFILE_REF: string = "profiles/";
+  private currentUser: any;
+  public profile: ProfileModel = new ProfileModel();
 
-  constructor(public http: Http, private _auth: AuthService) {
-  	// this._auth.getCurrentUser().then((userData) => {
-   //    this.currentUser = userData;
-   //  });
-  }
+  constructor(
+    public http: Http, 
+    private _dataService: DataService, 
+    private _auth: AuthService
+  ){  }
 
   getProfile(){
+    return this._auth.getCurrentUser().then((currentUser) => {
+      return Promise.all([currentUser, this.fetchProfile(currentUser)]);
+    });
+  }
 
-    if(this.currentUser){
+  fetchProfile(currentUser){
+    let pathProfile = this.PROFILE_REF + "/" + currentUser.uid;
+    return this._dataService.database.child(pathProfile);
+  }
 
-      let pathProfile = this.PROFILE_REF + "/" + this.currentUser.uid;
+  saveProfile(profile){
 
-      //return this.agularFire.database.object(pathProfile, { preserveSnapshot: true });
+    return this._auth.getCurrentUser().then((currentUser) => {
 
-    }else{
-      return null;
-    }
+      profile.uid = currentUser.uid;
+
+      let profileData = {};
+      profileData[currentUser.uid] = profile;
+      console.log("This is the ID of my user ===>>>", profile);
+      
+      return this._dataService.database.child(this.PROFILE_REF).update(profileData);
+
+    });
+
 
   }
 
-  saveProfile(profileModel){
-
-    //this.profile = this.agularFire.database.list(this.PROFILE_REF);
-
-    // profileModel.uid = this.currentUser.uid;
-    // this.profile.update(profileModel.uid, profileModel);
-    
-    // console.log("This is the ID of my user ===>>>", profileModel);
-
-    //this.firebase.database.list(this.collection, { query: query });
-
-  }
 
   getData(): Promise<ProfileModel> {
     return this.http.get('../assets/example_data/profile.json')

@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 
-import { BaseProvider } from '../../app/base.provider';
-
 import { AuthService } from '../../providers/auth.service';
-// import { AngularFire, FirebaseAuthState} from 'angularfire2';
+import { BaseProvider } from '../../app/base.provider';
 
 import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
 import { SignupPage } from '../signup/signup';
@@ -19,7 +17,6 @@ export class LoginPage {
 
   login: FormGroup;
   main_page: { component: any };
-  private authUser: any;
 
   constructor(
     public nav: NavController,
@@ -36,18 +33,13 @@ export class LoginPage {
 
   }
 
-  loginUser(){
+  signInUser(){
 
     let credentials = this.login.value;
 
-    this._auth.signInUser(credentials)
-    .then((authUser) => {
-      this.authUser = authUser;
-
-      this._auth.setCurrentUser(this.authUser);
-
-      console.log("Logged User >>>> ", this.authUser);
-      
+    this._auth.signInUser(credentials).then((authUser) => {
+      this._auth.setCurrentUser(authUser);
+      console.log("Logged User >>>> ", authUser);
       this.onSignInSuccess();
     })
     .catch((error) => {
@@ -67,7 +59,7 @@ export class LoginPage {
   }
 
   private onSignInSuccess(): void {
-    console.log('User Logged');
+    console.log('User Logged in');
     this.nav.setRoot(this.main_page.component);
   }
 

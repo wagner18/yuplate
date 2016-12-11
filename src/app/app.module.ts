@@ -129,8 +129,8 @@ import { ScheduleService } from '../pages/schedule/schedule.service';
   providers: [
     Storage,
     DataService,
-    BaseProvider,
     AuthService,
+    BaseProvider,
     DishService,
     FeedService, 
     ListingService, 

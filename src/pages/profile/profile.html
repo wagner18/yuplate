@@ -8,19 +8,19 @@
   <div class="user-details">
     <ion-row class="user-main-data-row">
       <ion-col no-padding width-33>
-        <preload-image class="user-image" [ratio]="{w:1, h:1}" [src]="profile.user.image" alt="profile.user.firstName" title="profile.user.firstName"></preload-image>
+        <preload-image class="user-image" [ratio]="{w:1, h:1}" [src]="profile.image" alt="profile.firstName" title="profile.firstName"></preload-image>
       </ion-col>
       <ion-col no-padding>
         <ion-row class="social-presence-row">
           <ion-col width-50 class="social-presence-item">
             <a (click)="goToFollowersList()">
-              <h2 class="social-presence-value">{{profile.followers.length}}</h2>
+              <h2 class="social-presence-value">X</h2>
               <h4 class="social-presence-title">Followers</h4>
             </a>
           </ion-col>
           <ion-col width-50 class="social-presence-item">
             <a (click)="goToFollowingList()">
-              <h2 class="social-presence-value">{{profile.following.length}}</h2>
+              <h2 class="social-presence-value">X</h2>
               <h4 class="social-presence-title">Following</h4>
             </a>
           </ion-col>
@@ -36,14 +36,14 @@
     </ion-row>
     <ion-row wrap class="user-bio-row">
       <ion-col no-padding width-50>
-        <h2 class="user-name">{{profile.user.name}}</h2>
+        <h2 class="user-name">{{profile.firstName}}</h2>
       </ion-col>
       <ion-col no-padding width-50>
-        <span class="user-location">{{profile.user.location}}</span>
+        <span class="user-location">{{profile.location}}</span>
       </ion-col>
       <ion-col no-padding width-100>
         <p class="user-description">
-          {{profile.user.about}}
+          {{profile.about}}
         </p>
       </ion-col>
     </ion-row>
@@ -58,7 +58,8 @@
   </div>
   <div [ngSwitch]="display" class="user-content">
     <div *ngSwitchCase="'list'" class="list-view">
-      <div class="list-item" *ngFor="let post of profile.posts">
+
+<!--       <div class="list-item" *ngFor="let post of profile.posts">
         <span class="item-date">{{post.date}}</span>
         <ion-card>
           <preload-image [ratio]="{w:1, h:1}" [src]="post.image" title=""></preload-image>
@@ -88,13 +89,14 @@
             </ion-col>
           </ion-row>
         </ion-card>
-      </div>
+      </div> -->
+
     </div>
     <div *ngSwitchCase="'grid'" class="grid-view">
       <ion-row wrap class="grid-row">
-        <ion-col width-33 class="grid-item" *ngFor="let post of profile.posts">
+        <!-- <ion-col width-33 class="grid-item" *ngFor="let post of profile.posts">
           <preload-image [ratio]="{w:1, h:1}" [src]="post.image" title="Yuplate"></preload-image>
-        </ion-col>
+        </ion-col> -->
       </ion-row>
     </div>
   </div>

@@ -2,17 +2,19 @@ import { Component } from '@angular/core';
 import { NavController, ModalController} from 'ionic-angular';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 
+import { AuthService } from '../../providers/auth.service';
+import { ProfileService } from '../../providers/profile.service';
 import { BaseProvider } from '../../app/base.provider';
+import { UserModel } from '../../app/models/user.model';
 
 import { TermsOfServicePage } from '../terms-of-service/terms-of-service';
 import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
 
 import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
 
-import { AuthService } from '../../providers/auth.service';
-// import { AngularFire } from 'angularfire2';
 
-import { UserModel } from '../../app/models/user.model';
+
+
 
 @Component({
   selector: 'signup-page',
@@ -30,7 +32,8 @@ export class SignupPage {
     public nav: NavController,
     public BaseApp: BaseProvider,
     public modal: ModalController,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _profile: ProfileService
   ){
 
     this.main_page = { component: TabsNavigationPage };
@@ -43,23 +46,22 @@ export class SignupPage {
 
   }
 
-  registerUser(){
+  createUser(){
 
-    let user = this.signup.value
+    let user = this.signup.value;
+    this._auth.createUser(user).then((authUser) => {
+      
+      console.log(authUser);
+      this._auth.setCurrentUser(authUser);
+      this.onSignInSuccess();
 
-    this._auth.registerUser(user)
-      .then((authState) => {
-        authState
-        console.log(authState);
-        //this.onSignInSuccess();
-      })
-      .catch((error) => {
-        console.log(error);
+    })
+    .catch((error) => {
 
-        let title = "User not Registred";
-        let msg = "We could not registre you, plase try again.";
-        this.BaseApp.showAlert(title, msg);
-      });
+      let title = " Ops! User not Registred ";
+      console.log(error);
+      this.BaseApp.showAlert(title, error.message);
+    });
 
 
   }

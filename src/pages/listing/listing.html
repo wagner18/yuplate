@@ -8,7 +8,7 @@
 
     <ion-title>
       <div class="header-logo">
-        Yuplate
+        Gooplate
         <!-- <preload-image [ratio]="{w:583, h:100}" src="./assets/images/header_logo_white.png"></preload-image> -->
       </div>
     </ion-title>
@@ -59,48 +59,59 @@
 
   <h4 class="categories-title">Browse you dish!</h4>
 
-  <ion-row class="feed-item" *ngFor="let dish of dishes">
+  <!-- <ion-row class="feed-item"> -->
 
-    <ion-card>
-      
-      <ion-card-content>
+    <ion-list no-lines>
+
+      <ion-card *ngFor="let dish of dishes">
 
         <ion-slides [options]="slideOptions">
           <ion-slide *ngFor="let media of dish.medias" style="background-color: white">
-            <preload-image [ratio]="{w:3, h:2}" [src]="media.media_path" title="item.title"></preload-image>
+            <preload-image [ratio]="{w:3, h:2}" [src]="media.media_path" title="dishe.title"></preload-image>
           </ion-slide>
         </ion-slides>
+      
+        <ion-card-content>
+          <ion-card-title class="item-title">
+            {{dish.title}}
+          </ion-card-title>
+          <p class="item-text">
+            {{dish.description}}
+          </p>
+        </ion-card-content>
 
-        <ion-card-title class="item-title">
-          {{dish.title}}  {{dish.$key}}
-        </ion-card-title>
-        <p class="item-text">
-          {{dish.description}}
-        </p>
-      </ion-card-content>
-      <ion-row no-padding class="actions-row">
-        <ion-col no-padding width-30 text-left>
-          <button class="action-button" ion-button clear small icon-left>
-            <ion-icon isActive="{{dish.liked}}" name='heart'></ion-icon>
-            {{dish.likes}} Likes
-          </button>
-        </ion-col>
-        <ion-col no-padding width-45 text-center>
-          <button class="action-button" ion-button clear small icon-left>
-            <ion-icon name='chatbubbles'></ion-icon>
-            {{dish.total_reviews}} Reviews
-          </button>
-        </ion-col>
-        <ion-col no-padding width-25 text-right>
-          <button class="action-button" ion-button clear small icon-left>
-            <ion-icon name='share-alt'></ion-icon>
-            Share
-          </button>
-        </ion-col>
-      </ion-row>
-    </ion-card>
+        <ion-row no-padding class="actions-row">
+          <ion-col no-padding width-30 text-left>
+            <button class="action-button" ion-button clear small icon-left>
+              <ion-icon isActive="1" name='heart'></ion-icon>
+              {{dish.likes}} Likes
+            </button>
+          </ion-col>
+          <ion-col no-padding width-45 text-center>
+            <button class="action-button" ion-button clear small icon-left>
+              <ion-icon name='chatbubbles'></ion-icon>
+              {{dish.total_reviews}} Reviews
+            </button>
+          </ion-col>
+          <ion-col no-padding width-25 text-right>
+            <button class="action-button" ion-button clear small icon-left>
+              <ion-icon name='share-alt'></ion-icon>
+              Share
+            </button>
+          </ion-col>
+        </ion-row>
 
-  </ion-row>
+      </ion-card>
+
+    </ion-list>
+
+   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+     <ion-infinite-scroll-content loadingSpinner="dots"
+      loadingText="Loading more data...">></ion-infinite-scroll-content>
+   </ion-infinite-scroll>
+
+
+  <!-- </ion-row> -->
 
   <h4 class="categories-title">Browse categories</h4>
 

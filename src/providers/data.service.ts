@@ -6,7 +6,7 @@
 * Create data: 12/06/2016
 */
 
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import firebase from 'firebase';
 
 // const FirebaseAuthConfig = {
@@ -22,9 +22,11 @@ export class DataService {
 	public database: any; 
 	public auth: any;
 
-  constructor() {}
+  constructor() {
+  	this.initializeApp();
+  }
 
-  public initializeApp(){
+  private initializeApp(){
 
   	  firebase.initializeApp({
 	      apiKey: "AIzaSyBtsVlPeG_pNRcoUM0lnAn95Jy0k1rdfK8",
@@ -34,8 +36,12 @@ export class DataService {
 	      messagingSenderId: "733360059699"
   		});
 
-  	  // this.auth = firebase.auth();
   	  this.database = firebase.database().ref(this.ROOT_NODE);
+
+	  	// as well as adding a reference to the Firebase
+      // authentication method
+      this.auth = firebase.auth();
+
   }
 
 

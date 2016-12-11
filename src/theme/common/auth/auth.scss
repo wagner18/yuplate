@@ -15,7 +15,7 @@
 
 	.auth-title
 	{
-		color: $theme-color-2;
+		color: $theme-color-5;
 		margin-top: 10px;
 		margin-bottom: 25px;
 	}
@@ -23,7 +23,7 @@
 	.auth-form
 	{
 		ion-item {
-			@include basic-input-style(color($colors, background, base), $theme-color-3, $white-d);
+			@include basic-input-style(color($colors, background, base), $theme-color-6, $white-d);
 
 			&.item
 			{

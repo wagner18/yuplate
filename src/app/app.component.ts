@@ -9,12 +9,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Platform, MenuController, Nav, App } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
+import { Storage } from '@ionic/storage';
 
 import { DataService } from '../providers/data.service';
+import { AuthService } from '../providers/auth.service';
 
 import { BaseProvider } from './base.provider';
-
-import { AuthService } from '../providers/auth.service';
 
 import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
 import { FormsPage } from '../pages/forms/forms';
@@ -41,8 +41,6 @@ export class MyApp {
   public pushPages: Array<{title: string, icon: string, component: any}>;
   public current_user: any = {email: "annonymous"};
 
-  private userData: any;
-
   constructor(
     public platform: Platform,
     public BaseApp: BaseProvider,
@@ -65,16 +63,9 @@ export class MyApp {
       { title: 'Layouts', icon: 'grid', component: LayoutsPage },
       { title: 'Settings', icon: 'settings', component: SettingsPage }
     ];
-
-    // this.settings = [
-    //   { title: 'Logout', icon: 'grid', component: LayoutsPage },
-    // ];
   }
 
   initializeApp(){
-
-    this._dataService.initializeApp();
-
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -85,29 +76,19 @@ export class MyApp {
 
   ngOnInit(){
 
+    // Redirect the page case the user is logged in
     this._authService.getCurrentUser().then((userData) =>{
       console.log("User on the Local Storage >>>> ", userData);
-       this.userData = userData;
+      if(userData !== null){
 
-      if(this.userData !== null){
-        this.current_user.email = this.userData.auth.email;
-        this.nav.setRoot(this.main_page.component);
+        this.current_user = userData;
+        this.rootPage = this.main_page.component;
+
       }else{
-        this.nav.setRoot(WalkthroughPage);
+        this.rootPage = WalkthroughPage;
       }
+
     });
-
-    // this._auth.subscribe((state: FirebaseAuthState) => {
-    //   this.authState = state;
-
-    //   if(this.authState){
-    //     this.current_user.email = this.authState.auth.email;
-    //     this.nav.setRoot(this.main_page.component);
-    //   }else{
-    //     this.nav.setRoot(WalkthroughPage);
-    //   }
-
-    // });
 
   }
 

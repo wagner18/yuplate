@@ -1,3 +1,15 @@
+export class ProfileModel {
+  uid: string = "";
+  firstName: string  = "";
+  lastName: string  = "";
+  about: string  = "";
+  image: string  = "./assets/images/profile/200x200suarez.png";
+  email: string  = "";
+  phone: string  = "";
+  location: string  = "";
+}
+
+
 export class UserModel {
   uid: string;
   firstName: string;
@@ -18,9 +30,9 @@ export class ProfilePostModel {
 	liked: boolean = false;
 }
 
-export class ProfileModel {
-  user: UserModel = new UserModel();
-  following: Array<UserModel> = [];
-  followers: Array<UserModel> = [];
+export class UserProfileModel {
+  user: ProfileModel = new ProfileModel();
+  following: Array<ProfileModel> = [];
+  followers: Array<ProfileModel> = [];
   posts: Array<ProfilePostModel> = [];
 }
