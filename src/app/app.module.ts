@@ -25,6 +25,7 @@ import { FormsPage } from '../pages/forms/forms';
 import { LoginPage } from '../pages/login/login';
 import { NotificationsPage } from '../pages/notifications/notifications';
 import { ProfilePage } from '../pages/profile/profile';
+import { ProfileFormPage } from '../pages/profile-form/profile-form';
 import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
 import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
 import { SettingsPage } from '../pages/settings/settings';
@@ -77,6 +78,7 @@ import { ScheduleService } from '../pages/schedule/schedule.service';
     LoginPage,
     NotificationsPage,
     ProfilePage,
+    ProfileFormPage,
     TabsNavigationPage,
     WalkthroughPage,
     SettingsPage,
@@ -112,6 +114,7 @@ import { ScheduleService } from '../pages/schedule/schedule.service';
     LoginPage,
     NotificationsPage,
     ProfilePage,
+    ProfileFormPage,
     TabsNavigationPage,
     WalkthroughPage,
     SettingsPage,

@@ -1,9 +1,9 @@
 export class ProfileModel {
   uid: string = "";
-  firstName: string  = "";
-  lastName: string  = "";
+  firstName: string  = "First name";
+  lastName: string  = "Last name";
   about: string  = "";
-  image: string  = "./assets/images/profile/200x200suarez.png";
+  image: string  = "./assets/images/profile/default-avatar.png";
   email: string  = "";
   phone: string  = "";
   location: string  = "";

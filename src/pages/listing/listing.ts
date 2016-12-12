@@ -17,7 +17,7 @@ export class ListingPage {
 
   public dishes: any;
   public listLimit: number = 10;
-  slideOptions = {pager: true, loop: true};
+  slideOptions = {pager: true};
   items: DishItemModel[];
   loading: any;
 

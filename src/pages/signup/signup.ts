@@ -9,10 +9,7 @@ import { UserModel } from '../../app/models/user.model';
 
 import { TermsOfServicePage } from '../terms-of-service/terms-of-service';
 import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
-
 import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
-
-
 
 
 
@@ -49,11 +46,14 @@ export class SignupPage {
   createUser(){
 
     let user = this.signup.value;
-    this._auth.createUser(user).then((authUser) => {
+    this._auth.createUser(user).then((promises) => {
       
-      console.log(authUser);
-      this._auth.setCurrentUser(authUser);
-      this.onSignInSuccess();
+      console.log(promises);
+      let authUser = promises[0];
+
+      this._auth.setCurrentUser(authUser).then((user) =>{
+        this.onSignInSuccess();
+      });
 
     })
     .catch((error) => {
@@ -71,7 +71,7 @@ export class SignupPage {
       .then( () => this.onSignInSuccess() );
   }
 
-  private onSignInSuccess(): void {
+  private onSignInSuccess(){
     this.nav.setRoot(this.main_page.component);
   }
 

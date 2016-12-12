@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { ViewController, NavController, LoadingController } from 'ionic-angular';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 
 import { AuthService } from '../../providers/auth.service';
 import { BaseProvider } from '../../app/base.provider';
 
+import { ListingPage } from '../listing/listing';
 import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
 import { SignupPage } from '../signup/signup';
 import { ForgotPasswordPage } from '../forgot-password/forgot-password';
@@ -15,13 +16,16 @@ import { ForgotPasswordPage } from '../forgot-password/forgot-password';
 })
 export class LoginPage {
 
-  login: FormGroup;
-  main_page: { component: any };
+  public login: FormGroup;
+  public loading: any;
+  public main_page: { component: any };
 
   constructor(
-    public nav: NavController,
+    private _auth: AuthService,
     public BaseApp: BaseProvider,
-    private _auth: AuthService
+    public viewCtrl: ViewController,
+    public nav: NavController,
+    public loadingCtrl: LoadingController
   ){
 
     this.main_page = { component: TabsNavigationPage };
@@ -36,31 +40,36 @@ export class LoginPage {
   signInUser(){
 
     let credentials = this.login.value;
-
     this._auth.signInUser(credentials).then((authUser) => {
-      this._auth.setCurrentUser(authUser);
+
+      
       console.log("Logged User >>>> ", authUser);
-      this.onSignInSuccess();
+      this._auth.setCurrentUser(authUser).then((user) => {
+
+        //this.nav.removeView(this.viewCtrl);
+        this.nav.setRoot(TabsNavigationPage);
+
+      });
+
+     
     })
     .catch((error) => {
-
-      let title = "User Not Found";
-      let msg = "Ops! We could not find your credentials. Please Try again." ;
-
-      this.BaseApp.showAlert(title, msg);
-
+      this.loading.dismiss().then( () => {
+        let title = "User Not Found";
+        let msg = "Ops! We could not find your credentials. Please Try again." ;
+        this.BaseApp.showAlert(title, msg);
+      });
     });
 
+    this.loading = this.loadingCtrl.create({ dismissOnPageChange: true });
+    this.loading.present();
   }
 
   signInWithFacebook(): void {
     this._auth.signInWithFacebook()
-      .then( () => this.onSignInSuccess() );
-  }
-
-  private onSignInSuccess(): void {
-    console.log('User Logged in');
-    this.nav.setRoot(this.main_page.component);
+      .then( () => { 
+        //this.onSignInSuccess();
+      } );
   }
 
   signInWithGoogle() {

@@ -34,7 +34,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make WalkthroughPage the root (or first) page
-  public rootPage: any;// = WalkthroughPage;
+  public rootPage: any;// = TabsNavigationPage; // = WalkthroughPage;
   public main_page: { component: any };
 
   public pages: Array<{title: string, icon: string, component: any}>;
@@ -76,24 +76,19 @@ export class MyApp {
 
   ngOnInit(){
 
+    console.log('!!!! App COMPONENT EXECUTED !!!!!', this.nav.length());
+
     // Redirect the page case the user is logged in
     this._authService.getCurrentUser().then((userData) =>{
-      console.log("User on the Local Storage >>>> ", userData);
       if(userData !== null){
-
         this.current_user = userData;
-        this.rootPage = this.main_page.component;
-
+        //this.nav.setRoot(this.main_page.component);
+        this.rootPage = TabsNavigationPage
       }else{
+        //this.nav.setRoot(WalkthroughPage);
         this.rootPage = WalkthroughPage;
       }
-
     });
-
-  }
-
-  ionViewWillEnter(){
-    //console.log(this._authService.authenticated);
   }
 
   logout(){

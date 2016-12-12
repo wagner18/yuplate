@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
-import { Http } from '@angular/http';
 
 import { AuthService } from './auth.service';
 import { DataService } from './data.service';
@@ -15,10 +14,10 @@ export class ProfileService {
   public profile: ProfileModel = new ProfileModel();
 
   constructor(
-    public http: Http, 
     private _dataService: DataService, 
     private _auth: AuthService
   ){  }
+
 
   getProfile(){
     return this._auth.getCurrentUser().then((currentUser) => {
@@ -26,35 +25,20 @@ export class ProfileService {
     });
   }
 
+
   fetchProfile(currentUser){
-    let pathProfile = this.PROFILE_REF + "/" + currentUser.uid;
-    return this._dataService.database.child(pathProfile);
+    let refProfile = this.PROFILE_REF + currentUser.uid;
+    return this._dataService.database.child(refProfile);
   }
+
 
   saveProfile(profile){
-
     return this._auth.getCurrentUser().then((currentUser) => {
-
       profile.uid = currentUser.uid;
-
-      let profileData = {};
-      profileData[currentUser.uid] = profile;
-      console.log("This is the ID of my user ===>>>", profile);
-      
-      return this._dataService.database.child(this.PROFILE_REF).update(profileData);
-
+      return this._dataService.database.child(this.PROFILE_REF + currentUser.uid).update(profile);
     });
-
-
   }
 
-
-  getData(): Promise<ProfileModel> {
-    return this.http.get('../assets/example_data/profile.json')
-     .toPromise()
-     .then(response => response.json() as ProfileModel)
-     .catch(this.handleError);
-  }
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only

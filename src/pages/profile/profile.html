@@ -1,6 +1,13 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Profile</ion-title>
+
+    <ion-buttons end>
+      <button ion-button (click)="editProfile()">
+      Edit
+      </button>
+    </ion-buttons>
+
   </ion-navbar>
 </ion-header>
 
@@ -11,37 +18,45 @@
         <preload-image class="user-image" [ratio]="{w:1, h:1}" [src]="profile.image" alt="profile.firstName" title="profile.firstName"></preload-image>
       </ion-col>
       <ion-col no-padding>
-        <ion-row class="social-presence-row">
-          <ion-col width-50 class="social-presence-item">
-            <a (click)="goToFollowersList()">
-              <h2 class="social-presence-value">X</h2>
-              <h4 class="social-presence-title">Followers</h4>
-            </a>
-          </ion-col>
-          <ion-col width-50 class="social-presence-item">
-            <a (click)="goToFollowingList()">
-              <h2 class="social-presence-value">X</h2>
-              <h4 class="social-presence-title">Following</h4>
-            </a>
-          </ion-col>
-        </ion-row>
-        <ion-row class="profile-action-row">
+
+        <ion-row class="profile-name-row">
           <ion-col no-padding>
-            <button ion-button block small (click)="goToSettings()">
-              Edit profile
-            </button>
+              <h1 class="profile-first-name">{{profile.firstName}}</h1>
           </ion-col>
         </ion-row>
+
+        <ion-row class="profile-name-row">
+          <ion-col no-padding>
+            <h2 class="profile-last-name">{{profile.lastName}}</h2>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="profile-name-row">
+          <ion-col no-padding>
+            <span class="profile-location" width-50>{{profile.location}}</span>
+          </ion-col>
+        </ion-row>
+
       </ion-col>
     </ion-row>
+
+    <ion-row class="user-bio-row social-presence-row">
+      <ion-col width-50 class="social-presence-item">
+        <a (click)="goToFollowersList()">
+          <h2 class="social-presence-value">X</h2>
+          <h4 class="social-presence-title">Favorites</h4>
+        </a>
+      </ion-col>
+      <ion-col width-50 class="social-presence-item">
+        <a (click)="goToFollowingList()">
+          <h2 class="social-presence-value">X</h2>
+          <h4 class="social-presence-title">Messages</h4>
+        </a>
+      </ion-col>
+    </ion-row>
+
     <ion-row wrap class="user-bio-row">
-      <ion-col no-padding width-50>
-        <h2 class="user-name">{{profile.firstName}}</h2>
-      </ion-col>
-      <ion-col no-padding width-50>
-        <span class="user-location">{{profile.location}}</span>
-      </ion-col>
-      <ion-col no-padding width-100>
+      <ion-col no-padding width-100 >
         <p class="user-description">
           {{profile.about}}
         </p>

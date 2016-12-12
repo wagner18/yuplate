@@ -24,17 +24,39 @@ profile-page {
 					padding: 0px 0px 5px 10px;
 				}
 
-				.profile-action-row
-				{
+				.profile-name-row	{
+					
 					padding: 5px 0px 0px 10px;
 
-					.button
-					{
-						margin: 0px;
-						border-radius: 6px;
-						background-color: color($colors, button-alt, base);
-						color: color($colors, button-alt, contrast);
+					.profile-first-name	{
+						font-size: 2.6rem;
 						font-weight: 500;
+						letter-spacing: 0.3px;
+						color: $theme-color-1;
+						text-align: left;
+						margin: 0px 0px 0px 10px;
+					}
+
+					.profile-last-name {
+						font-size: 1.6rem;
+						font-weight: 500;
+						letter-spacing: 0.2px;
+						color: $theme-color-1;
+						display: block;
+					  text-align: left;
+					  line-height: 1.6;
+					  margin: 0px 0px 0px 10px;
+					}
+
+					.profile-location {
+						font-size: 1.3rem;
+						font-weight: 500;
+						letter-spacing: 0.2px;
+						color: $theme-color-1;
+						display: block;
+					  text-align: left;
+					  line-height: 1.6;
+					  margin: 0px 0px 0px 10px;
 					}
 				}
 
@@ -43,8 +65,7 @@ profile-page {
 					text-align: center;
 					padding: 0px 5px;
 
-					&:first-child
-					{
+					&:first-child	{
 						padding-left: 10%;
 					}
 					&:last-child
@@ -57,14 +78,12 @@ profile-page {
 						color: $white-d;
 					}
 
-					.social-presence-value
-					{
+					.social-presence-value {
 						margin: 0px;
 						font-size: 2.2rem;
 					}
 
-					.social-presence-title
-					{
+					.social-presence-title {
 						margin: 0px;
 						font-size: 1.2rem;
 						font-weight: 400;
@@ -74,8 +93,7 @@ profile-page {
 				}
 			}
 
-			.user-bio-row
-			{
+			.user-bio-row	{
 				padding: 4%;
 
 				.user-name
@@ -87,20 +105,9 @@ profile-page {
 					margin: 0px;
 				}
 
-				.user-location
-				{
-					font-size: 1.2rem;
-					font-weight: 500;
-					letter-spacing: 0.2px;
-					color: $white-d;
-					display: block;
-				  text-align: right;
-				  line-height: 1.6;
-				}
-
 				.user-description
 				{
-					font-size: 1.2rem;
+					font-size: 1.4rem;
 					line-height: 1.6;
 					letter-spacing: 0.2px;
 					color: $white-d;

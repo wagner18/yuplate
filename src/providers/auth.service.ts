@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Storage } from '@ionic/storage';
 import { DataService } from './data.service';
+import { ProfileModel } from '../pages/profile/profile.model';
 
 
 @Injectable()
@@ -9,7 +10,7 @@ export class AuthService {
 
 
 
-  private PROFILE_REF: string = "/profiles";
+  private PROFILE_REF: string = "profiles/";
   private CURRENT_USER = "current_user";
   public fireAuth: any;
   private userProfile: any;
@@ -17,18 +18,16 @@ export class AuthService {
 
 
   constructor(private _dataService: DataService, private storage: Storage) {
-
     this.fireAuth = this._dataService.auth;
-    this.userProfile = this._dataService.database.child(this.PROFILE_REF);
   }
 
   get authenticated(): boolean {
     return this.fireAuth.auth !== null;
   }
 
-  setCurrentUser(authUser){
-    if(authUser){
-      this.storage.set(this.CURRENT_USER, authUser);
+  setCurrentUser(userProfile){
+    if(userProfile){
+      return this.storage.set(this.CURRENT_USER, userProfile);
     }
   }
 
@@ -41,8 +40,21 @@ export class AuthService {
   }
 
   createUser(user): any{
-    return this.fireAuth.createUserWithEmailAndPassword(user.email, user.password);
+    return this.fireAuth.createUserWithEmailAndPassword(user.email, user.password).then((newUser) => {
+      return Promise.all([newUser, this.createProfileMockup(newUser)]);
+    });
  	}
+
+  createProfileMockup(newUser){
+    let userProfile: ProfileModel = new ProfileModel();
+    userProfile.email = newUser.email;
+    userProfile.uid = newUser.uid;
+
+    return this._dataService.database.child(this.PROFILE_REF + newUser.uid).set(userProfile)
+    .then((newProfile) => {
+       return newProfile;
+    });
+  }
 
   signInWithFacebook(): any{
   	// return this.auth$.login({
@@ -59,6 +71,10 @@ export class AuthService {
       console.log("Error trying to log out", error);
     });
     
+  }
+
+  resetPassword(email: string): any {
+    return this.fireAuth.sendPasswordResetEmail(email);
   }
 
   private handleError(error: any): Promise<any> {

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { MenuController, SegmentButton, App, NavParams, LoadingController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth.service';
 
+import { ProfileFormPage } from '../profile-form/profile-form';
+
 import { FollowersPage } from '../followers/followers';
 import { SettingsPage } from '../settings/settings';
 
@@ -41,10 +43,13 @@ export class ProfilePage {
     this.profileService.getProfile().then((promises) => {
       promises[1].on('value', snapshot => {
 
+        console.log(" Current profille >>>",snapshot.val());
+
         if(snapshot.val()){
           this.profile = snapshot.val();
-          this.loading.dismiss();
         }
+
+        this.loading.dismiss();
       });
 
     });
@@ -67,10 +72,10 @@ export class ProfilePage {
     // });
   }
 
-  goToSettings() {
+  editProfile() {
     // close the menu when clicking a link from the menu
     this.menu.close();
-    this.app.getRootNav().push(SettingsPage);
+    this.app.getRootNav().push(ProfileFormPage);
   }
 
   onSegmentChanged(segmentButton: SegmentButton) {
