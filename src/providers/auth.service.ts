@@ -50,6 +50,8 @@ export class AuthService {
     userProfile.email = newUser.email;
     userProfile.uid = newUser.uid;
 
+    console.log(" User createProfileMockup", userProfile);
+
     return this._dataService.database.child(this.PROFILE_REF + newUser.uid).set(userProfile)
     .then((newProfile) => {
        return newProfile;

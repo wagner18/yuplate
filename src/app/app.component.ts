@@ -17,12 +17,7 @@ import { AuthService } from '../providers/auth.service';
 import { BaseProvider } from './base.provider';
 
 import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
-import { FormsPage } from '../pages/forms/forms';
-import { LayoutsPage } from '../pages/layouts/layouts';
 import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
-import { SettingsPage } from '../pages/settings/settings';
-import { LoginPage } from '../pages/login/login';
-
 
 
 @Component({
@@ -44,7 +39,6 @@ export class MyApp {
   constructor(
     public platform: Platform,
     public BaseApp: BaseProvider,
-    public menu: MenuController, 
     public app: App,
     private _dataService: DataService,
     private _authService: AuthService 
@@ -54,15 +48,15 @@ export class MyApp {
 
     this.main_page = { component: TabsNavigationPage };
 
-    this.pages = [
-      { title: 'Home', icon: 'home', component: TabsNavigationPage },
-      { title: 'Forms', icon: 'create', component: FormsPage }
-    ];
+    // this.pages = [
+    //   { title: 'Home', icon: 'home', component: TabsNavigationPage },
+    //   { title: 'Forms', icon: 'create', component: FormsPage }
+    // ];
 
-    this.pushPages = [
-      { title: 'Layouts', icon: 'grid', component: LayoutsPage },
-      { title: 'Settings', icon: 'settings', component: SettingsPage }
-    ];
+    // this.pushPages = [
+    //   { title: 'Layouts', icon: 'grid', component: LayoutsPage },
+    //   { title: 'Settings', icon: 'settings', component: SettingsPage }
+    // ];
   }
 
   initializeApp(){
@@ -82,33 +76,33 @@ export class MyApp {
     this._authService.getCurrentUser().then((userData) =>{
       if(userData !== null){
         this.current_user = userData;
-        //this.nav.setRoot(this.main_page.component);
-        this.rootPage = TabsNavigationPage
+        this.nav.setRoot(TabsNavigationPage);
+        //this.rootPage = TabsNavigationPage
       }else{
-        //this.nav.setRoot(WalkthroughPage);
+        this.nav.setRoot(WalkthroughPage);
         this.rootPage = WalkthroughPage;
       }
     });
   }
 
-  logout(){
-    this._authService.signOut();
-    this.menu.close();
-    this.nav.setRoot(LoginPage);
-  }
+  // logout(){
+  //   this._authService.signOut();
+  //   this.menu.close();
+  //   this.nav.setRoot(LoginPage);
+  // }
 
-  openPage(page) {
-    // close the menu when clicking a link from the menu
-    this.menu.close();
-    // navigate to the new page if it is not the current page
-    this.nav.setRoot(page.component);
-  }
+  // openPage(page) {
+  //   // close the menu when clicking a link from the menu
+  //   this.menu.close();
+  //   // navigate to the new page if it is not the current page
+  //   this.nav.setRoot(page.component);
+  // }
 
-  pushPage(page) {
-    // close the menu when clicking a link from the menu
-    this.menu.close();
-    // rootNav is now deprecated (since beta 11) (https://forum.ionicframework.com/t/cant-access-rootnav-after-upgrade-to-beta-11/59889)
-    this.app.getRootNav().push(page.component);
-  }
+  // pushPage(page) {
+  //   // close the menu when clicking a link from the menu
+  //   this.menu.close();
+  //   // rootNav is now deprecated (since beta 11) (https://forum.ionicframework.com/t/cant-access-rootnav-after-upgrade-to-beta-11/59889)
+  //   this.app.getRootNav().push(page.component);
+  // }
 
 }

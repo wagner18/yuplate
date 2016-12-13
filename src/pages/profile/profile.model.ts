@@ -7,6 +7,12 @@ export class ProfileModel {
   email: string  = "";
   phone: string  = "";
   location: string  = "";
+  favorites: Array<any> = [];
+  messages: Array<any> = [];
+  bookings: Array<any> = [];
+  listings: Array<any> = [];
+  reviews: Array<any> = [];
+
 }
 
 

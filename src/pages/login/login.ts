@@ -47,7 +47,6 @@ export class LoginPage {
       this._auth.setCurrentUser(authUser).then((user) => {
 
         //this.nav.removeView(this.viewCtrl);
-        this.nav.setRoot(TabsNavigationPage);
 
       });
 
@@ -61,8 +60,10 @@ export class LoginPage {
       });
     });
 
-    this.loading = this.loadingCtrl.create({ dismissOnPageChange: true });
-    this.loading.present();
+    this.nav.setRoot(TabsNavigationPage);
+
+    // this.loading = this.loadingCtrl.create({ dismissOnPageChange: true });
+    // this.loading.present();
   }
 
   signInWithFacebook(): void {

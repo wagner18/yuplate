@@ -9,19 +9,13 @@ profile-page {
 			padding-bottom: 4%;
 			background-color: $white;
 
-			.user-main-data-row
-			{
+			.user-main-data-row	{
 				padding: 4% 4% 0px;
 				@include align-items(center);
 
 				.user-image
 				{
 					border-radius: 50%;
-				}
-
-				.social-presence-row
-				{
-					padding: 0px 0px 5px 10px;
 				}
 
 				.profile-name-row	{
@@ -60,8 +54,12 @@ profile-page {
 					}
 				}
 
-				.social-presence-item
-				{
+			}
+
+			.social-presence-row{
+				padding: 0px 0px 5px 10px;
+			
+				.social-presence-item	{
 					text-align: center;
 					padding: 0px 5px;
 
@@ -88,9 +86,11 @@ profile-page {
 						font-size: 1.2rem;
 						font-weight: 400;
 						line-height: 1.1;
+						text-align: center;
 						letter-spacing: 0.2px;
 					}
 				}
+
 			}
 
 			.user-bio-row	{
@@ -126,8 +126,7 @@ profile-page {
 			}
 		}
 
-		.user-content
-		{
+		.user-content	{
 			.list-view
 			{
 				.list-item
@@ -152,6 +151,21 @@ profile-page {
 				}
 			}
 
+			.user-list-section {
+				margin: 0px;
+				padding: 0px;
+				@include element-shadow();
+				background-color: $white;
+
+				.list-items-section	{
+					font-size: 1.8rem;
+					letter-spacing: 0.2px;
+					color: $white-d;
+					flex: 0.5;
+					@include align-self(center);
+				}
+			}
+
 			.grid-view
 			{
 				padding: 8px 0px 2px;
@@ -168,5 +182,6 @@ profile-page {
 
 			}
 		}
+
 	}
 }

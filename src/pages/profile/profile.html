@@ -40,7 +40,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-row class="user-bio-row social-presence-row">
+    <ion-row class="social-presence-row">
       <ion-col width-50 class="social-presence-item">
         <a (click)="goToFollowersList()">
           <h2 class="social-presence-value">X</h2>
@@ -62,6 +62,8 @@
         </p>
       </ion-col>
     </ion-row>
+
+
     <ion-segment class="user-content-segment" [(ngModel)]="display" (ionChange)="onSegmentChanged($event)">
       <ion-segment-button value="grid" (ionSelect)="onSegmentSelected($event)">
         Grid
@@ -114,5 +116,36 @@
         </ion-col> -->
       </ion-row>
     </div>
+
+    <ion-item-group class="user-list-section">
+      <ion-item-divider color="light"></ion-item-divider>
+  
+        <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+          <ion-icon item-left ios="ios-restaurant" md="md-restaurant"></ion-icon>
+          Bookings
+        </button>  
+   
+        <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+         <ion-icon item-left ios="ios-list-box" md="md-list-box"></ion-icon>
+          Listing
+        </button> 
+
+        <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+          <ion-icon item-left ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>
+          Messages
+        </button>
+
+        <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+          <ion-icon item-left ios="ios-cash" md="md-cash"></ion-icon>
+          Balance
+        </button>
+
+        <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+          <ion-icon item-left ios="ios-cog" md="md-cog"></ion-icon>
+          Settings
+        </button> 
+
+    </ion-item-group>
+
   </div>
 </ion-content>
