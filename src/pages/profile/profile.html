@@ -50,102 +50,60 @@
       <ion-col width-50 class="social-presence-item">
         <a (click)="goToFollowingList()">
           <h2 class="social-presence-value">X</h2>
-          <h4 class="social-presence-title">Messages</h4>
+          <h4 class="social-presence-title">Notifications</h4>
         </a>
       </ion-col>
     </ion-row>
 
     <ion-row wrap class="user-bio-row">
       <ion-col no-padding width-100 >
+      <h4 class="user-description"> About me </h4>
         <p class="user-description">
           {{profile.about}}
         </p>
       </ion-col>
     </ion-row>
 
-
-    <ion-segment class="user-content-segment" [(ngModel)]="display" (ionChange)="onSegmentChanged($event)">
-      <ion-segment-button value="grid" (ionSelect)="onSegmentSelected($event)">
-        Grid
-      </ion-segment-button>
-      <ion-segment-button value="list" (ionSelect)="onSegmentSelected($event)">
-        List
-      </ion-segment-button>
-    </ion-segment>
   </div>
-  <div [ngSwitch]="display" class="user-content">
-    <div *ngSwitchCase="'list'" class="list-view">
 
-<!--       <div class="list-item" *ngFor="let post of profile.posts">
-        <span class="item-date">{{post.date}}</span>
-        <ion-card>
-          <preload-image [ratio]="{w:1, h:1}" [src]="post.image" title=""></preload-image>
-          <ion-card-content>
-            <p class="item-text">
-              {{post.description}}
-            </p>
-          </ion-card-content>
-          <ion-row no-padding class="actions-row">
-            <ion-col no-padding width-30 text-left>
-              <button class="action-button" ion-button clear small color="danger" icon-left>
-                <ion-icon isActive="{{post.liked}}" name='heart'></ion-icon>
-                  {{post.likes}} Likes
-              </button>
-            </ion-col>
-            <ion-col no-padding width-45 text-center>
-              <button class="action-button" ion-button clear small color="danger" icon-left>
-                <ion-icon name='chatbubbles'></ion-icon>
-                  {{post.comments}} Comments
-              </button>
-            </ion-col>
-            <ion-col no-padding width-25 text-right>
-              <button class="action-button" ion-button clear small color="danger" icon-left>
-                <ion-icon name='share-alt'></ion-icon>
-                Share
-              </button>
-            </ion-col>
-          </ion-row>
-        </ion-card>
-      </div> -->
+  <div>
+    <ion-list no-lines class="user-list-section">
 
-    </div>
-    <div *ngSwitchCase="'grid'" class="grid-view">
-      <ion-row wrap class="grid-row">
-        <!-- <ion-col width-33 class="grid-item" *ngFor="let post of profile.posts">
-          <preload-image [ratio]="{w:1, h:1}" [src]="post.image" title="Yuplate"></preload-image>
-        </ion-col> -->
-      </ion-row>
-    </div>
-
-    <ion-item-group class="user-list-section">
       <ion-item-divider color="light"></ion-item-divider>
-  
-        <button ion-item  (click)="itemSelected(item)" class="list-items-section">
-          <ion-icon item-left ios="ios-restaurant" md="md-restaurant"></ion-icon>
-          Bookings
-        </button>  
-   
-        <button ion-item  (click)="itemSelected(item)" class="list-items-section">
-         <ion-icon item-left ios="ios-list-box" md="md-list-box"></ion-icon>
-          Listing
-        </button> 
 
-        <button ion-item  (click)="itemSelected(item)" class="list-items-section">
-          <ion-icon item-left ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>
-          Messages
-        </button>
+      <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+        <ion-icon item-left ios="ios-restaurant" md="md-restaurant"></ion-icon>
+        Orderings
+      </button>  
 
-        <button ion-item  (click)="itemSelected(item)" class="list-items-section">
-          <ion-icon item-left ios="ios-cash" md="md-cash"></ion-icon>
-          Balance
-        </button>
+      <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+        <ion-icon item-left ios="ios-restaurant" md="md-restaurant"></ion-icon>
+        Bookings
+      </button>  
 
-        <button ion-item  (click)="itemSelected(item)" class="list-items-section">
-          <ion-icon item-left ios="ios-cog" md="md-cog"></ion-icon>
-          Settings
-        </button> 
+      <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+       <ion-icon item-left ios="ios-list-box" md="md-list-box"></ion-icon>
+        Listing
+      </button> 
 
-    </ion-item-group>
+      <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+        <ion-icon item-left ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>
+        Messages
+      </button>
 
+      <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+        <ion-icon item-left ios="ios-cash" md="md-cash"></ion-icon>
+        Balance
+      </button>
+
+      <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+        <ion-icon item-left ios="ios-cog" md="md-cog"></ion-icon>
+        Settings
+      </button>
+
+      <ion-item-divider color="light"></ion-item-divider>
+
+    </ion-list>
   </div>
+
 </ion-content>

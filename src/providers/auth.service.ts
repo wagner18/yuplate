@@ -52,10 +52,10 @@ export class AuthService {
 
     console.log(" User createProfileMockup", userProfile);
 
-    return this._dataService.database.child(this.PROFILE_REF + newUser.uid).set(userProfile)
-    .then((newProfile) => {
-       return newProfile;
-    });
+    return this._dataService.database.child(this.PROFILE_REF + newUser.uid).set(userProfile);
+    // .then((newProfile) => {
+    //    return newProfile;
+    // });
   }
 
   signInWithFacebook(): any{

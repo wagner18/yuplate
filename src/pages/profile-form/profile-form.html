@@ -14,14 +14,18 @@
   <div class="user-image-content">
     <ion-row no-padding class="user-image-row">
       <ion-col no-padding width-40>
-        <preload-image class="user-image" [ratio]="{w:1, h:1}" [src]="profile_image" alt="aca va la img" title="IMAGE!"></preload-image>
+        <preload-image class="user-image" [ratio]="{w:1, h:1}" [src]="profile_image" alt="{{profile.firstName}}" title="{{profile.firstName}}">
+        </preload-image>
       </ion-col>
     </ion-row>
     <h3 class="image-action">Change profile picture</h3>
   </div>
 
   <form [formGroup]="ProfileForm" class="profile-form">
+
+
     <ion-list class="user-data-content">
+
       <ion-item>
         <ion-label stacked>First Name</ion-label>
         <ion-input type="text" formControlName="firstName"></ion-input>
@@ -31,14 +35,28 @@
         <ion-input type="text" formControlName="lastName"></ion-input>
       </ion-item>
       <ion-item>
+        <ion-label>Birth Date</ion-label>
+        <ion-datetime class="datetime-text" formControlName="birthday" displayFormat="MMM DD YYYY">
+        </ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>Gender</ion-label>
+        <ion-select class="select-text" interface="action-sheet" formControlName="gender">
+          <ion-option value="female" selected="true">Female</ion-option>
+          <ion-option value="male">Male</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
         <ion-label stacked>Location</ion-label>
         <ion-input type="text" formControlName="location"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label stacked>About you</ion-label>
-        <ion-textarea formControlName="about" rows="5" placeholder="Let's your costumers know more about you!"></ion-textarea>
+        <ion-label stacked>About You</ion-label>
+        <ion-textarea formControlName="about" rows="5"></ion-textarea>
       </ion-item>
+
     </ion-list>
+
 
     <ion-row class="user-preferences-row">
       <span class="radio-tags-label">Currency</span>
@@ -84,6 +102,8 @@
         <ion-toggle formControlName="notifications"></ion-toggle>
       </ion-item>
     </ion-list>
+
+
   </form>
 
   <button class="alt-button" ion-button full (click)="showPrivacyModal()">Privacy policy</button>

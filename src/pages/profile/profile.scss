@@ -1,10 +1,10 @@
 profile-page {
-	.profile-content
-	{
+	.profile-content {
+
 		background-color: color($colors, background, base);
 
-		.user-details
-		{
+		.user-details	{
+
 			@include element-shadow();
 			padding-bottom: 4%;
 			background-color: $white;
@@ -13,8 +13,7 @@ profile-page {
 				padding: 4% 4% 0px;
 				@include align-items(center);
 
-				.user-image
-				{
+				.user-image	{
 					border-radius: 50%;
 				}
 
@@ -23,6 +22,7 @@ profile-page {
 					padding: 5px 0px 0px 10px;
 
 					.profile-first-name	{
+
 						font-size: 2.6rem;
 						font-weight: 500;
 						letter-spacing: 0.3px;
@@ -32,6 +32,7 @@ profile-page {
 					}
 
 					.profile-last-name {
+
 						font-size: 1.6rem;
 						font-weight: 500;
 						letter-spacing: 0.2px;
@@ -43,6 +44,7 @@ profile-page {
 					}
 
 					.profile-location {
+
 						font-size: 1.3rem;
 						font-weight: 500;
 						letter-spacing: 0.2px;
@@ -57,7 +59,7 @@ profile-page {
 			}
 
 			.social-presence-row{
-				padding: 0px 0px 5px 10px;
+				padding: 10px 0px 5px 10px;
 			
 				.social-presence-item	{
 					text-align: center;
@@ -78,7 +80,7 @@ profile-page {
 
 					.social-presence-value {
 						margin: 0px;
-						font-size: 2.2rem;
+						font-size: 1.8rem;
 					}
 
 					.social-presence-title {
@@ -90,7 +92,6 @@ profile-page {
 						letter-spacing: 0.2px;
 					}
 				}
-
 			}
 
 			.user-bio-row	{
@@ -116,21 +117,26 @@ profile-page {
 			}
 		}
 
-		.user-content-segment
-		{
-			@include segment-button-styles($theme-color-2);
+		.user-list-section {
+			margin: 0px;
+			padding: 0px;
+			/*@include element-shadow();*/
+			background-color: $white;
 
-			.segment-button
-			{
-				@include segment-text-styles($white-d);
+			.list-items-section	{
+				margin: 5px;
+				font-size: 1.8rem;
+				letter-spacing: 0.2px;
+				color: $white-d;
+				flex: 0.5;
+				@include align-self(center);
 			}
 		}
 
-		.user-content	{
-			.list-view
-			{
-				.list-item
-				{
+/*		.user-content	{
+			.list-view {
+
+				.list-item {
 					@include basic-card-styles($white-d);
 
 					padding: 12px 0px;
@@ -149,39 +155,20 @@ profile-page {
 						display: block;
 					}
 				}
+
 			}
 
-			.user-list-section {
-				margin: 0px;
-				padding: 0px;
-				@include element-shadow();
-				background-color: $white;
-
-				.list-items-section	{
-					font-size: 1.8rem;
-					letter-spacing: 0.2px;
-					color: $white-d;
-					flex: 0.5;
-					@include align-self(center);
-				}
-			}
-
-			.grid-view
-			{
+			.grid-view {
 				padding: 8px 0px 2px;
 
-				.grid-row
-				{
+				.grid-row	{
 					padding: 0px 5px;
 
-					.grid-item
-					{
+					.grid-item {
 						padding: 0px 3px 6px;
 					}
 				}
-
-			}
-		}
+			}*/
 
 	}
 }

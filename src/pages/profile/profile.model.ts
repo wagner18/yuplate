@@ -1,18 +1,25 @@
 export class ProfileModel {
   uid: string = "";
-  firstName: string  = "First name";
-  lastName: string  = "Last name";
+  firstName: string  = "";
+  lastName: string  = "";
+  gender: string = "" ;
+  birthday: string = "";
   about: string  = "";
   image: string  = "./assets/images/profile/default-avatar.png";
   email: string  = "";
   phone: string  = "";
   location: string  = "";
+  languages: Array<any> = [];
+  verifiedInfo: Array<any> = [];
+  currency: Array<any> = ["Dollar"];
+  balanceAccount: string;
   favorites: Array<any> = [];
   messages: Array<any> = [];
   bookings: Array<any> = [];
+  orderings: Array<any> = [];
   listings: Array<any> = [];
   reviews: Array<any> = [];
-
+  created_at: number = Date.now();
 }
 
 

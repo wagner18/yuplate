@@ -1,10 +1,8 @@
 profile-form-page {
-	.profile-form-content
-	{
+	.profile-form-content	{
 		background-color: color($colors, background, base);
 
-		.user-image-content
-		{
+		.user-image-content	{
 			padding: 16px;
 			margin-bottom: 20px;
 			background-color: $white;
@@ -31,8 +29,8 @@ profile-form-page {
 			}
 		}
 
-		.user-data-content
-		{
+		.user-data-content{
+
 			padding: 0px;
 			margin-bottom: 20px;
 
@@ -41,21 +39,20 @@ profile-form-page {
 				padding: 0px 20px;
 				@include element-shadow();
 
-				.item-inner
-				{
+				.item-inner	{
 					border: none;
 					padding: 0px;
 
 					ion-label {
 						margin: 6px 0px 4px;
-						font-size: 1.1rem;
-						line-height: 1.2;
+						font-size: 1.4rem;
+						line-height: 1.4;
 						letter-spacing: 0.5px;
 						color: $white-d;
 					}
 
 					ion-input input,
-					ion-textarea textarea {
+					ion-textarea textarea{
 						margin: 0px;
 						margin-bottom: 8px;
 						padding: 0px;
@@ -64,8 +61,30 @@ profile-form-page {
 						line-height: 1.4;
 						color: $theme-color-3;
 					}
+
+
+					ion-datetime, ion-select {
+						padding: 5px;
+						margin: 0px;
+
+						.select-text {
+							width: 100%;
+							font-size: 1.6rem;
+							text-align: right;
+							color: $theme-color-3;
+						}
+
+						.datetime-text {
+							padding: 0px;
+							margin: 0px;
+							font-size: 1.6rem;
+							text-align: right;
+							color: $theme-color-3;
+						}
+					}
 				}
 			}
+
 		}
 
 		.user-preferences-row
@@ -85,15 +104,13 @@ profile-form-page {
 			}
 		}
 
-		.profile-form-form
-		{
+		.profile-form-form {
 			margin-bottom: 80px;
 		}
 
 		@include radio-tags-styles($white, $theme-color-1, $white);
 
-		.radio-tags
-		{
+		.radio-tags	{
 			flex: 1;
 			@include flex-wrap(nowrap);
 			@include justify-content(flex-end);
@@ -122,8 +139,7 @@ profile-form-page {
 			}
 		}
 
-		.switchers-list
-		{
+		.switchers-list	{
 			@include switcher-item-styles($white-d, $theme-color-1);
 
 			.switcher-item
@@ -146,8 +162,7 @@ profile-form-page {
 			}
 		}
 
-		.alt-button
-		{
+		.alt-button	{
 			margin: 0px;
 			background-color: $white;
 			font-size: 1.4rem;
@@ -157,8 +172,7 @@ profile-form-page {
 			@include element-shadow();
 		}
 
-		.logout-button
-		{
+		.logout-button {
 			margin: 14px 0px 20px;
 			padding: 0px 20px;
 

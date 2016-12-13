@@ -65,6 +65,14 @@
 
       <ion-card *ngFor="let dish of dishes">
 
+        <ion-item item-right>
+          <ion-avatar item-left>
+            <img src="./assets/images/profile/default-avatar.png">
+          </ion-avatar>
+          <h2>Marty McFly</h2>
+          <p>November 5, 1955</p>
+        </ion-item>
+
         <ion-slides [options]="slideOptions">
           <ion-slide *ngFor="let media of dish.medias" style="background-color: white">
             <preload-image [ratio]="{w:3, h:2}" [src]="media.media_path" title="dishe.title"></preload-image>

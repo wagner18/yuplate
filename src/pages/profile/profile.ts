@@ -33,7 +33,9 @@ export class ProfilePage {
   ){
 
     this.display = "list";
-    this.loading = this.loadingCtrl.create();
+    this.loading = this.loadingCtrl.create({
+      spinner: 'dots'
+    });
   }
 
   ionViewDidLoad() {

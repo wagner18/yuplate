@@ -35,11 +35,15 @@ export class ProfileFormPage {
     public profileService: ProfileService
   ){
 
-    this.loading = this.loadingCtrl.create();
+    this.loading = this.loadingCtrl.create({
+      spinner: 'dots'
+    });
 
     this.ProfileForm = new FormGroup({
       firstName: new FormControl(),
       lastName: new FormControl(),
+      gender: new FormControl(),
+      birthday: new FormControl(),
       about: new FormControl(),
       location: new FormControl(),
       currency: new FormControl(),
@@ -49,7 +53,9 @@ export class ProfileFormPage {
   }
 
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
+
+    console.log("Profile Model >>> ",this.profile);
 
     this.loading.present();
     this.profileService.getProfile().then((promises) => {
@@ -103,8 +109,10 @@ export class ProfileFormPage {
       this.ProfileForm.setValue({
           firstName: profile.firstName,
           lastName: profile.lastName,
-          location: profile.location,
+          gender: profile.gender,
+          birthday: profile.birthday,
           about: profile.about,
+          location: profile.location,
           currency: 'dollar',
           weather: 'fahrenheit',
           notifications: true
