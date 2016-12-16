@@ -16,9 +16,17 @@ import { AuthService } from '../providers/auth.service';
 
 import { BaseProvider } from './base.provider';
 
-import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
-import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
+import { ListingPage } from '../pages/listing/listing';
 
+import { FormsPage } from '../pages/forms/forms';
+import { LayoutsPage } from '../pages/layouts/layouts';
+import { SettingsPage } from '../pages/settings/settings';
+import { LoginPage } from '../pages/login/login';
+import { ProfilePage } from '../pages/profile/profile';
+import { NotificationsPage } from '../pages/notifications/notifications';
+
+//import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
+import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
 
 @Component({
   selector: 'app-root',
@@ -34,75 +42,81 @@ export class MyApp {
 
   public pages: Array<{title: string, icon: string, component: any}>;
   public pushPages: Array<{title: string, icon: string, component: any}>;
-  public current_user: any = {email: "annonymous"};
+  public currentUser: any = {email: "annonymous"};
 
   constructor(
     public platform: Platform,
     public BaseApp: BaseProvider,
     public app: App,
+    public menu: MenuController,
     private _dataService: DataService,
     private _authService: AuthService 
   ){
 
     this.initializeApp();
 
-    this.main_page = { component: TabsNavigationPage };
+    this.main_page = { component: ListingPage };
 
-    // this.pages = [
-    //   { title: 'Home', icon: 'home', component: TabsNavigationPage },
-    //   { title: 'Forms', icon: 'create', component: FormsPage }
-    // ];
+    this.pages = [
+      { title: 'Home', icon: 'home', component: ListingPage },
+      { title: 'Profile', icon: 'contact', component: ProfilePage },
+      { title: 'Forms', icon: 'create', component: FormsPage }
+    ];
 
-    // this.pushPages = [
-    //   { title: 'Layouts', icon: 'grid', component: LayoutsPage },
-    //   { title: 'Settings', icon: 'settings', component: SettingsPage }
-    // ];
+    this.pushPages = [
+      { title: 'Layouts', icon: 'grid', component: LayoutsPage },
+      { title: 'Settings', icon: 'settings', component: SettingsPage }
+    ];
   }
 
   initializeApp(){
     this.platform.ready().then(() => {
+
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       Splashscreen.hide();
       StatusBar.styleDefault();
+
+      // Redirect the page case the user is logged in
+      this._authService.getCurrentUser().then((currentUser) =>{
+        if(currentUser !== null){
+
+          console.log(' USER ==== ',currentUser);
+
+          this.currentUser = currentUser;
+          this.nav.setRoot(ListingPage);
+        }else{
+          this.nav.setRoot(WalkthroughPage);
+          this.rootPage = WalkthroughPage;
+        }
+      });
     });
   }
 
   ngOnInit(){
-
+  
     console.log('!!!! App COMPONENT EXECUTED !!!!!', this.nav.length());
 
-    // Redirect the page case the user is logged in
-    this._authService.getCurrentUser().then((userData) =>{
-      if(userData !== null){
-        this.current_user = userData;
-        this.nav.setRoot(TabsNavigationPage);
-        //this.rootPage = TabsNavigationPage
-      }else{
-        this.nav.setRoot(WalkthroughPage);
-        this.rootPage = WalkthroughPage;
-      }
-    });
   }
 
-  // logout(){
-  //   this._authService.signOut();
-  //   this.menu.close();
-  //   this.nav.setRoot(LoginPage);
-  // }
+  logout(){
+    this._authService.signOut();
+    this.menu.close();
+    this.nav.setRoot(LoginPage);
+  }
 
-  // openPage(page) {
-  //   // close the menu when clicking a link from the menu
-  //   this.menu.close();
-  //   // navigate to the new page if it is not the current page
-  //   this.nav.setRoot(page.component);
-  // }
+  openPage(page) {
+    // close the menu when clicking a link from the menu
+    this.menu.close();
+    // navigate to the new page if it is not the current page
+    this.nav.setRoot(page.component);
+  }
 
-  // pushPage(page) {
-  //   // close the menu when clicking a link from the menu
-  //   this.menu.close();
-  //   // rootNav is now deprecated (since beta 11) (https://forum.ionicframework.com/t/cant-access-rootnav-after-upgrade-to-beta-11/59889)
-  //   this.app.getRootNav().push(page.component);
-  // }
+  pushPage(page) {
+    // close the menu when clicking a link from the menu
+    this.menu.close();
+    // rootNav is now deprecated (since beta 11) (https://forum.ionicframework.com/t/cant-access-rootnav-after-upgrade-to-beta-11/59889)
+    this.app.getRootNav().push(page.component);
+  }
 
 }

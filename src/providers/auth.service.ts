@@ -36,7 +36,9 @@ export class AuthService {
   }
 
   signInUser(credencials): any{
-    return this.fireAuth.signInWithEmailAndPassword(credencials.email, credencials.password);
+    return this.fireAuth.signInWithEmailAndPassword(credencials.email, credencials.password).then((authUser) => {
+      return Promise.all([authUser, this._dataService.database.child(this.PROFILE_REF + authUser.uid)]);
+    });
   }
 
   createUser(user): any{

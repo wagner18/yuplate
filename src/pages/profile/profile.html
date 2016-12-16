@@ -1,10 +1,15 @@
 <ion-header>
   <ion-navbar>
+
+    <button ion-button menuToggle>
+      <!-- <ion-icon name="menu"></ion-icon> -->
+      <ion-icon ios="ios-contact" md="md-contact"></ion-icon>
+    </button>
     <ion-title>Profile</ion-title>
 
     <ion-buttons end>
       <button ion-button (click)="editProfile()">
-      Edit
+        Edit
       </button>
     </ion-buttons>
 
@@ -15,7 +20,8 @@
   <div class="user-details">
     <ion-row class="user-main-data-row">
       <ion-col no-padding width-33>
-        <preload-image class="user-image" [ratio]="{w:1, h:1}" [src]="profile.image" alt="profile.firstName" title="profile.firstName"></preload-image>
+        <!-- <img class="user-image" src="{{profile.image}}"> -->
+        <preload-image [ratio]="{w:1, h:1}" [src]="profile.image" class="user-image"></preload-image>
       </ion-col>
       <ion-col no-padding>
 
@@ -71,32 +77,32 @@
 
       <ion-item-divider color="light"></ion-item-divider>
 
-      <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+      <button ion-item class="list-items-section">
         <ion-icon item-left ios="ios-restaurant" md="md-restaurant"></ion-icon>
         Orderings
       </button>  
 
-      <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+      <button ion-item class="list-items-section">
         <ion-icon item-left ios="ios-restaurant" md="md-restaurant"></ion-icon>
         Bookings
       </button>  
 
-      <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+      <button ion-item class="list-items-section">
        <ion-icon item-left ios="ios-list-box" md="md-list-box"></ion-icon>
         Listing
       </button> 
 
-      <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+      <button ion-item class="list-items-section">
         <ion-icon item-left ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>
         Messages
       </button>
 
-      <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+      <button ion-item class="list-items-section">
         <ion-icon item-left ios="ios-cash" md="md-cash"></ion-icon>
         Balance
       </button>
 
-      <button ion-item  (click)="itemSelected(item)" class="list-items-section">
+      <button ion-item class="list-items-section">
         <ion-icon item-left ios="ios-cog" md="md-cog"></ion-icon>
         Settings
       </button>

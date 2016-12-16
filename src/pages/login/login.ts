@@ -6,7 +6,6 @@ import { AuthService } from '../../providers/auth.service';
 import { BaseProvider } from '../../app/base.provider';
 
 import { ListingPage } from '../listing/listing';
-import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
 import { SignupPage } from '../signup/signup';
 import { ForgotPasswordPage } from '../forgot-password/forgot-password';
 
@@ -28,7 +27,7 @@ export class LoginPage {
     public loadingCtrl: LoadingController
   ){
 
-    this.main_page = { component: TabsNavigationPage };
+    this.main_page = { component: ListingPage };
 
     this.login = new FormGroup({
       email: new FormControl('', Validators.required),
@@ -40,27 +39,28 @@ export class LoginPage {
   signInUser(){
 
     let credentials = this.login.value;
-    this._auth.signInUser(credentials).then((authUser) => {
+    this._auth.signInUser(credentials).then((authPromises) => {
 
-      
-      console.log("Logged User >>>> ", authUser);
-      this._auth.setCurrentUser(authUser).then((user) => {
+      console.log("Logged User >>>> ", authPromises);
+      authPromises[1].on('value', userProfile => {
 
-        //this.nav.removeView(this.viewCtrl);
+        console.log(" Current profille >>>",userProfile.val());
+
+        this._auth.setCurrentUser(userProfile.val()).then(() => {
+          this.nav.setRoot(ListingPage);
+        });
 
       });
-
      
+      
     })
     .catch((error) => {
-      this.loading.dismiss().then( () => {
-        let title = "User Not Found";
-        let msg = "Ops! We could not find your credentials. Please Try again." ;
-        this.BaseApp.showAlert(title, msg);
-      });
-    });
 
-    this.nav.setRoot(TabsNavigationPage);
+      let title = "User Not Found";
+      let msg = "Ops! We could not find your credentials. Please Try again." ;
+      this.BaseApp.showAlert(title, error.message);
+
+    });
 
     // this.loading = this.loadingCtrl.create({ dismissOnPageChange: true });
     // this.loading.present();

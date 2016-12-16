@@ -1,0 +1,160 @@
+import { Injectable } from '@angular/core';
+import { LoadingController } from 'ionic-angular';
+import 'rxjs/add/operator/map';
+
+import { DataService } from './data.service';
+import { Camera, File } from 'ionic-native';
+declare var cordova: any;
+
+@Injectable()
+export class MediaService {
+
+	public loading: any;
+  constructor(public dataService: DataService, public loadingCtrl: LoadingController) {
+    console.log('Hello MediaService Provider');
+
+    this.loading = this.loadingCtrl.create({
+      spinner: 'dots'
+    });
+  }
+
+
+ //  private readFile(fileEntry) {
+
+	//     fileEntry.file(function (file) {
+	//         let reader = new FileReader();
+
+	//         reader.onloadend = function() {
+	//             console.log("Successful file read: " + this.result);
+	//             displayFileData(fileEntry.fullPath + ": " + this.result);
+	//         };
+
+	//         reader.readAsText(file);
+
+	//     }, onErrorReadFile);
+	// }
+
+
+  public getProfilePicture(dataRef){
+
+  
+  // Get picture from camera or library
+    Camera.getPicture({
+    	quality: 75,
+      destinationType: Camera.DestinationType.FILE_URI,
+      sourceType: Camera.PictureSourceType.CAMERA,
+      encodingType: Camera.EncodingType.PNG,
+      targetHeight: 640,
+      correctOrientation: true,
+      mediaType: Camera.MediaType.PICTURE,
+      allowEdit: true,
+      cameraDirection: Camera.Direction.FRONT
+    }).then((imagePath) => {
+
+
+			// Get the file with Cordova File as a binary string
+			File.resolveLocalFilesystemUrl(imagePath).then((fileEntry) => {
+
+				File.readAsDataURL(cordova.file.tempDirectory, fileEntry.name).then((fileBase64) => {
+
+					let imageBase64 = fileBase64.toString().slice(23);
+					console.log(imageBase64);
+					alert(imageBase64);
+
+					this.dataService.imageRef().child( dataRef + fileEntry.name ).putString(imageBase64, 'base64')
+					.then((snapshot) => {
+					  console.log('Uploaded a base64 string!', snapshot);
+					});
+
+
+				}).catch((error) => {
+					console.log(error.message);
+				});
+
+			}).catch((error) => {
+				alert(error.message);
+				console.log(error.message);
+			}); //readAsBinaryString
+
+			
+
+			}, (error) => {
+			 alert("Error taking picture " + error);
+			});
+
+  }
+
+
+  toBlob(filePath){
+
+  	return new Promise((resolve, reject) => {
+  		// Get the file with Cordova File as a binary string
+			File.resolveLocalFilesystemUrl(filePath).then((fileEntry) => {
+
+				fileEntry.file((resFile) => {
+ 
+            let reader = new FileReader();
+
+            reader.onloadend = (resEvent: any) => {
+              let imgBlob: any = new Blob([resEvent.target.result], { type: 'image/png' });
+              imgBlob.name = 'image_' + Date.now() + '.png';
+              resolve(imgBlob);
+            };
+ 
+            reader.onerror = (error) => {
+              console.log('Failed file read: ' + error.toString());
+              reject(error);
+            };
+ 
+            reader.readAsArrayBuffer(resFile);
+        });
+
+
+			}).catch((error) => {
+				reject(error);
+			}); //readAsBinaryString
+
+		});
+		
+  }
+
+
+  makeFileIntoBlob(_imagePath) {
+ 
+    // INSTALL PLUGIN - cordova plugin add cordova-plugin-file
+    if (this.platform.is('android')) {
+      return new Promise((resolve, reject) => {
+        window.resolveLocalFileSystemURL(_imagePath, (fileEntry) => {
+ 
+          fileEntry.file((resFile) => {
+ 
+            var reader = new FileReader();
+            reader.onloadend = (evt: any) => {
+              var imgBlob: any = new Blob([evt.target.result], { type: 'image/jpeg' });
+              imgBlob.name = 'sample.jpg';
+              resolve(imgBlob);
+            };
+ 
+            reader.onerror = (e) => {
+              console.log('Failed file read: ' + e.toString());
+              reject(e);
+            };
+ 
+            reader.readAsArrayBuffer(resFile);
+          });
+          
+        });
+      });
+    } else {
+      return fetch(_imagePath).then((_response) => {
+        return _response.blob();
+      }).then((_blob) => {
+        return _blob;
+      }).catch((_error) => {
+        alert(JSON.stringify(_error.message));
+      });
+    }
+  }
+
+
+}

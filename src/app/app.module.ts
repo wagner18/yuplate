@@ -17,7 +17,9 @@ import { Storage } from '@ionic/storage';
 /*
     Import Pages
 */
+// import { HomeAppPage } from '../pages/home-app/home-app';
 import { ListingPage } from '../pages/listing/listing';
+import { UserListingPage } from '../pages/user-listing/user-listing';
 import { FeedPage } from '../pages/feed/feed';
 import { FollowersPage } from '../pages/followers/followers';
 import { LayoutsPage } from '../pages/layouts/layouts';
@@ -57,6 +59,7 @@ import { Rating } from '../components/rating/rating';
 import { DataService } from '../providers/data.service';
 import { AuthService } from '../providers/auth.service';
 import { BaseProvider } from './base.provider';
+import { MediaService } from '../providers/media.service';
 import { DishService } from '../providers/dish.service';
 import { FeedService } from '../pages/feed/feed.service';
 import { ListingService } from '../pages/listing/listing.service';
@@ -66,11 +69,13 @@ import { List1Service } from '../pages/list-1/list-1.service';
 import { List2Service } from '../pages/list-2/list-2.service';
 import { ScheduleService } from '../pages/schedule/schedule.service';
 
+declare var cordova: any;
 
-@NgModule({
+@NgModule({  
   declarations: [
     MyApp,
     ListingPage,
+    UserListingPage,
     FeedPage,
     FollowersPage,
     LayoutsPage,
@@ -101,12 +106,16 @@ import { ScheduleService } from '../pages/schedule/schedule.service';
     Rating
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp, {
+        menuType: 'overlay',
+        spinner: 'dots'
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     ListingPage,
+    UserListingPage,
     FeedPage,
     FollowersPage,
     LayoutsPage,
@@ -134,6 +143,7 @@ import { ScheduleService } from '../pages/schedule/schedule.service';
     DataService,
     AuthService,
     BaseProvider,
+    MediaService,
     DishService,
     FeedService, 
     ListingService, 

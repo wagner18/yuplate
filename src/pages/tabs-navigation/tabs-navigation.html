@@ -1,4 +1,4 @@
-<ion-menu [content]="content" [swipeEnabled]="false" scroll="false">
+<!-- <ion-menu [content]="content" [swipeEnabled]="false" scroll="false">
   <ion-content class="side-menu-gradient">
 
     <ion-list class="menu-list">
@@ -26,7 +26,9 @@
   </ion-content>
 </ion-menu>
 
-<ion-tabs #content selectedIndex="1">
+<ion-content #content></ion-content> -->
+
+<ion-tabs selectedIndex="1">
   <ion-tab [root]="tab1Root" tabTitle="Profile" tabIcon="person"></ion-tab>
   <ion-tab [root]="tab2Root" tabTitle="Explore" tabIcon="apps"></ion-tab>
   <ion-tab [root]="tab3Root" tabTitle="Notifications" tabIcon="notifications"></ion-tab>

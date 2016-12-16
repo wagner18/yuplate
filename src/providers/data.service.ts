@@ -21,6 +21,7 @@ export class DataService {
 	private ROOT_NODE: string = "/";
 	public database: any; 
 	public auth: any;
+  public storageRef: any;
 
   constructor() {
   	this.initializeApp();
@@ -36,12 +37,20 @@ export class DataService {
 	      messagingSenderId: "733360059699"
   		});
 
+      // Set the Firebase reference to the root node
   	  this.database = firebase.database().ref(this.ROOT_NODE);
 
 	  	// as well as adding a reference to the Firebase
       // authentication method
       this.auth = firebase.auth();
 
+      this.storageRef = firebase.storage().ref(this.ROOT_NODE);
+
+  }
+
+  public imageRef(){
+    let imageRef = firebase.storage().ref("images/");
+    return imageRef;
   }
 
 

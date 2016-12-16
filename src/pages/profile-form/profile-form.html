@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Edit My Profile</ion-title>
+    <ion-title>Edit Profile</ion-title>
     <ion-buttons end >
     <!-- [hidden]="!profile-formForm.dirty"> -->
       <button ion-button (click)="saveProfile()">
@@ -11,11 +11,11 @@
 </ion-header>
 
 <ion-content class="profile-form-content">
-  <div class="user-image-content">
+  <div class="user-image-content" (click)="cameraActionSheet()">
     <ion-row no-padding class="user-image-row">
       <ion-col no-padding width-40>
-        <preload-image class="user-image" [ratio]="{w:1, h:1}" [src]="profile_image" alt="{{profile.firstName}}" title="{{profile.firstName}}">
-        </preload-image>
+        <!-- <img class="user-image" src="{{profile.image}}" alt="{{profile.firstName}}" title="{{profile.firstName}}"> -->
+        <preload-image [ratio]="{w:1, h:1}" [src]="profile.image" class="user-image"></preload-image>
       </ion-col>
     </ion-row>
     <h3 class="image-action">Change profile picture</h3>
@@ -27,12 +27,12 @@
     <ion-list class="user-data-content">
 
       <ion-item>
-        <ion-label stacked>First Name</ion-label>
-        <ion-input type="text" formControlName="firstName"></ion-input>
+        <!-- <ion-label >First Name</ion-label> -->
+        <ion-input type="text" formControlName="firstName" placeholder="First Name"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label stacked>Last Name</ion-label>
-        <ion-input type="text" formControlName="lastName"></ion-input>
+        <!-- <ion-label >Last Name</ion-label> -->
+        <ion-input type="text" formControlName="lastName" placeholder="Last Name"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Birth Date</ion-label>
@@ -47,8 +47,8 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label stacked>Location</ion-label>
-        <ion-input type="text" formControlName="location"></ion-input>
+        <!-- <ion-label >Location</ion-label> -->
+        <ion-input type="text" formControlName="location" placeholder="Location"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label stacked>About You</ion-label>
@@ -111,7 +111,7 @@
   <button class="alt-button" ion-button full (click)="showTermsModal()">Terms of use</button>
 
   <button class="alt-button logout-button" ion-button full icon-left (click)="logout()">
-    <ion-icon name="log-out"></ion-icon>
+    <ion-icon ios="log-out" md="log-out"></ion-icon>
     Log out
   </button>
 </ion-content>
