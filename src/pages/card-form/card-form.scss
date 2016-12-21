@@ -1,0 +1,138 @@
+page-card-form {
+
+	.theme-form {
+		.form-section
+		{
+			padding: 0px 14px;
+
+			.item:first-child
+			{
+				margin-top: 20px;
+			}
+		}
+
+		ion-item {
+			@include basic-input-style(color($colors, background, base), $theme-color-3, $white-d);
+
+			&.item
+			{
+				margin-top: 14px;
+
+				&.item-label-floating
+				{
+					margin-top: 0px;
+
+					ion-label {
+						color: $white-d;
+					}
+				}
+
+				.item-inner
+				{
+					ion-icon {
+						color: $theme-color-2;
+					}
+				}
+			}
+
+			&:first-of-type {
+				margin-top: 0px;
+			}
+		}
+
+		.section-title
+		{
+			font-size: 1.8rem;
+			line-height: 1.2;
+			letter-spacing: 1.1px;
+			text-align: center;
+			color: $theme-color-2;
+			font-weight: 400;
+			margin: 0px;
+		}
+
+		.form-action-button
+		{
+			margin: 0px;
+			margin-top: 20px;
+
+			@include call-to-action-button-styles(color($colors, button, base), color($colors, button, contrast));
+		}
+	}
+
+
+
+	.card-view {
+		padding-bottom: 20px;
+
+		.card-form
+		{
+			.section-title
+			{
+				margin-top: 30px;
+
+				& + .item-label-floating
+				{
+					margin-top: 10px;
+				}
+			}
+
+			.multi-input-row
+			{
+				ion-col {
+					padding: 0px 7px;
+
+					&:first-child{
+						padding-left: 0px;
+					}
+
+					&:last-child{
+						padding-right: 0px;
+					}
+				}
+
+				.multi-input
+				{
+					margin: 0px;
+				}
+			}
+
+			ion-datetime {
+				padding-left: 0px;
+				padding-top: 8px;
+				padding-bottom: 7px;
+
+				.datetime-text
+				{
+					color: $theme-color-3;
+				}
+			}
+
+			.card-preferences
+			{
+				margin: 40px 0px 50px;
+
+				@include switcher-item-styles($white-d, $theme-color-1);
+
+				.switcher-item
+				{
+					padding: 0px 14px;
+				  background: $white;
+
+					.item-inner
+					{
+						ion-label {
+							opacity: 1;
+						}
+
+						ion-toggle {
+							padding-right: 0px;
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+}

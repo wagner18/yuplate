@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MenuController, SegmentButton, App, NavParams, LoadingController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth.service';
 
@@ -9,7 +9,7 @@ import { SettingsPage } from '../settings/settings';
 
 import 'rxjs/Rx';
 
-import { ProfileModel } from './profile.model';
+import { ProfileModel } from '../../models/profile-model';
 import { BaseProvider } from '../../app/base.provider';
 import { ProfileService } from '../../providers/profile.service';
 
@@ -18,6 +18,8 @@ import { ProfileService } from '../../providers/profile.service';
   templateUrl: 'profile.html'
 })
 export class ProfilePage {
+
+  @Input()  src: string;
 
   loading: any;
   display: string;

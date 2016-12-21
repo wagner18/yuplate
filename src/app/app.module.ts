@@ -19,6 +19,7 @@ import { Storage } from '@ionic/storage';
 */
 // import { HomeAppPage } from '../pages/home-app/home-app';
 import { ListingPage } from '../pages/listing/listing';
+import { ListingFormPage } from '../pages/listing-form/listing-form';
 import { UserListingPage } from '../pages/user-listing/user-listing';
 import { FeedPage } from '../pages/feed/feed';
 import { FollowersPage } from '../pages/followers/followers';
@@ -28,6 +29,7 @@ import { LoginPage } from '../pages/login/login';
 import { NotificationsPage } from '../pages/notifications/notifications';
 import { ProfilePage } from '../pages/profile/profile';
 import { ProfileFormPage } from '../pages/profile-form/profile-form';
+import { CardFormPage } from '../pages/card-form/card-form';
 import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
 import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
 import { SettingsPage } from '../pages/settings/settings';
@@ -62,7 +64,6 @@ import { BaseProvider } from './base.provider';
 import { MediaService } from '../providers/media.service';
 import { DishService } from '../providers/dish.service';
 import { FeedService } from '../pages/feed/feed.service';
-import { ListingService } from '../pages/listing/listing.service';
 import { ProfileService } from '../providers/profile.service';
 import { NotificationsService } from '../pages/notifications/notifications.service';
 import { List1Service } from '../pages/list-1/list-1.service';
@@ -75,6 +76,7 @@ declare var cordova: any;
   declarations: [
     MyApp,
     ListingPage,
+    ListingFormPage,
     UserListingPage,
     FeedPage,
     FollowersPage,
@@ -84,6 +86,7 @@ declare var cordova: any;
     NotificationsPage,
     ProfilePage,
     ProfileFormPage,
+    CardFormPage,
     TabsNavigationPage,
     WalkthroughPage,
     SettingsPage,
@@ -115,6 +118,7 @@ declare var cordova: any;
   entryComponents: [
     MyApp,
     ListingPage,
+    ListingFormPage,
     UserListingPage,
     FeedPage,
     FollowersPage,
@@ -124,6 +128,7 @@ declare var cordova: any;
     NotificationsPage,
     ProfilePage,
     ProfileFormPage,
+    CardFormPage,
     TabsNavigationPage,
     WalkthroughPage,
     SettingsPage,
@@ -145,8 +150,7 @@ declare var cordova: any;
     BaseProvider,
     MediaService,
     DishService,
-    FeedService, 
-    ListingService, 
+    FeedService,
     ProfileService, 
     NotificationsService, 
     List1Service, 

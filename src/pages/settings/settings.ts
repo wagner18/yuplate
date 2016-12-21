@@ -5,7 +5,7 @@ import 'rxjs/Rx';
 
 import { AuthService } from '../../providers/auth.service';
 import { ProfileService } from '../../providers/profile.service';
-import { ProfileModel } from '../profile/profile.model';
+import { ProfileModel } from '../../models/profile-model';
 import { BaseProvider } from '../../app/base.provider';
 
 

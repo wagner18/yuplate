@@ -3,7 +3,7 @@ import 'rxjs/add/operator/map';
 
 import { AuthService } from './auth.service';
 import { DataService } from './data.service';
-import { ProfileModel } from '../pages/profile/profile.model';
+import { ProfileModel } from '../models/profile-model';
 
 @Injectable()
 export class ProfileService {
@@ -43,30 +43,24 @@ export class ProfileService {
   /**
   * Return a promise with the resolved upload task snapshot or reject
   */
-  uploadPicutre(imageBase64, profile){
-
-    let imageRef = "profiles/" + profile.uid + "/profilepic_" + Date.now() + ".jpg";;
-
+  uploadPicutre(image, profile){
+    let imageRef = "profiles/" + profile.uid + "/profilepic_" + profile.uid + ".jpg";;
     return new Promise((resolve, reject) => {
 
-      let upTask = this._dataService.imageRef().child( imageRef ).putString(imageBase64, 'base64');
+      let upTask = this._dataService.imageRef().child( imageRef ).put(image);
       upTask.on('state_changed', function(snapshot) {
-
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
-
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
       },
       function(error) {
-          reject(error);
+        reject(error);
       },
       function() {
         // Upload completed successfully, now we can get the download URL
         resolve(upTask.snapshot.downloadURL);
       });
-
     });
-
   }
 
 

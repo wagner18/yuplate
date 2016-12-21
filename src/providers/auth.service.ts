@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Events } from 'ionic-angular';
 
 import { Storage } from '@ionic/storage';
 import { DataService } from './data.service';
-import { ProfileModel } from '../pages/profile/profile.model';
+import { ProfileModel } from '../models/profile-model';
 
 
 @Injectable()
 export class AuthService {
-
 
 
   private PROFILE_REF: string = "profiles/";
@@ -16,23 +16,27 @@ export class AuthService {
   private userProfile: any;
 
 
-
-  constructor(private _dataService: DataService, private storage: Storage) {
+  constructor(
+    public events: Events, 
+    private _dataService: DataService, 
+    private storage: Storage
+  ){
     this.fireAuth = this._dataService.auth;
-  }
-
-  get authenticated(): boolean {
-    return this.fireAuth.auth !== null;
   }
 
   setCurrentUser(userProfile){
     if(userProfile){
+      this.events.publish('user:signin', userProfile);
+      userProfile = JSON.stringify(userProfile);
       return this.storage.set(this.CURRENT_USER, userProfile);
     }
   }
 
   getCurrentUser(){
-    return this.storage.get(this.CURRENT_USER);
+    return this.storage.get(this.CURRENT_USER)
+    .then((userProfile) => {
+      return JSON.parse(userProfile);
+    });
   }
 
   signInUser(credencials): any{
@@ -41,7 +45,7 @@ export class AuthService {
     });
   }
 
-  createUser(user): any{
+  signUpUser(user): any{
     return this.fireAuth.createUserWithEmailAndPassword(user.email, user.password).then((newUser) => {
       return Promise.all([newUser, this.createProfileMockup(newUser)]);
     });
@@ -53,11 +57,7 @@ export class AuthService {
     userProfile.uid = newUser.uid;
 
     console.log(" User createProfileMockup", userProfile);
-
     return this._dataService.database.child(this.PROFILE_REF + newUser.uid).set(userProfile);
-    // .then((newProfile) => {
-    //    return newProfile;
-    // });
   }
 
   signInWithFacebook(): any{
@@ -71,6 +71,7 @@ export class AuthService {
 
   	this.fireAuth.signOut().then(() => {
       this.storage.set(this.CURRENT_USER, null);
+      this.events.publish('user:signout');
     }).catch((error) => {
       console.log("Error trying to log out", error);
     });

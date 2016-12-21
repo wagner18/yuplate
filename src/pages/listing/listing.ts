@@ -4,7 +4,7 @@ import { NavController, LoadingController, Slides} from 'ionic-angular';
 import { FeedPage } from '../feed/feed';
 //import 'rxjs/Rx';
 
-import { DishItemModel } from '../../app/models/dish.model';
+import { DishItemModel } from '../../models/dish.model';
 import { DishService } from '../../providers/dish.service';
 
 
@@ -49,8 +49,6 @@ export class ListingPage {
 
       let objects = snapshot.val();
       this.dishes = Object.keys(objects).map(function (key) { return objects[key]; });
-
-      console.log(this.dishes);
       this.loading.dismiss();
     });
 

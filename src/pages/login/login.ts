@@ -40,19 +40,11 @@ export class LoginPage {
 
     let credentials = this.login.value;
     this._auth.signInUser(credentials).then((authPromises) => {
-
-      console.log("Logged User >>>> ", authPromises);
       authPromises[1].on('value', userProfile => {
-
-        console.log(" Current profille >>>",userProfile.val());
-
         this._auth.setCurrentUser(userProfile.val()).then(() => {
           this.nav.setRoot(ListingPage);
         });
-
       });
-     
-      
     })
     .catch((error) => {
 

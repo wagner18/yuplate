@@ -14,11 +14,11 @@ export class ProfileModel {
   currency: Array<any> = ["Dollar"];
   balanceAccount: string;
   favorites: Array<any> = [];
+  reviews: Array<any> = [];
   messages: Array<any> = [];
   bookings: Array<any> = [];
   orderings: Array<any> = [];
   listings: Array<any> = [];
-  reviews: Array<any> = [];
   created_at: number = Date.now();
 }
 

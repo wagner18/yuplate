@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NavController, ModalController, ActionSheetController, LoadingController } from 'ionic-angular';
 import { FormGroup, FormControl } from '@angular/forms';
 import 'rxjs/Rx';
@@ -8,7 +8,7 @@ import { ProfileService } from '../../providers/profile.service';
 import { BaseProvider } from '../../app/base.provider';
 import { MediaService } from '../../providers/media.service';
 
-import { ProfileModel } from '../profile/profile.model';
+import { ProfileModel } from '../../models/profile-model';
 
 
 import { TermsOfServicePage } from '../terms-of-service/terms-of-service';
@@ -21,13 +21,14 @@ import { WalkthroughPage } from '../walkthrough/walkthrough';
 })
 export class ProfileFormPage {
 
+  @Input()  src: string;
 
   ProfileForm: FormGroup;
   // make WalkthroughPage the root (or first) page
   rootPage: any = WalkthroughPage;
   loading: any;
   public profile: ProfileModel = new ProfileModel();
-  public tempImage: string;
+  public tempImage: any;
 
   constructor(
     public nav: NavController,
@@ -64,42 +65,15 @@ export class ProfileFormPage {
     //this.loading.present();
     this.profileService.getProfile().then((promises) => {
       promises[1].on('value', snapshot => {
-
-        this.profile = snapshot.val();
-        this.setProfile(this.profile);
-    
+        
+        if(snapshot.val()){
+          this.profile = snapshot.val();
+          this.setProfile(this.profile);
+        }
         //this.loading.dismiss();
       });
 
     });
-  }
-
-
-  saveProfile(){
-    if(this.ProfileForm.valid){
-
-      var saveTask: Promise<any>;
-      var profile = this.ProfileForm.value;
-
-      if(this.tempImage){
-        saveTask = this.profileService.uploadPicutre(this.tempImage, this.profile).then((imagePath) => {
-          profile.image = imagePath;
-          return Promise.all([imagePath, this.profileService.saveProfile(profile)]);
-        });
-
-      }else{
-        saveTask = this.profileService.saveProfile(profile);
-      }
-      
-      saveTask.catch((error) => {
-        let title = "Ops! Sorry about that";
-        let msg = "We couldn't save the profile information, please check your connection" ;
-        this.BaseApp.showAlert(title, error.message);
-      });
-
-    }else{
-      alert("The profile data is invalid");
-    }
   }
 
 
@@ -119,57 +93,88 @@ export class ProfileFormPage {
      }
   }
 
+  saveProfile(){
+    if(this.ProfileForm.valid){
+
+      var saveTask: Promise<any>;
+      var profile = this.ProfileForm.value;
+
+      /**
+      * If the is an temp image create a new Blob file and chain 
+      * the promises to upload the file and save the profile
+      */
+      if(this.tempImage){
+
+        let blobFilePromise = this.mediaService.createBlobFile(this.tempImage);
+        let uploadTask = blobFilePromise.then((blobFile) =>{
+          return this.profileService.uploadPicutre(blobFile, this.profile);
+        });
+
+        saveTask = Promise.all([blobFilePromise, uploadTask]).then((results) => {
+          console.log('Promises Results',results);
+          profile.image = results[1];
+          return this.profileService.saveProfile(profile);
+        });
+
+      }else{
+        saveTask = this.profileService.saveProfile(profile);
+      }
+      
+      saveTask.catch((error) => {
+        let title = "Ops! Sorry about that";
+        let msg = "We couldn't save the profile information, please check your connection" ;
+        this.BaseApp.showAlert(title, error.message);
+      });
+
+    }else{
+      alert("The profile data is invalid");
+    }
+  }
+
 
   doGetPicture(source){
-
-    //this.mediaService.getPicture(source);
     if(this.profile.uid){
-
-      let simpleProfile = {
-        uid: this.profile.uid,
-        email: this.profile.email
-      }
-      this.mediaService.getProfilePicture(source).then((imageBase64) => {
-
-        this.profile.image = "data:image/jpeg;base64," + imageBase64;
-        this.tempImage = imageBase64;
-
+      this.mediaService.getProfilePicture(source).then((imageURI) => {
+        if(imageURI) {
+          this.profile.image = imageURI;
+          this.tempImage = imageURI;
+        }
       });
     }
   }
 
 
   cameraActionSheet(){
-   let actionSheet = this.actionSheetCtrl.create({
-     enableBackdropDismiss: false,
-     buttons: [
-       {
-         text: 'Take Picture',
-         icon: 'camera',
-         handler: () => {
-           this.doGetPicture("CAMERA");
-         }
-       },
-       {
-         text: 'Choose from Library',
-         icon: 'images',
-         handler: () => {
-           this.doGetPicture("LIBRARY");
-         }
-       },
-       {
-         text: 'Cancel',
-         role: 'cancel',
-         handler: () => {
-           console.log('Cancel clicked');
-           actionSheet.dismiss();
-         }
-       },
+    let actionSheet = this.actionSheetCtrl.create({
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: 'Take Picture',
+          icon: 'camera',
+          handler: () => {
+            this.doGetPicture("CAMERA");
+          }
+        },
+        {
+          text: 'Choose from Library',
+          icon: 'images',
+          handler: () => {
+            this.doGetPicture("LIBRARY");
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+            actionSheet.dismiss();
+          }
+        },
 
-     ]
-   });
-   actionSheet.present();
- }
+      ]
+    });
+    actionSheet.present();
+  }
 
 
   logout() {

@@ -1,44 +1,107 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Forms Examples</ion-title>
+    <ion-title>Listing Form</ion-title>
   </ion-navbar>
+
+  <ion-toolbar>
+    <ion-segment class="forms-segment" [(ngModel)]="section" (ionChange)="onSegmentChanged($event)">
+      <ion-segment-button value="step1" (ionSelect)="onSegmentSelected($event)">
+        Step1
+      </ion-segment-button>
+      <ion-segment-button value="stpe2" (ionSelect)="onSegmentSelected($event)">
+        Step 2
+      </ion-segment-button>
+
+      <ion-segment-button value="step3" (ionSelect)="onSegmentSelected($event)">
+        Step 3
+      </ion-segment-button>
+
+      <ion-segment-button value="stpe4" (ionSelect)="onSegmentSelected($event)">
+        Step 4
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
 </ion-header>
 
-<ion-content class="forms-examples-content">
-  <ion-segment class="forms-examples-segment" [(ngModel)]="section" (ionChange)="onSegmentChanged($event)">
-    <ion-segment-button value="post" (ionSelect)="onSegmentSelected($event)">
-      Post
-    </ion-segment-button>
-    <ion-segment-button value="event" (ionSelect)="onSegmentSelected($event)">
-      Event
-    </ion-segment-button>
-    <ion-segment-button value="card" (ionSelect)="onSegmentSelected($event)">
-      Card
-    </ion-segment-button>
-  </ion-segment>
+<ion-content class="forms-content">
 
   <div [ngSwitch]="section" class="forms-wrapper">
-    <div *ngSwitchCase="'post'" class="post-example-view">
+    <!-- Step 1 -->
+    <div *ngSwitchCase="'step1'" class="segment-view">
 
-      <form class="sample-form post-form" [formGroup]="post_form" (ngSubmit)="createPost()">
+      <form class="form-style step-form" [formGroup]="step1_form" (ngSubmit)="cameraActionSheet()">
         <section class="form-section">
-          <ion-item>
-            <ion-input type="text" placeholder="Type Yout Title" formControlName="title"></ion-input>
+          <h2 class="section-title">
+            <p>Hi! let's go show your best recipes!</p>
+            Choose the category and take some beautiful pictures of your dish to go to the next step!
+          </h2>
+
+          <ion-item no-lines class="category-select">
+            <ion-label>Categories</ion-label>
+            <ion-select formControlName="categories" multiple="false">
+              <ion-option *ngFor="let option of categories" value="{{option.value}}">
+                {{option.label}}
+              </ion-option>
+            </ion-select>
           </ion-item>
+
+        </section>
+     
+        <section class="form-section">
+
           <button ion-button block large class="upload-image-button">
             <ion-icon name="camera"></ion-icon>
             <h3 class="button-title">upload an image</h3>
           </button>
+
+          <ion-scroll scrollX="true" class="horizontal-photos">
+            <ion-row class="photos-row">
+              <ion-col width-50 class="horizontal-item" *ngFor="let media of tempMedias">
+                <ion-button clear (click)="showPicture(media.media_name)">
+                  <preload-image [ratio]="{w:5, h:4}" [src]="media.media_path"></preload-image>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-scroll>
+
         </section>
-        <ion-item>
-          <ion-textarea rows="7" placeholder="Write a description or something..." formControlName="description"></ion-textarea>
-        </ion-item>
+
+        <section class="form-section">
+          <button ion-button block class="form-action-button create-post-button" type="submit" [disabled]="!step1_form.valid">
+            Next
+          </button>
+        </section>
+        
+      </form>
+
+    </div>
+
+    <!-- Step 2 -->
+    <div *ngSwitchCase="'stpe2'" class="segment-view">
+
+      <form class="form-style step-form" [formGroup]="step2_form" (ngSubmit)="createPost()">
+        <section class="form-section">
+        
+          <ion-item>
+              <ion-input type="text" placeholder="Title" formControlName="title"></ion-input>
+            </ion-item>
+          <ion-item>
+            <ion-textarea rows="8" placeholder="Write a description to your listing..." formControlName="description"></ion-textarea>
+          </ion-item>
+          <ion-item icon-right>
+            <ion-input type="text" placeholder="Location" formControlName="location"></ion-input>
+            <ion-icon name="navigate" item-right></ion-icon>
+          </ion-item>
+
+        </section>
         <section class="form-section">
           <button ion-button block icon-right class="choose-category-button" (click)="chooseCategory()">
             Choose category
             <ion-icon name="add"></ion-icon>
           </button>
         </section>
+
         <h2 class="section-title">Serves, times and temps</h2>
         <ion-item class="counter-item">
           <span class="counter-label">Servings</span>
@@ -51,19 +114,22 @@
         <ion-item class="range-item">
           <ion-label>
             <h2 class="range-label">Temperature</h2>
-            <h3 class="range-value">{{post_form.controls.temperature.value}} &deg;C</h3>
+            <h3 class="range-value">{{step2_form.controls.temperature.value}} &deg;C</h3>
           </ion-label>
           <ion-range formControlName="temperature" min="0" max="220" step="5" snaps="true" pin="false"></ion-range>
         </ion-item>
+
         <section class="form-section">
-          <button ion-button block class="form-action-button create-post-button" type="submit" [disabled]="!post_form.valid">Post!</button>
+          <button ion-button block class="form-action-button create-post-button" type="submit" [disabled]="!step2_form.valid">Next</button>
         </section>
-      </form>
+
+      </form>      
 
     </div>
-    <div *ngSwitchCase="'event'" class="event-example-view">
 
-      <form class="sample-form event-form" [formGroup]="event_form" (ngSubmit)="createEvent()">
+    <!-- Step 3 -->
+    <div *ngSwitchCase="'step3'" class="event-example-view">
+      <form class="form-style event-form" [formGroup]="event_form" (ngSubmit)="createEvent()">
         <section class="form-section">
           <h2 class="section-title">Add an event</h2>
           <ion-item>
@@ -104,50 +170,9 @@
         <section class="form-section">
           <button ion-button block class="form-action-button create-event-button" type="submit" [disabled]="!event_form.valid">Done!</button>
         </section>
-        
       </form>
-
     </div>
-    <div *ngSwitchCase="'card'" class="card-example-view">
-
-      <form class="sample-form card-form" [formGroup]="card_form" (ngSubmit)="createCard()">
-        <section class="form-section">
-          <h2 class="section-title">Credit Card Information</h2>
-          <ion-item>
-            <ion-label floating>Card Number</ion-label>
-            <ion-input type="text" formControlName="card_number"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>Card Holder</ion-label>
-            <ion-input type="text" formControlName="card_holder"></ion-input>
-          </ion-item>
-          <ion-row no-padding class="multi-input-row">
-            <ion-col no-padding width-50>
-              <ion-item class="multi-input">
-                <ion-label floating>CVC</ion-label>
-                <ion-input type="text" formControlName="cvc"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col no-padding width-50>
-              <ion-item class="multi-input time-item">
-                <ion-label floating>Exp. Date</ion-label>
-                <ion-datetime formControlName="exp_date" displayFormat="MM/YYYY" pickerFormat="MM-YYYY"></ion-datetime>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </section>
-        <ion-list class="card-preferences">
-          <ion-item class="switcher-item">
-            <ion-label>Save this card</ion-label>
-            <ion-toggle formControlName="save_card"></ion-toggle>
-          </ion-item>
-        </ion-list>
-        <section class="form-section">
-          <button ion-button block class="form-action-button create-card-button" type="submit" [disabled]="!card_form.valid">Confirm</button>
-        </section>
-      </form>
-
-    </div>
+  
   </div>
 
 </ion-content>

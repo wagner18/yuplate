@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuController, NavParams } from 'ionic-angular';
-import { UserModel } from '../profile/profile.model';
+import { UserModel } from '../../models/profile-model';
 
 @Component({
   selector: 'followers-page',

@@ -3,6 +3,7 @@ import { Platform, LoadingController } from 'ionic-angular';
 
 import { Camera, File } from 'ionic-native';
 declare var cordova: any;
+declare var window;
 
 @Injectable()
 export class MediaService {
@@ -11,51 +12,15 @@ export class MediaService {
   constructor(public platform: Platform, public loadingCtrl: LoadingController) {
     console.log('Hello MediaService Provider');
 
-    console.log('My windows object',window);
-
     this.loading = this.loadingCtrl.create({
       spinner: 'dots'
     });
   }
 
-
+  /**
+  * Get pictures for the profile
+  */
   public getProfilePicture(source){
-
-  	if(source == "LIBRARY"){
-	  	if (this.platform.is('android')) {
-	  		var sourcePicture = Camera.PictureSourceType.SAVEDPHOTOALBUM;
-	  	}else{
-	  		var sourcePicture = Camera.PictureSourceType.PHOTOLIBRARY;
-	  	}
-	  }else if(source == "CAMERA"){
-			var sourcePicture = Camera.PictureSourceType.CAMERA;
-	  }
- 
-  	// Get picture from camera or library
-    return Camera.getPicture({
-    	quality: 25,
-      destinationType: Camera.DestinationType.DATA_URL,
-      sourceType: sourcePicture,
-      encodingType: Camera.EncodingType.JPEG,
-      targetHeight: 375,
-      targetWidth: 375,
-      correctOrientation: true,
-      mediaType: Camera.MediaType.PICTURE,
-      allowEdit: true,
-      cameraDirection: Camera.Direction.FRONT
-    }).then((imageBase64) => {
-
-  		return imageBase64;
-
-		}, (error) => {
-			console.log("Error taking picture " + error);
-		});
-
-  }
-
-
-
-  public getPicture(source){
 
     if (this.platform.is('android')) {
       var platSourcePicture = Camera.PictureSourceType.SAVEDPHOTOALBUM;
@@ -65,39 +30,135 @@ export class MediaService {
       var destType = Camera.DestinationType.NATIVE_URI;
     }
 
+    if(source == "LIBRARY"){
+      var sourcePicture = platSourcePicture;
+    }else if(source == "CAMERA"){
+      var sourcePicture = Camera.PictureSourceType.CAMERA;
+    }
+
+    let options = {
+      quality: 25,
+      destinationType: Camera.DestinationType.FILE_URI,
+      sourceType: sourcePicture,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 375,
+      targetHeight: 375,
+      correctOrientation: true,
+      saveToPhotoAlbum: false,
+      mediaType: Camera.MediaType.PICTURE,
+      allowEdit: true,
+      cameraDirection: Camera.Direction.FRONT
+    }
+
+    return this.getPicture(options);
+  }
+
+  /**
+  * Get pictures for the listing
+  */
+  public getListingPicture(source){
+
+    if (this.platform.is('android')) {
+      var platSourcePicture = Camera.PictureSourceType.SAVEDPHOTOALBUM;
+      var destType = Camera.DestinationType.FILE_URI;
+    }else{
+      var platSourcePicture = Camera.PictureSourceType.PHOTOLIBRARY;
+      var destType = Camera.DestinationType.NATIVE_URI;
+    }
 
     if(source == "LIBRARY"){
       var sourcePicture = platSourcePicture;
     }else if(source == "CAMERA"){
       var sourcePicture = Camera.PictureSourceType.CAMERA;
     }
- 
-    // Get picture from camera or library
-    return Camera.getPicture({
-      quality: 25,
-      destinationType: destType,
+
+    let options = {
+      quality: 75,
+      destinationType: Camera.DestinationType.FILE_URI,
       sourceType: sourcePicture,
       encodingType: Camera.EncodingType.JPEG,
-      targetHeight: 375,
       targetWidth: 375,
+      targetHeight: 300,
       correctOrientation: true,
+      saveToPhotoAlbum: true,
       mediaType: Camera.MediaType.PICTURE,
       allowEdit: true,
-      cameraDirection: Camera.Direction.FRONT
-    }).then((ImageURL) => {
+      cameraDirection: Camera.Direction.BACK
+    }
 
-      console.log(ImageURL);
+    return this.getPicture(options);
+  }
 
-      // window.resolveLocalFileSystemURL(ImageURL, (file) => {
 
-      //   console.log(file);
+  private getPicture(options){
 
-      // });
+    // Get picture from camera or library
+    return Camera.getPicture(options).then((imageURI) => {
+
+      return imageURI;
 
     }, (error) => {
-      console.log("Error taking picture " + error);
+      console.log("Error taking picture: " + error);
+      return null;
+    });
+  }
+
+  createBase64File(filePath){
+
+    return new Promise((resolve, reject) => {
+     window.resolveLocalFileSystemURL(filePath,(fileEntry) => {
+        
+        fileEntry.file(function (file) {
+            var reader = new FileReader();
+            reader.onloadend = function() {
+                resolve(this.result);
+            };
+
+            reader.readAsDataURL(file);
+
+        }, function (error) {
+          console.log(error.message);
+          reject(error);
+        });
+
+      });
+
+    });
+
+
+    // File.resolveLocalFilesystemUrl(imageURI).then((fileEntry) => {
+
+    //   console.log(' File Entry object ===== ',fileEntry);
+
+    //   let fileUrl = fileEntry.toURL();
+    //   console.log(fileUrl);
+    //   resolve(fileUrl);
+    // });
+
+  }
+
+  createBlobFile(filePath): Promise<any>{
+
+    return new Promise((resolve, reject) => {
+
+      window.resolveLocalFileSystemURL(filePath, function (fileEntry) {
+        fileEntry.file(function (file) {
+           var reader = new FileReader();
+           reader.onloadend = function () {
+              // This blob object can be saved to firebase
+              var blob = new Blob([new Uint8Array(this.result)], { type: "image/jpeg" });                  
+              resolve(blob);
+           };
+           reader.readAsArrayBuffer(file);
+        });
+      }, function (error) {
+          console.log(error.message);
+          reject(error);
+      });
+
     });
 
   }
+
 
 }

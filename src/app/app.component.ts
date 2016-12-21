@@ -6,10 +6,9 @@
 * Create data: 11/13/2016
 */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Platform, MenuController, Nav, App } from 'ionic-angular';
+import { Component, OnInit, ViewChild, Input} from '@angular/core';
+import { Platform, Events, MenuController, Nav, App } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
-import { Storage } from '@ionic/storage';
 
 import { DataService } from '../providers/data.service';
 import { AuthService } from '../providers/auth.service';
@@ -17,16 +16,24 @@ import { AuthService } from '../providers/auth.service';
 import { BaseProvider } from './base.provider';
 
 import { ListingPage } from '../pages/listing/listing';
+import { ProfilePage } from '../pages/profile/profile';
+import { ListingFormPage } from '../pages/listing-form/listing-form';
+import { SettingsPage } from '../pages/settings/settings';
+import { LoginPage } from '../pages/login/login';
+
 
 import { FormsPage } from '../pages/forms/forms';
 import { LayoutsPage } from '../pages/layouts/layouts';
-import { SettingsPage } from '../pages/settings/settings';
-import { LoginPage } from '../pages/login/login';
-import { ProfilePage } from '../pages/profile/profile';
 import { NotificationsPage } from '../pages/notifications/notifications';
 
 //import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
 import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
+
+export interface UserProfile  {
+  name: string;
+  location: string;
+  image: string;
+}
 
 @Component({
   selector: 'app-root',
@@ -35,6 +42,7 @@ import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
 export class MyApp {
 
   @ViewChild(Nav) nav: Nav;
+  @Input()  src: string;
 
   // make WalkthroughPage the root (or first) page
   public rootPage: any;// = TabsNavigationPage; // = WalkthroughPage;
@@ -42,10 +50,14 @@ export class MyApp {
 
   public pages: Array<{title: string, icon: string, component: any}>;
   public pushPages: Array<{title: string, icon: string, component: any}>;
-  public currentUser: any = {email: "annonymous"};
+
+  public profileName: string;
+  public profileLocation: string;
+  public profileImage: string;
 
   constructor(
     public platform: Platform,
+    public events: Events,
     public BaseApp: BaseProvider,
     public app: App,
     public menu: MenuController,
@@ -64,6 +76,7 @@ export class MyApp {
     ];
 
     this.pushPages = [
+      { title: 'List you Dish', icon: 'add-circle', component: ListingFormPage },
       { title: 'Layouts', icon: 'grid', component: LayoutsPage },
       { title: 'Settings', icon: 'settings', component: SettingsPage }
     ];
@@ -77,26 +90,36 @@ export class MyApp {
       Splashscreen.hide();
       StatusBar.styleDefault();
 
-      // Redirect the page case the user is logged in
-      this._authService.getCurrentUser().then((currentUser) =>{
-        if(currentUser !== null){
-
-          console.log(' USER ==== ',currentUser);
-
-          this.currentUser = currentUser;
-          this.nav.setRoot(ListingPage);
-        }else{
-          this.nav.setRoot(WalkthroughPage);
-          this.rootPage = WalkthroughPage;
-        }
-      });
     });
   }
 
   ngOnInit(){
-  
-    console.log('!!!! App COMPONENT EXECUTED !!!!!', this.nav.length());
 
+    this.events.subscribe('user:signin', (data) => {
+      let userProfile = data[0];
+      this._setProfile(userProfile);
+    });
+    
+    // Redirect the page case the user is logged in
+    this._authService.getCurrentUser().then((userProfile) =>{
+
+      console.log(userProfile);
+
+      if(userProfile !== null){
+        this._setProfile(userProfile);
+        this.nav.setRoot(ListingPage);
+      }else{
+        this.nav.setRoot(WalkthroughPage);
+        this.rootPage = WalkthroughPage;
+      }
+    });
+
+  }
+
+  private _setProfile(userProfile){
+    this.profileName = userProfile.firstName;
+    this.profileLocation = userProfile.location;
+    this.profileImage = userProfile.image;
   }
 
   logout(){
