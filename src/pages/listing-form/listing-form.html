@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Listing Form</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="closeForm()">
+        Close
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
   <ion-toolbar>
@@ -8,15 +13,15 @@
       <ion-segment-button value="step1" (ionSelect)="onSegmentSelected($event)">
         Step1
       </ion-segment-button>
-      <ion-segment-button value="stpe2" (ionSelect)="onSegmentSelected($event)">
+      <ion-segment-button value="step2" [disabled]="!step2" (ionSelect)="onSegmentSelected($event)">
         Step 2
       </ion-segment-button>
 
-      <ion-segment-button value="step3" (ionSelect)="onSegmentSelected($event)">
+      <ion-segment-button value="step3" [disabled]="!step3" (ionSelect)="onSegmentSelected($event)">
         Step 3
       </ion-segment-button>
 
-      <ion-segment-button value="stpe4" (ionSelect)="onSegmentSelected($event)">
+      <ion-segment-button value="step4" [disabled]="!step4" (ionSelect)="onSegmentSelected($event)">
         Step 4
       </ion-segment-button>
     </ion-segment>
@@ -30,7 +35,7 @@
     <!-- Step 1 -->
     <div *ngSwitchCase="'step1'" class="segment-view">
 
-      <form class="form-style step-form" [formGroup]="step1_form" (ngSubmit)="cameraActionSheet()">
+      <form class="form-style step-form" [formGroup]="step1Form">
         <section class="form-section">
           <h2 class="section-title">
             <p>Hi! let's go show your best recipes!</p>
@@ -39,7 +44,7 @@
 
           <ion-item no-lines class="category-select">
             <ion-label>Categories</ion-label>
-            <ion-select formControlName="categories" multiple="false">
+            <ion-select formControlName="category" multiple="false">
               <ion-option *ngFor="let option of categories" value="{{option.value}}">
                 {{option.label}}
               </ion-option>
@@ -50,15 +55,15 @@
      
         <section class="form-section">
 
-          <button ion-button block large class="upload-image-button">
+          <button ion-button block large class="upload-image-button" (click)="cameraActionSheet()">
             <ion-icon name="camera"></ion-icon>
-            <h3 class="button-title">upload an image</h3>
+            <h3 class="button-title">Add images</h3>
           </button>
 
           <ion-scroll scrollX="true" class="horizontal-photos">
-            <ion-row class="photos-row">
-              <ion-col width-50 class="horizontal-item" *ngFor="let media of tempMedias">
-                <ion-button clear (click)="showPicture(media.media_name)">
+            <ion-row class="photos-row" no-lines>
+              <ion-col width-50 class="horizontal-item" *ngFor="let media of temp_medias">
+                <ion-button clear (click)="presentImagesModal()">
                   <preload-image [ratio]="{w:5, h:4}" [src]="media.media_path"></preload-image>
                 </ion-button>
               </ion-col>
@@ -68,8 +73,8 @@
         </section>
 
         <section class="form-section">
-          <button ion-button block class="form-action-button create-post-button" type="submit" [disabled]="!step1_form.valid">
-            Next
+          <button ion-button block class="form-action-button create-post-button" type="submit" (click)="saveListing(1)" [disabled]="!step1Form.valid">
+            Save
           </button>
         </section>
         
@@ -78,49 +83,34 @@
     </div>
 
     <!-- Step 2 -->
-    <div *ngSwitchCase="'stpe2'" class="segment-view">
+    <div *ngSwitchCase="'step2'" class="segment-view">
 
-      <form class="form-style step-form" [formGroup]="step2_form" (ngSubmit)="createPost()">
+      <form class="form-style step-form" [formGroup]="step2Form">
         <section class="form-section">
-        
+          <h2 class="section-title">
+            <p>Good!!  Now give your costumers more details about your listing.</p>
+            <p>A good Title and a clear summary make your dish more atractive to the costumers!!!</p>
+          </h2>
           <ion-item>
-              <ion-input type="text" placeholder="Title" formControlName="title"></ion-input>
+            <ion-label floating>Title</ion-label>
+            <ion-input type="text" maxlength="32" formControlName="title"></ion-input>
             </ion-item>
           <ion-item>
-            <ion-textarea rows="8" placeholder="Write a description to your listing..." formControlName="description"></ion-textarea>
+            <ion-label stacked>Summary</ion-label>
+            <ion-textarea rows="6" formControlName="summary" maxlength="200" placeholder="A good and simple summary show more confidence to your costumers, take your time and write something simples and cool..."></ion-textarea>
           </ion-item>
           <ion-item icon-right>
-            <ion-input type="text" placeholder="Location" formControlName="location"></ion-input>
+            <ion-label floating>Location</ion-label>
+            <ion-input type="text" formControlName="location"></ion-input>
             <ion-icon name="navigate" item-right></ion-icon>
           </ion-item>
 
         </section>
+
         <section class="form-section">
-          <button ion-button block icon-right class="choose-category-button" (click)="chooseCategory()">
-            Choose category
-            <ion-icon name="add"></ion-icon>
+          <button ion-button block class="form-action-button create-post-button" type="submit" (click)="saveListing(2)" [disabled]="!step2Form.valid">
+            Save
           </button>
-        </section>
-
-        <h2 class="section-title">Serves, times and temps</h2>
-        <ion-item class="counter-item">
-          <span class="counter-label">Servings</span>
-          <counter-input formControlName="servings"></counter-input>
-        </ion-item>
-        <ion-item class="time-item">
-          <ion-label>Time</ion-label>
-          <ion-datetime formControlName="time" displayFormat="h:mm" pickerFormat="h mm"></ion-datetime>
-        </ion-item>
-        <ion-item class="range-item">
-          <ion-label>
-            <h2 class="range-label">Temperature</h2>
-            <h3 class="range-value">{{step2_form.controls.temperature.value}} &deg;C</h3>
-          </ion-label>
-          <ion-range formControlName="temperature" min="0" max="220" step="5" snaps="true" pin="false"></ion-range>
-        </ion-item>
-
-        <section class="form-section">
-          <button ion-button block class="form-action-button create-post-button" type="submit" [disabled]="!step2_form.valid">Next</button>
         </section>
 
       </form>      
@@ -170,6 +160,38 @@
         <section class="form-section">
           <button ion-button block class="form-action-button create-event-button" type="submit" [disabled]="!event_form.valid">Done!</button>
         </section>
+
+
+
+
+
+<!--         <section class="form-section">
+          <button ion-button block icon-right class="choose-category-button" (click)="chooseCategory()">
+            Choose category
+            <ion-icon name="add"></ion-icon>
+          </button>
+        </section>
+
+        <h2 class="section-title">Serves, times and temps</h2>
+        <ion-item class="counter-item">
+          <span class="counter-label">Servings</span>
+          <counter-input formControlName="servings"></counter-input>
+        </ion-item>
+        <ion-item class="time-item">
+          <ion-label>Time</ion-label>
+          <ion-datetime formControlName="time" displayFormat="h:mm" pickerFormat="h mm"></ion-datetime>
+        </ion-item>
+        <ion-item class="range-item">
+          <ion-label>
+            <h2 class="range-label">Temperature</h2>
+            <h3 class="range-value">{{step2Form.controls.temperature.value}} &deg;C</h3>
+          </ion-label>
+          <ion-range formControlName="temperature" min="0" max="220" step="5" snaps="true" pin="false"></ion-range>
+        </ion-item> -->
+
+
+
+
       </form>
     </div>
   

@@ -29,32 +29,36 @@ export class ListingModel {
 
 export class ItemModel{
   title: string = "";
+  summary: string = "";
   description: string = "";
+  category: string = "";
   privacity: string = "public";
-  status: string = "creating";
+  status: string = "craft";
   total_favorites: number = 0;
   total_reviews: number =  0;
   review: number = 4;
 
-  location: LocationModel;
+  location: LocationModel = {
+      address: "",
+      latitude: -86.56850140610781,
+      longitude: 38.46446660396708
+    }
 
   price: PriceModel;
-  medias: Array<MediaModel> = [];
-  categories: Array<CategoryModel> = [];
+  medias: Array<any> = [];
   reviews: Array<ReviewModel> = [];
+
+  created_at: number = Date.now();
+  update_at: number = Date.now();
 
 }
 
 export class LocationModel{
   address: string = "";
-  latitude: number =  -86.56850140610781;
-  longitude: number = 38.46446660396708;
+  latitude: number;
+  longitude: number;
 }
 
-export class CategoryModel{
-  category: string = "";
-  active: boolean = true;
-} 
 
 export class MediaModel{
   media_name: string =  "";

@@ -3,9 +3,11 @@ import { NavController, LoadingController, Slides} from 'ionic-angular';
 
 import { FeedPage } from '../feed/feed';
 //import 'rxjs/Rx';
-
 import { DishItemModel } from '../../models/dish.model';
 import { DishService } from '../../providers/dish.service';
+
+import { ListingService } from '../../providers/listing.service';
+import { ItemModel } from '../../models/listing-model';
 
 
 @Component({
@@ -15,25 +17,25 @@ import { DishService } from '../../providers/dish.service';
 })
 export class ListingPage {
 
-  public dishes: any;
-  public listLimit: number = 10;
-  slideOptions = {pager: true};
-  items: DishItemModel[];
-  loading: any;
+  
+  public slideOptions = {pager: true};
+  public loading: any;
+
+  public list_limit: number = 10;
+  public listings: ItemModel[];
 
   constructor(
     public nav: NavController,
-    public dishService: DishService,
+    public listingService: ListingService,
     public loadingCtrl: LoadingController
   ){
 
-    this.loading = this.loadingCtrl.create({
-      spinner: 'dots'
-    });
-
+    console.log("View Controller in Stake >>> ", this.nav.length());
+    this.loading = this.loadingCtrl.create();
   }
 
   ionViewDidLoad() {
+    this.loading.present();
     this.getItems();
   }
 
@@ -44,11 +46,13 @@ export class ListingPage {
         orderByKey: true
     };
 
-    this.loading.present();
-    this.dishService.listDish(query).limitToLast(this.listLimit).on('value', (snapshot) => {
+    this.listingService.listListing(query).limitToLast(this.list_limit).on('value', (listingSnap) => {
+      let objects = listingSnap.val();
+      this.listings = Object.keys(objects).map(function (key) {
+        objects[key].listing_key = key;
+        return objects[key]; 
+      });
 
-      let objects = snapshot.val();
-      this.dishes = Object.keys(objects).map(function (key) { return objects[key]; });
       this.loading.dismiss();
     });
 
@@ -57,7 +61,7 @@ export class ListingPage {
   doInfinite(infiniteScroll) {
     console.log('Begin async operation', infiniteScroll);
 
-    this.listLimit = this.listLimit + 10;
+    this.list_limit = this.list_limit + 10;
     //this.getItems();
 
     console.log('Async operation has ended');

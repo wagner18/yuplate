@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Platform, LoadingController } from 'ionic-angular';
 
-import { Camera, File } from 'ionic-native';
+import {  } from 'ionic-native';
+
+import { Camera, CameraPreview, CameraPreviewRect, File } from 'ionic-native';
 declare var cordova: any;
 declare var window;
 
@@ -73,14 +75,12 @@ export class MediaService {
     }
 
     let options = {
-      quality: 75,
+      quality: 85,
       destinationType: Camera.DestinationType.FILE_URI,
       sourceType: sourcePicture,
       encodingType: Camera.EncodingType.JPEG,
-      targetWidth: 375,
-      targetHeight: 300,
       correctOrientation: true,
-      saveToPhotoAlbum: true,
+      saveToPhotoAlbum: false,
       mediaType: Camera.MediaType.PICTURE,
       allowEdit: true,
       cameraDirection: Camera.Direction.BACK
@@ -91,50 +91,13 @@ export class MediaService {
 
 
   private getPicture(options){
-
     // Get picture from camera or library
     return Camera.getPicture(options).then((imageURI) => {
-
       return imageURI;
-
     }, (error) => {
       console.log("Error taking picture: " + error);
       return null;
     });
-  }
-
-  createBase64File(filePath){
-
-    return new Promise((resolve, reject) => {
-     window.resolveLocalFileSystemURL(filePath,(fileEntry) => {
-        
-        fileEntry.file(function (file) {
-            var reader = new FileReader();
-            reader.onloadend = function() {
-                resolve(this.result);
-            };
-
-            reader.readAsDataURL(file);
-
-        }, function (error) {
-          console.log(error.message);
-          reject(error);
-        });
-
-      });
-
-    });
-
-
-    // File.resolveLocalFilesystemUrl(imageURI).then((fileEntry) => {
-
-    //   console.log(' File Entry object ===== ',fileEntry);
-
-    //   let fileUrl = fileEntry.toURL();
-    //   console.log(fileUrl);
-    //   resolve(fileUrl);
-    // });
-
   }
 
   createBlobFile(filePath): Promise<any>{
@@ -158,6 +121,81 @@ export class MediaService {
 
     });
 
+  }
+
+
+  createBase64File(filePath){
+    return new Promise((resolve, reject) => {
+     window.resolveLocalFileSystemURL(filePath,(fileEntry) => {
+        
+        fileEntry.file(function (file) {
+            var reader = new FileReader();
+            reader.onloadend = function() {
+                resolve(this.result);
+            };
+            reader.readAsDataURL(file);
+        }, function (error) {
+          console.log(error.message);
+          reject(error);
+        });
+
+      });
+
+    });
+  }
+
+
+  previewCam(){
+    // camera options (Size and location)
+    let cameraRect: CameraPreviewRect = { x: 0,  y: 0, width: 375, height: 375 };
+    // start camera
+    CameraPreview.startCamera(
+      cameraRect, // position and size of preview
+      'back', // default camera
+      true, // tap to take picture
+      true, // disable drag
+      false, // keep preview in front. Set to true (back of the screen) to apply overlaying elements
+      1 // set the preview alpha
+    );
+  }
+
+  takePicture(){
+    // take a picture
+    CameraPreview.takePicture({
+      maxWidth: 640,
+      maxHeight: 375
+    });
+  }
+
+  cameraHandler(){
+    // Set the handler to run every time we take a picture
+    CameraPreview.setOnPictureTakenHandler().subscribe((result) => {
+      console.log(result);
+      // do something with the result
+    });
+  }
+
+  showPreview(){
+    CameraPreview.show();
+  }
+
+  hidePreview(){
+    CameraPreview.hide();
+  }
+
+  switchCamera(){
+    // Switch camera
+    CameraPreview.switchCamera();
+  }
+
+  setColorEffect(){
+     // set color effect to negative
+    CameraPreview.setColorEffect('negative');
+  }
+
+  stopCamera(){
+    // Stop the camera preview
+    CameraPreview.stopCamera();
   }
 
 

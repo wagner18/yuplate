@@ -43,8 +43,8 @@ export class ProfileService {
   /**
   * Return a promise with the resolved upload task snapshot or reject
   */
-  uploadPicutre(image, profile){
-    let imageRef = "profiles/" + profile.uid + "/profilepic_" + profile.uid + ".jpg";;
+  uploadPicutre(image, uid){
+    let imageRef = "profiles/" + uid + "/profilepic_" + uid + ".jpg";;
     return new Promise((resolve, reject) => {
 
       let upTask = this._dataService.imageRef().child( imageRef ).put(image);

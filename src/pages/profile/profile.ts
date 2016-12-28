@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { MenuController, SegmentButton, App, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, MenuController, SegmentButton, App, NavParams, LoadingController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth.service';
 
 import { ProfileFormPage } from '../profile-form/profile-form';
 
+import { ListingUserPage } from '../listing-user/listing-user';
 import { FollowersPage } from '../followers/followers';
 import { SettingsPage } from '../settings/settings';
 
@@ -27,6 +28,7 @@ export class ProfilePage {
 
   constructor(
     public menu: MenuController,
+    public nav: NavController,
     public app: App,
     public navParams: NavParams,
     public BaseApp: BaseProvider,
@@ -76,10 +78,14 @@ export class ProfilePage {
     // });
   }
 
+  goToUserListing(){
+    this.nav.push(ListingUserPage);
+  }
+
   editProfile() {
     // close the menu when clicking a link from the menu
     this.menu.close();
-    this.app.getRootNav().push(ProfileFormPage);
+    this.nav.push(ProfileFormPage);
   }
 
   onSegmentChanged(segmentButton: SegmentButton) {

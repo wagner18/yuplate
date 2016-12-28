@@ -17,6 +17,7 @@ import { BaseProvider } from './base.provider';
 
 import { ListingPage } from '../pages/listing/listing';
 import { ProfilePage } from '../pages/profile/profile';
+import { ListingUserPage } from '../pages/listing-user/listing-user';
 import { ListingFormPage } from '../pages/listing-form/listing-form';
 import { SettingsPage } from '../pages/settings/settings';
 import { LoginPage } from '../pages/login/login';
@@ -71,12 +72,12 @@ export class MyApp {
 
     this.pages = [
       { title: 'Home', icon: 'home', component: ListingPage },
-      { title: 'Profile', icon: 'contact', component: ProfilePage },
-      { title: 'Forms', icon: 'create', component: FormsPage }
+      { title: 'Profile', icon: 'contact', component: ProfilePage } 
     ];
 
     this.pushPages = [
-      { title: 'List you Dish', icon: 'add-circle', component: ListingFormPage },
+      { title: 'Listing', icon: 'add-circle', component: ListingUserPage },
+      { title: 'Forms', icon: 'create', component: FormsPage },
       { title: 'Layouts', icon: 'grid', component: LayoutsPage },
       { title: 'Settings', icon: 'settings', component: SettingsPage }
     ];
@@ -109,8 +110,7 @@ export class MyApp {
         this._setProfile(userProfile);
         this.nav.setRoot(ListingPage);
       }else{
-        this.nav.setRoot(WalkthroughPage);
-        this.rootPage = WalkthroughPage;
+        this.nav.setRoot(LoginPage);
       }
     });
 

@@ -1,0 +1,53 @@
+<ion-header>
+
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        Close
+      </button>
+    </ion-buttons>
+    <ion-title>Images</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="reorderList()">
+        {{orderActionLabel}}
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+	<ion-list [reorder]="orderState" (ionItemReorder)="reorderItems($event)">
+	  <ion-item no-lines *ngFor="let media of medias">
+	      <ion-button clear (click)="showPicture(media.media_name)">
+	        <preload-image [ratio]="{w:5, h:4}" [src]="media.media_path"></preload-image>
+	      </ion-button>
+	  </ion-item>
+	</ion-list>
+</ion-content>
+
+
+<!--  <ion-content class="images-list-content">
+	 <button ion-button block large class="upload-image-button" (click)="doGetPicture()">
+	  <ion-icon name="camera"></ion-icon>
+	  <h3 class="button-title">Add images</h3>
+	</button>
+  <div class="images-list">
+    <ion-list [reorder]="orderState" (ionItemReorder)="reorderItems($event)">
+      <button class="list-item" ion-item *ngFor="let media of medias">
+        <ion-row no-padding class="content-row">
+          <ion-col no-padding width-100>
+            <preload-image class="avatar-image" [ratio]="{w:1, h:1}" [src]="media.media_path"></preload-image>
+          </ion-col>
+          <ion-col no-padding width-40 class="item-content">
+            <h3 class="item-title">{{media.media_name}}</h3>
+            <p class="item-description" rows="3">Some text here to describe the picture</p>
+          </ion-col>
+        </ion-row>
+      </button>
+    </ion-list>
+  </div>
+</ion-content> -->
+

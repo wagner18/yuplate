@@ -107,7 +107,7 @@ export class ProfileFormPage {
 
         let blobFilePromise = this.mediaService.createBlobFile(this.tempImage);
         let uploadTask = blobFilePromise.then((blobFile) =>{
-          return this.profileService.uploadPicutre(blobFile, this.profile);
+          return this.profileService.uploadPicutre(blobFile, this.profile.uid);
         });
 
         saveTask = Promise.all([blobFilePromise, uploadTask]).then((results) => {

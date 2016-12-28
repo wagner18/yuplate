@@ -70,7 +70,7 @@
 
     <ion-list no-lines>
 
-      <ion-card *ngFor="let dish of dishes">
+      <ion-card *ngFor="let listing of listings">
 
         <ion-item item-right>
           <ion-avatar item-left>
@@ -81,17 +81,17 @@
         </ion-item>
 
         <ion-slides [options]="slideOptions">
-          <ion-slide *ngFor="let media of dish.medias" style="background-color: white">
-            <preload-image [ratio]="{w:3, h:2}" [src]="media.media_path" title="dishe.title"></preload-image>
+          <ion-slide *ngFor="let media of listing.medias" style="background-color: white">
+            <preload-image [ratio]="{w:3, h:2}" [src]="media.media_path" title="listing.title"></preload-image>
           </ion-slide>
         </ion-slides>
       
         <ion-card-content>
           <ion-card-title class="item-title">
-            {{dish.title}}
+            {{listing.title}}
           </ion-card-title>
           <p class="item-text">
-            {{dish.description}}
+            {{listing.description}}
           </p>
         </ion-card-content>
 
@@ -99,13 +99,13 @@
           <ion-col no-padding width-30 text-left>
             <button class="action-button" ion-button clear small icon-left>
               <ion-icon isActive="1" name='heart'></ion-icon>
-              {{dish.likes}} Likes
+              {{listing.total_favorites}} Favorites
             </button>
           </ion-col>
           <ion-col no-padding width-45 text-center>
             <button class="action-button" ion-button clear small icon-left>
               <ion-icon name='chatbubbles'></ion-icon>
-              {{dish.total_reviews}} Reviews
+              {{listing.total_reviews}} Reviews
             </button>
           </ion-col>
           <ion-col no-padding width-25 text-right>

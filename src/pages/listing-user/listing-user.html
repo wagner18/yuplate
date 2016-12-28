@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>My Listing</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="list-content" scroll="false">
+  <div class="list-div">
+    <ion-list>
+      
+      <button ion-button block large class="add-button" (click)="addListing()">
+        <ion-icon name="add"></ion-icon>
+        <h3 class="button-title">Add my dish</h3>
+      </button>
+
+		  <ion-list-header>
+		    My listings
+		  </ion-list-header>
+
+      <button class="list-item" ion-item *ngFor="let listing of listings" (click)="editListing(listing.listing_key)">
+        <ion-row no-padding class="content-row">
+          <ion-col no-padding width-33 class="item-avatar">
+            <preload-image class="avatar-image" [ratio]="{w:1, h:1}" [src]="listing.medias[0].media_path"></preload-image>
+          </ion-col>
+          <ion-col no-padding width-57 class="item-content">
+            <h3 class="item-title">{{listing.title}}</h3>
+            <p class="item-description" rows="3">{{listing.summary}}</p>
+            <!-- You can change the rows quantity by using rows="X", where X can be any number for example: rows="4" -->
+          </ion-col>
+          <ion-col no-padding width-10 class="item-icon">
+            <ion-icon name="arrow-forward"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </button>
+    </ion-list>
+  </div>
+</ion-content>

@@ -20,8 +20,8 @@
   <div class="profile-details">
     <ion-row class="profile-main-data-row">
       <ion-col no-padding width-33>
-        <img class="profile-image" [src]="profile.image">
-        <!-- <preload-image [ratio]="{w:1, h:1}" [src]="profile.image" class="profile-image"></preload-image> -->
+        <!-- <img class="profile-image" [src]="profile.image"> -->
+        <preload-image [ratio]="{w:1, h:1}" [src]="profile.image" class="profile-image"></preload-image>
       </ion-col>
       <ion-col no-padding>
 
@@ -93,7 +93,7 @@
         Bookings
       </button>  
 
-      <button ion-item class="list-items-section">
+      <button ion-item class="list-items-section" (click)="goToUserListing()">
        <ion-icon item-left ios="ios-list-box" md="md-list-box"></ion-icon>
         Listing
       </button> 

@@ -19,8 +19,9 @@ import { Storage } from '@ionic/storage';
 */
 // import { HomeAppPage } from '../pages/home-app/home-app';
 import { ListingPage } from '../pages/listing/listing';
+import { ListingUserPage } from '../pages/listing-user/listing-user';
 import { ListingFormPage } from '../pages/listing-form/listing-form';
-import { UserListingPage } from '../pages/user-listing/user-listing';
+import { ListingImagesPage } from '../pages/listing-images/listing-images';
 import { FeedPage } from '../pages/feed/feed';
 import { FollowersPage } from '../pages/followers/followers';
 import { LayoutsPage } from '../pages/layouts/layouts';
@@ -45,7 +46,7 @@ import { TermsOfServicePage } from '../pages/terms-of-service/terms-of-service';
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
 
 /*
-    Import components
+    Import components directives
 */
 import { PreloadImage } from '../components/preload-image/preload-image';
 import { BackgroundImage } from '../components/background-image/background-image';
@@ -62,6 +63,7 @@ import { DataService } from '../providers/data.service';
 import { AuthService } from '../providers/auth.service';
 import { BaseProvider } from './base.provider';
 import { MediaService } from '../providers/media.service';
+import { ListingService } from '../providers/listing.service';
 import { DishService } from '../providers/dish.service';
 import { FeedService } from '../pages/feed/feed.service';
 import { ProfileService } from '../providers/profile.service';
@@ -76,8 +78,9 @@ declare var cordova: any;
   declarations: [
     MyApp,
     ListingPage,
+    ListingUserPage,
     ListingFormPage,
-    UserListingPage,
+    ListingImagesPage,
     FeedPage,
     FollowersPage,
     LayoutsPage,
@@ -118,8 +121,9 @@ declare var cordova: any;
   entryComponents: [
     MyApp,
     ListingPage,
+    ListingUserPage,
     ListingFormPage,
-    UserListingPage,
+    ListingImagesPage,
     FeedPage,
     FollowersPage,
     LayoutsPage,
@@ -149,6 +153,7 @@ declare var cordova: any;
     AuthService,
     BaseProvider,
     MediaService,
+    ListingService,
     DishService,
     FeedService,
     ProfileService, 

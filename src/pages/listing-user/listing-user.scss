@@ -1,0 +1,79 @@
+// Common list styles can be found in "./common.styles/layouts/lists"
+$list-big-description-font-size: 12px;
+
+page-listing-user {
+
+	ion-header {
+		@include header-styles(color($colors, header-alt, base), color($colors, header-alt, contrast));
+	}
+
+	.list-content {
+		background-color: color($colors, background, base);
+
+		.list-div	{
+			@include layout-list-styles($theme-color-2, $white-d);
+
+			ion-list {
+				.list-item {
+					
+					.content-row {
+						@include align-items(center);
+					}
+
+					.item-content {
+						@include align-content(stretch);
+					  @include display(flex);
+					  @include flex-wrap(wrap);
+					  @include align-self(stretch);
+
+						.item-title	{
+							margin-bottom: 8px;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+
+						.item-description	{
+							@include multi-line-ellipsis($list-big-description-font-size);
+						}
+
+					}
+
+				}
+			}
+
+		}
+
+		.add-button {
+			border-radius: 6px;
+			background-color: $white;
+			color: $white-d;
+			height: 80px;
+			margin-right: 20px;
+			padding: 10px;
+			padding-bottom: 32px;
+			@include element-shadow();
+
+			.button-inner	{
+				@include flex-wrap(wrap);
+
+				ion-icon {
+					flex: 0 0 100%;
+			    max-width: 100%;
+					font-size: 2.2em;
+				}
+
+				.button-title	{
+					flex: 0 0 100%;
+			    max-width: 100%;
+					font-size: 1.4rem;
+					color: $white-d;
+					font-weight: 400;
+					margin: 0px;
+				}
+			}
+		}
+
+	}
+
+}
