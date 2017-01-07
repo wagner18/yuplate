@@ -26,7 +26,8 @@ export class AuthService {
 
   setCurrentUser(userProfile){
     if(userProfile){
-      this.events.publish('user:signin', userProfile);
+
+      this.events.publish('user:signin', JSON.stringify(userProfile));
       userProfile = JSON.stringify(userProfile);
       return this.storage.set(this.CURRENT_USER, userProfile);
     }

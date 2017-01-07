@@ -1,0 +1,40 @@
+page-location-modal {
+
+	.no-scroll {
+		overflow: hidden;
+	}
+
+  .scroll-content {
+    height: 100%
+  }
+
+  .section-address{
+  	padding: 6px;
+
+  	.address-search {
+	  	height: $searchbar-md-input-height;
+		  padding: 0 10px;
+		  border-radius: 5px;
+		  font-size: 1.4rem;
+		  font-weight: 400;
+	  	color: $input-color-1;
+		  background-color: $white-b;
+		}
+  }
+
+  #map {
+    width: 100%;
+    height: 95%;
+  }
+
+  .autocomplete-list{
+  	margin: 0px;
+  	padding: 0px;
+  	
+		.item-inner {
+			font-size: 1.4rem;
+			color: $input-color-1;
+		}
+  }
+
+}

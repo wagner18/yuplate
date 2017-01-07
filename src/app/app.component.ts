@@ -96,15 +96,10 @@ export class MyApp {
 
   ngOnInit(){
 
-    this.events.subscribe('user:signin', (data) => {
-      let userProfile = data[0];
-      this._setProfile(userProfile);
-    });
-    
     // Redirect the page case the user is logged in
     this._authService.getCurrentUser().then((userProfile) =>{
 
-      console.log(userProfile);
+      console.log("USERRRRRRRRRRRRRRRRRRRRRRR",userProfile);
 
       if(userProfile !== null){
         this._setProfile(userProfile);
@@ -112,6 +107,13 @@ export class MyApp {
       }else{
         this.nav.setRoot(LoginPage);
       }
+    });
+
+    this.events.subscribe('user:signin', (data) => {
+      let userProfile = JSON.parse(data);
+      this._setProfile(userProfile);
+
+      // this.events.unsubscribe();
     });
 
   }
@@ -130,16 +132,19 @@ export class MyApp {
 
   openPage(page) {
     // close the menu when clicking a link from the menu
-    this.menu.close();
-    // navigate to the new page if it is not the current page
-    this.nav.setRoot(page.component);
+    this.menu.close().then(() => {
+      // navigate to the new page if it is not the current page
+      this.nav.setRoot(page.component);
+    });
+
   }
 
   pushPage(page) {
     // close the menu when clicking a link from the menu
-    this.menu.close();
-    // rootNav is now deprecated (since beta 11) (https://forum.ionicframework.com/t/cant-access-rootnav-after-upgrade-to-beta-11/59889)
-    this.app.getRootNav().push(page.component);
+    this.menu.close().then(() => {
+      // rootNav is now deprecated (since beta 11) (https://forum.ionicframework.com/t/cant-access-rootnav-after-upgrade-to-beta-11/59889)
+      this.app.getRootNav().push(page.component);
+    });
   }
 
 }

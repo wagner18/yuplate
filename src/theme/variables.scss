@@ -22,7 +22,7 @@ $black-b: lighten($black, 20%);
 $black-c: lighten($black, 40%);
 $black-d: lighten($black, 60%);
 
-$theme-color-1: #cccccc; // primer color 500
+$theme-color-1: #8786ad; // primer color 500
 $theme-color-2: #336699; // Bold color 700 
 $theme-color-3: #333333; // light color 300
 $theme-color-4: #9933ff; // Accent color A400
@@ -40,6 +40,7 @@ $theme-color-6: #666666; // Secundary texts
 // The "primary" color is the only required color in the map.
 
 $text-color: #000099;
+$input-color-1: $black-d;
 
 $colors: (
   primary:    #387ef5,
@@ -62,7 +63,7 @@ $colors: (
     contrast: $white
   ),
   sidemenu:(
-    base: $theme-color-2,
+    base: $theme-color-1,
     contrast: $white
   ),
   header:(

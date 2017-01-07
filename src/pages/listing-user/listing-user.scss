@@ -3,9 +3,9 @@ $list-big-description-font-size: 12px;
 
 page-listing-user {
 
-	ion-header {
+/*	ion-header {
 		@include header-styles(color($colors, header-alt, base), color($colors, header-alt, contrast));
-	}
+	}*/
 
 	.list-content {
 		background-color: color($colors, background, base);
@@ -45,7 +45,7 @@ page-listing-user {
 		}
 
 		.add-button {
-			border-radius: 6px;
+			border-radius: 2px;
 			background-color: $white;
 			color: $white-d;
 			height: 80px;

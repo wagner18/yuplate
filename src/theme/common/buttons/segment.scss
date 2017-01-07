@@ -1,5 +1,5 @@
 @mixin segment-text-styles($color){
-	font-size: 1.6rem;
+	font-size: 1.4rem;
 	font-weight: 500;
 	color: $color;
 	letter-spacing: 0.2px;
@@ -7,18 +7,15 @@
 }
 
 @mixin segment-button-styles($active-color){
-	.segment-button
-	{
+	.segment-button	{
 		border-radius: 0px;
 		border: none;
 
-		&:not(:last-child)
-		{
-			border-right: solid 2px rgba($white-d, .3);
+		&:not(:last-child) {
+			border-right: solid 1px rgba($white-d, .3);
 		}
 
-		&.segment-activated
-		{
+		&.segment-activated	{
 			color: $active-color;
 			background-color: transparent;
 		}
@@ -26,8 +23,7 @@
 }
 
 @mixin segment-button-ios-styles(){
-	.segment-button
-	{
+	.segment-button	{
 		&:hover:not(.segment-activated)
 		{
 			background-color: transparent;
@@ -36,8 +32,7 @@
 }
 
 @mixin segment-button-wp-styles(){
-	.segment-button
-	{
+	.segment-button	{
 		flex: 1;
 	}
 }

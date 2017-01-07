@@ -16,6 +16,9 @@ import { ItemModel } from '../../models/listing-model';
 import { MediaModel } from '../../models/listing-model';
 
 /* Pages */
+import { ListingFormDescPage } from '../listing-form-desc/listing-form-desc';
+import { ListingFormDetailsPage } from '../listing-form-details/listing-form-details';
+import { LocationModalPage, } from '../location-modal/location-modal';
 import { ListingImagesPage } from '../listing-images/listing-images';
 
 @Component({
@@ -27,13 +30,16 @@ export class ListingFormPage {
   public listing: any;
   public step1Form: FormGroup;
   public step2Form: FormGroup;
-
-  public event_form: FormGroup; // Change
+  public step3Form: FormGroup;
 
   public step1: boolean = true;
   public step2: boolean = false;
   public step3: boolean = false;
   public step4: boolean = false;
+
+  public description_radio = "radio-button-off";
+  public location_radio = "radio-button-off";
+  public details_radio = "radio-button-off";
 
   public section: string;
   public listing_ref: string = null;
@@ -41,6 +47,7 @@ export class ListingFormPage {
   public temp_medias: Array<any> = [];
 
   public loading: any;
+
 
   categories_checkbox_open: boolean;
   categories_checkbox_result;
@@ -72,20 +79,11 @@ export class ListingFormPage {
       location: new FormControl('', Validators.required)
     });
 
-    this.event_form = new FormGroup({
-      title: new FormControl('', Validators.required),
-      location: new FormControl('', Validators.required),
-      from_date: new FormControl('2016-09-18', Validators.required),
-      from_time: new FormControl('13:00', Validators.required),
-      to_date: new FormControl('', Validators.required),
-      to_time: new FormControl('', Validators.required)
-    });
 
     this.loading = this.loadingCtrl.create();
   }
 
   ionViewWillEnter(){
-    this.loading.present();
     // Categories - Take it to the right place
     this.categories = this.listingService.getCategories();
     // Get the Listing Key Reference form the nav params
@@ -105,8 +103,6 @@ export class ListingFormPage {
 
       this.setStep1Form(this.listing);
       this.setStep2Form(this.listing);
-
-      this.loading.dismiss();
     });
   }
 
@@ -129,8 +125,6 @@ export class ListingFormPage {
 
   // Process the step 1
   saveListing(step){
-    console.log(step, this.listing_ref);
-
     if(step == "1"){
       this.step1Form.patchValue({medias: this.temp_medias});
       var data = this.step1Form.value;
@@ -172,7 +166,7 @@ export class ListingFormPage {
   // Move this to listing.service!!!
   uploadPicture(media){
 
-    this.loading.present();
+    // this.loading.present();
      // Get the media local path
     let media_path = media.media_path;
     // Read the media to Blob file
@@ -180,6 +174,8 @@ export class ListingFormPage {
     // Upload the Blob file to the storate server
     let uploadTask = blobFilePromise.then((blobFile) =>{
       return this.listingService.uploadPicutre(blobFile, this.listing_ref);
+    }).catch((error) => {
+      console.log(error.message);
     });
 
     Promise.all([blobFilePromise, uploadTask]).then((results) => {
@@ -193,10 +189,13 @@ export class ListingFormPage {
 
       media = {medias: this.temp_medias};
       return this.listingService.updateListing(this.listing_ref, media).then(() => {
-        this.loading.dismiss();
+        // this.loading.dismiss();
+      }).catch((error) => {
+        console.log(error.message);
       });
 
     }).catch((error) => {
+      console.log(error.message);
       let title = "Ops! Sorry about that";
       this.BaseApp.showAlert(title, error.message);
     });
@@ -262,9 +261,44 @@ export class ListingFormPage {
   }
 
 
-  showPicture(picture){
-    console.log(picture);
+  presentDescriptionModal() {
+    let descModal = this.modalCtrl.create(ListingFormDescPage, { data: this.listing });
+    descModal.onDidDismiss(data => {
+      let desc_data = data;
+      if(desc_data.valid){
+        this.description_radio = "checkmark-circle-outline";
+      }
+      //return this.listingService.updateListing(this.listing_ref, media);
+    });
+    descModal.present();
   }
+
+
+  presentLocationModal() {
+    let locationModal = this.modalCtrl.create(LocationModalPage, {data: this.listing.location});
+    locationModal.onDidDismiss(data => {
+      if(data.geolocation){ 
+        this.location_radio = "checkmark-circle-outline";
+        let location = {location: data};
+        this.listingService.updateListing(this.listing_ref, location);
+      }
+    });
+    locationModal.present();
+  }
+
+
+  presentDetailsModal() {
+    let detailsModal = this.modalCtrl.create(ListingFormDetailsPage, { data: this.listing });
+    detailsModal.onDidDismiss(data => {
+      let details_data = data;
+      if(details_data.valid){
+        this.details_radio = "checkmark-circle-outline";
+      }
+      //return this.listingService.updateListing(this.listing_ref, media);
+    });
+    detailsModal.present();
+  }
+
 
   reorderMedias(medias){
     let len = medias.length;
@@ -281,50 +315,15 @@ export class ListingFormPage {
 
   onSegmentChanged(segmentButton: SegmentButton) {
     // console.log('Segment changed to', segmentButton.value);
+    this.description_radio = "checkmark-circle-outline";
   }
 
-  onSegmentSelected(segmentButton: SegmentButton) {
-    // console.log('Segment selected', segmentButton.value);
+  onSegmentSelected(segmentButton) {
+    console.log('Segment selected', segmentButton);
+    this.description_radio = "checkmark-circle-outline";
+    this.section = segmentButton;
   }
 
-  createPost(){
-    console.log(this.step1Form.value);
-  }
 
-  createEvent(){
-    console.log(this.step2Form.value);
-  }
-
-  chooseCategory(){
-    let alert = this.alertCtrl.create({
-      cssClass: 'category-prompt'
-    });
-    alert.setTitle('Categories');
-
-    alert.addInput({
-      type: 'checkbox',
-      label: 'Steak',
-      value: 'Steak'
-    });
-
-    alert.addInput({
-      type: 'checkbox',
-      label: 'Chicken',
-      value: 'Chicken'
-    });
-
-    alert.addButton('Cancel');
-    alert.addButton({
-      text: 'Confirm',
-      handler: data => {
-        console.log('Checkbox data:', data);
-        this.categories_checkbox_open = false;
-        this.categories_checkbox_result = data;
-      }
-    });
-    alert.present().then(() => {
-      this.categories_checkbox_open = true;
-    });
-  }
 
 }

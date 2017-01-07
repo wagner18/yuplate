@@ -1,0 +1,42 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        Done
+      </button>
+    </ion-buttons>
+    <ion-title>Location</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (click)="findMe()">
+        <ion-icon ios="ios-navigate" md="md-navigate"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="no-scroll">
+<!--   <ion-toolbar>
+    <ion-searchbar 
+    	(blur)="alert('blur')"
+    	[(ngModel)]="autocomplete.query"  
+    	(ionInput)="updateSearch($event)">
+    	[showCancelButton]="true" (ionCancel)="dismiss()">
+    </ion-searchbar>
+  </ion-toolbar> -->
+
+  <section class="section-address">
+	  <ion-input class="address-search" placeholder="Address" [(ngModel)]="autocomplete.query" (keyup)="updateSearch()">
+	  </ion-input>
+  </section>
+
+  <ion-list class="autocomplete-list">
+    <button ion-item *ngFor="let address of autocompleteItems" (click)="chooseAddress(address)">
+      {{ address.description }}
+    </button>
+  </ion-list>
+
+	<div #map id="map" scroll="false"></div>
+</ion-content>

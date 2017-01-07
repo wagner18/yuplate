@@ -1,21 +1,18 @@
-@mixin basic-input-style($background, $theme-color-6, $placeholder-color){
-	&.item
-	{
+@mixin basic-input-style($background, $input-color-1, $placeholder-color){
+	&.item {
 		padding: 0px;
 		background-color: $background;
 
-		.item-inner
-		{
+		.item-inner	{
 			padding: 0px 0.6rem;
 		}
 
-		.text-input
-		{
+		.text-input	{
 			margin-right: 0px;
 			margin-left: 0px;
 			width: 100%;
 			padding: 0px;
-			color: $theme-color-6;
+			color: $input-color-1;
 			@include placeholder {
 				color: $placeholder-color;
 			}

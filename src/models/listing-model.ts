@@ -33,6 +33,9 @@ export class ItemModel{
   description: string = "";
   category: string = "";
   privacity: string = "public";
+  carryout: boolean = true;
+  delivery: boolean = false;
+  servings: number = 1;
   status: string = "craft";
   total_favorites: number = 0;
   total_reviews: number =  0;
@@ -40,8 +43,7 @@ export class ItemModel{
 
   location: LocationModel = {
       address: "",
-      latitude: -86.56850140610781,
-      longitude: 38.46446660396708
+      geolocation: {}
     }
 
   price: PriceModel;
@@ -55,8 +57,7 @@ export class ItemModel{
 
 export class LocationModel{
   address: string = "";
-  latitude: number;
-  longitude: number;
+  geolocation: {}
 }
 
 
@@ -72,6 +73,7 @@ export class PriceModel{
   main_price: number = 18.46;
   percentage_discount: number = 0.78;
   discount_price: number = 0.0;
+  delivery_fee: number = 0.0;
   currency: string = "USD";
 }
   

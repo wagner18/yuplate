@@ -1,0 +1,57 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        Done
+      </button>
+    </ion-buttons>
+    <ion-title>Details</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content class="form-content">
+	<!-- Step 3 -->
+	<form class="form-style" [formGroup]="formDetails">
+	  <section class="form-section">
+	    <h2 class="section-title">
+	      <p>Now we gotta setup some more details about your listing,</p>
+	      <p>like your location, options, serving per portion and of cource price!</p>
+	    </h2>
+	  </section>
+
+	  <ion-item-divider>Service options</ion-item-divider>
+	  <ion-list class="form-list">
+	    <ion-item class="checkbox-item">
+	      <ion-label>Delivery</ion-label>
+	      <ion-checkbox value="true" formControlName="delivery"></ion-checkbox>
+	    </ion-item>
+	    <ion-item class="checkbox-item">
+	      <ion-label>Carryout</ion-label>
+	      <ion-checkbox value="true" formControlName="carryout"></ion-checkbox>
+	    </ion-item>
+	  </ion-list>
+
+	  <ion-item-divider>Servings per portion</ion-item-divider>
+	  <ion-list class="form-list">
+	    <ion-item class="counter-item">
+	      <span class="counter-label">Servings</span>
+	      <span class="counter-value">{{formDetails.controls.servings.value}}</span>
+	      <counter-input formControlName="servings" basic></counter-input>
+	    </ion-item>
+	  </ion-list>
+
+	  <section class="form-section">
+	    <button ion-button block icon-right class="choose-category-button" (click)="chooseCategory()">
+	      Set price
+	      <ion-icon name="add"></ion-icon>
+	    </button>
+	  </section>
+
+	  <section class="form-section">
+	    <button ion-button block class="form-action-button create-event-button" type="submit" [disabled]="!formDetails.valid">Done!</button>
+	  </section>
+
+	</form>
+</ion-content>

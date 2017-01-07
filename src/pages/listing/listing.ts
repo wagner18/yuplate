@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavController, LoadingController, Slides} from 'ionic-angular';
 
 import { FeedPage } from '../feed/feed';
@@ -15,7 +15,7 @@ import { ItemModel } from '../../models/listing-model';
   templateUrl: 'listing.html',
   providers: [ DishService ]
 })
-export class ListingPage {
+export class ListingPage implements OnDestroy{
 
   
   public slideOptions = {pager: true};
@@ -35,8 +35,14 @@ export class ListingPage {
   }
 
   ionViewDidLoad() {
-    this.loading.present();
     this.getItems();
+  }
+
+  ngOnDestroy() {
+    // the .nativeElement property of the ViewChild is the reference to the <video> 
+    console.log('ON DESTROY LISTING!');
+    // this._img.nativeElement.src = '';
+    // this._img.nativeElement.load();
   }
 
   private getItems(){
@@ -45,7 +51,7 @@ export class ListingPage {
         limitToFirst:5,
         orderByKey: true
     };
-
+    this.loading.present();
     this.listingService.listListing(query).limitToLast(this.list_limit).on('value', (listingSnap) => {
       let objects = listingSnap.val();
       this.listings = Object.keys(objects).map(function (key) {

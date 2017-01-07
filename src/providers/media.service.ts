@@ -58,7 +58,7 @@ export class MediaService {
   /**
   * Get pictures for the listing
   */
-  public getListingPicture(source){
+  public getListingPicture(source) {
 
     if (this.platform.is('android')) {
       var platSourcePicture = Camera.PictureSourceType.SAVEDPHOTOALBUM;
@@ -105,17 +105,19 @@ export class MediaService {
     return new Promise((resolve, reject) => {
 
       window.resolveLocalFileSystemURL(filePath, function (fileEntry) {
+
         fileEntry.file(function (file) {
            var reader = new FileReader();
            reader.onloadend = function () {
               // This blob object can be saved to firebase
+
               var blob = new Blob([new Uint8Array(this.result)], { type: "image/jpeg" });                  
               resolve(blob);
            };
            reader.readAsArrayBuffer(file);
         });
       }, function (error) {
-          console.log(error.message);
+          console.log("BLOB FILE --- ", error.message);
           reject(error);
       });
 

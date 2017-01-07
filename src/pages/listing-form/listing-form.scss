@@ -1,50 +1,48 @@
 listing-form-page {
 	$photos-horizontal-list-padding: 10px;
 
-
-	ion-header {
+/*	ion-header {
 		@include header-styles(color($colors, header-alt, base), color($colors, header-alt, contrast));
+	}*/
 
+	.forms-content	{
+		background-color: $white-a;
 
-		.forms-segment	{
-			background-color: color($colors, background, base);
-			padding: 0px;
-			background-color: $white;
-			@include element-shadow();
-
+		ion-segment {
 			@include segment-button-styles($theme-color-2);
 
 			.segment-button	{
-				@include segment-text-styles($white-d);
+				height: 10px;
+				border-radius: 0px;
+				border: none;
+				background-color: $black-d;
 			}
 		}
-	}
-
-	.forms-content	{
-		background-color: color($colors, background, base);
 
 		.form-style {
+
 			.form-section	{
 				padding: 0px 14px;
+				padding-bottom: 10px;
 
 				.item:first-child	{
 					margin-top: 10px;
 				}
 
 				.horizontal-photos {
-					border-bottom: 10px solid $white-a;
-					@include element-shadow();
+					height: 140px;
+					width: 100%;
 					padding-bottom: 16px;
 
 					.scroll-content	{
-						position: relative;
+						/*position: relative;*/
 					}
 
 					preload-image {
-						border-radius: 10%;
+						border-radius: 2%;
 
 						img	{
-							border-radius: 10%;
+							border-radius: 2%;
 						}
 					}
 
@@ -59,17 +57,27 @@ listing-form-page {
 
 			}
 
+			ion-label {
+				margin: 0px;
+				font-size: 1.6rem;
+				letter-spacing: 0.9px;
+				color: $black-d;
+			}
+
 			ion-item {
 				@include basic-input-style(color($colors, background, base), $theme-color-3, $white-d);
 
 				&.item {
-					padding-top: 5px;
 
-					&.item-label-floating	{
-						margin-top: 0px;
-
+					&.item-label-floating{
 						ion-label {
-							color: $white-d;
+							color: $black-d;
+						}
+					}
+
+					&.item-label-stacked {
+						ion-label {
+							color: $black-d;
 						}
 					}
 
@@ -95,9 +103,43 @@ listing-form-page {
 				margin: 0px;
 			}
 
+			ion-item-divider {
+				padding: 5px 0px 10px 15px !important;
+				background-color: transparent !important;
+
+				ion-label {
+					text-transform: uppercase;
+				}
+			}
+
+			.form-list {
+				background-color: $white;
+				@include element-shadow();
+				@include checkbox-item-styles($black-d, transparent, color($colors, button, base));
+
+				.button-item {
+					height: 70px;
+					padding-left: 10px;
+				}
+
+				ion-icon{
+					color: $theme-color-2;
+				}
+
+				.checkbox-item {
+					padding-left: 15px;
+					background-color: transparent;
+				}
+
+				.counter-item {
+					@include counter-item-styles($white-d, $theme-color-1, $white);
+				}
+			}
+
+
 			.form-action-button	{
 				margin: 0px;
-				margin-top: 20px;
+				margin-top: 10px;
 
 				@include call-to-action-button-styles(color($colors, button, base), color($colors, button, contrast));
 			}
@@ -217,14 +259,12 @@ listing-form-page {
 								font-size: 1.8rem;
 								color: $theme-color-1;
 
-								&::after
-								{
+								&::after {
 									content: 'hrs';
 									margin-left: 4px;
 								}
 
-								&:empty::after
-								{
+								&:empty::after {
 									display: none;
 								}
 							}
@@ -254,147 +294,5 @@ listing-form-page {
 			}
 		}
 
-		.event-example-view
-		{
-			padding-bottom: 20px;
-
-			.event-form
-			{
-				.section-title
-				{
-					margin-top: 30px;
-
-					& + .item-input
-					{
-						margin-top: 20px;
-					}
-				}
-
-				.multi-input-row
-				{
-					@include align-items(flex-end);
-
-					ion-col {
-						padding: 0px 7px;
-
-						&:first-child{
-							padding-left: 0px;
-						}
-
-						&:last-child{
-							padding-right: 0px;
-						}
-					}
-
-					.multi-input
-					{
-						margin: 0px;
-
-						&.item-datetime.item-label-floating
-						{
-							ion-label {
-								margin-top: 7px;
-							}
-
-							ion-datetime {
-								padding-top: 0px;
-							}
-						}
-
-						ion-datetime {
-							padding-left: 0px;
-
-							.datetime-text
-							{
-								color: $theme-color-3;
-							}
-						}
-					}
-				}
-			}
-		}
-
-
-	}
-}
-
-
-ion-alert.category-prompt {
-	.alert-wrapper
-	{
-		width: 80%;
-		background-color: $white;
-	}
-
-	.alert-head
-	{
-		padding-bottom: 20px;
-
-		.alert-title
-		{
-			font-size: 2.0rem;
-			line-height: 1.2;
-			letter-spacing: 1.1px;
-			color: $theme-color-2;
-			font-weight: 400;
-		}
-	}
-
-	.alert-message:empty
-	{
-		display: none;
-	}
-
-	.alert-checkbox-group
-	{
-		border: none;
-		padding: 0px 20px;
-
-		.alert-checkbox
-		{
-			margin: 14px 0px;
-
-			.alert-checkbox-label
-			{
-				border-radius: 6px;
-				font-size: 1.4rem;
-				font-weight: 500;
-				letter-spacing: 0.2px;
-				background-color: $white-a;
-				color: $white-d;
-				text-align: center;
-				@include element-shadow();
-			}
-
-			&[aria-checked=true] .alert-checkbox-label
-			{
-				background-color: $theme-color-1;
-				color: $white;
-			}
-
-			.alert-checkbox-icon
-			{
-				display: none;
-			}
-		}
-	}
-
-	.alert-button-group
-	{
-		padding: 14px 0px;
-
-		.alert-button
-		{
-			@include segment-text-styles($white-d);
-			border-top: none;
-		  border-right-color: rgba($white-d, 0.3);
-			font-weight: 400;
-
-			&:last-child
-			{
-			  font-weight: 500;
-				color: $theme-color-2;
-			}
-		}
 	}
 }

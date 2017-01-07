@@ -23,3 +23,11 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 @import "../theme/common";
+
+.image {
+	border-radius: 10%;
+
+	img	{
+		border-radius: 10%;
+	}
+}

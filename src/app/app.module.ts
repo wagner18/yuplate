@@ -21,27 +21,32 @@ import { Storage } from '@ionic/storage';
 import { ListingPage } from '../pages/listing/listing';
 import { ListingUserPage } from '../pages/listing-user/listing-user';
 import { ListingFormPage } from '../pages/listing-form/listing-form';
+import { ListingFormDescPage } from '../pages/listing-form-desc/listing-form-desc';
+import { ListingFormDetailsPage } from '../pages/listing-form-details/listing-form-details';
 import { ListingImagesPage } from '../pages/listing-images/listing-images';
+import { LocationModalPage} from '../pages/location-modal/location-modal';
+import { ProfilePage } from '../pages/profile/profile';
+import { ProfileFormPage } from '../pages/profile-form/profile-form';
+import { LoginPage } from '../pages/login/login';
+import { SignupPage } from '../pages/signup/signup';
+import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
+import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
+
 import { FeedPage } from '../pages/feed/feed';
 import { FollowersPage } from '../pages/followers/followers';
 import { LayoutsPage } from '../pages/layouts/layouts';
 import { FormsPage } from '../pages/forms/forms';
-import { LoginPage } from '../pages/login/login';
 import { NotificationsPage } from '../pages/notifications/notifications';
-import { ProfilePage } from '../pages/profile/profile';
-import { ProfileFormPage } from '../pages/profile-form/profile-form';
 import { CardFormPage } from '../pages/card-form/card-form';
 import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
-import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
 import { SettingsPage } from '../pages/settings/settings';
-import { SignupPage } from '../pages/signup/signup';
-import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { List1Page } from '../pages/list-1/list-1';
 import { List2Page } from '../pages/list-2/list-2';
 import { GridPage } from '../pages/grid/grid';
 import { FormLayoutPage } from '../pages/form-layout/form-layout';
 import { FiltersPage } from '../pages/filters/filters';
+
 import { TermsOfServicePage } from '../pages/terms-of-service/terms-of-service';
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
 
@@ -80,7 +85,10 @@ declare var cordova: any;
     ListingPage,
     ListingUserPage,
     ListingFormPage,
+    ListingFormDescPage,
+    ListingFormDetailsPage,
     ListingImagesPage,
+    LocationModalPage,
     FeedPage,
     FollowersPage,
     LayoutsPage,
@@ -113,7 +121,7 @@ declare var cordova: any;
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
-        menuType: 'overlay',
+        menuType: 'reveal',
         spinner: 'dots'
     })
   ],
@@ -123,7 +131,10 @@ declare var cordova: any;
     ListingPage,
     ListingUserPage,
     ListingFormPage,
+    ListingFormDescPage,
+    ListingFormDetailsPage,
     ListingImagesPage,
+    LocationModalPage,
     FeedPage,
     FollowersPage,
     LayoutsPage,
