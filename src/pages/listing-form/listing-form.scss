@@ -8,18 +8,8 @@ listing-form-page {
 	.forms-content	{
 		background-color: $white-a;
 
-		ion-segment {
-			@include segment-button-styles($theme-color-2);
-
-			.segment-button	{
-				height: 10px;
-				border-radius: 0px;
-				border: none;
-				background-color: $black-d;
-			}
-		}
-
 		.form-style {
+			padding-bottom: 20px;
 
 			.form-section	{
 				padding: 0px 14px;
@@ -34,9 +24,6 @@ listing-form-page {
 					width: 100%;
 					padding-bottom: 16px;
 
-					.scroll-content	{
-						/*position: relative;*/
-					}
 
 					preload-image {
 						border-radius: 2%;
@@ -55,6 +42,28 @@ listing-form-page {
 					}
 				}
 
+				.category-select	{
+					padding: 5px 10px 5px 15px;
+					border-radius: 6px;
+					margin-bottom: 20px;
+					background-color: $white;
+					color: $black-c;
+					@include element-shadow();
+				}
+
+				.section-title {
+					@include segment-introduction($theme-color-2);
+				}
+
+				ion-item-divider {
+					padding: 5px 0px 10px 15px !important;
+					background-color: transparent !important;
+
+					&.item-label {
+						text-transform: uppercase;
+					}
+				}
+
 			}
 
 			ion-label {
@@ -70,12 +79,14 @@ listing-form-page {
 				&.item {
 
 					&.item-label-floating{
+						margin-top: 0px;
 						ion-label {
 							color: $black-d;
 						}
 					}
 
 					&.item-label-stacked {
+						margin-top: 0px;
 						ion-label {
 							color: $black-d;
 						}
@@ -93,33 +104,14 @@ listing-form-page {
 				}
 			}
 
-			.section-title {
-				font-size: 1.4rem;
-				line-height: 1.2;
-				letter-spacing: 1.1px;
-				text-align: center;
-				color: $theme-color-2;
-				font-weight: 400;
-				margin: 0px;
-			}
-
-			ion-item-divider {
-				padding: 5px 0px 10px 15px !important;
-				background-color: transparent !important;
-
-				ion-label {
-					text-transform: uppercase;
-				}
-			}
-
 			.form-list {
 				background-color: $white;
 				@include element-shadow();
 				@include checkbox-item-styles($black-d, transparent, color($colors, button, base));
 
 				.button-item {
-					height: 70px;
-					padding-left: 10px;
+					height: 65px;
+					padding-left: 14px;
 				}
 
 				ion-icon{
@@ -131,9 +123,6 @@ listing-form-page {
 					background-color: transparent;
 				}
 
-				.counter-item {
-					@include counter-item-styles($white-d, $theme-color-1, $white);
-				}
 			}
 
 
@@ -143,156 +132,37 @@ listing-form-page {
 
 				@include call-to-action-button-styles(color($colors, button, base), color($colors, button, contrast));
 			}
-		}
 
-		.segment-view {
-			padding-bottom: 20px;
+			.upload-image-button {
+				border-radius: 6px;
+				background-color: $white;
+				color: $white-d;
+				height: 80px;
+				margin: 10px 0px;
+				padding-top: 5px;
+				padding-bottom: 32px;
+				@include element-shadow();
 
-			.step-form {
+				.button-inner	{
+					@include flex-wrap(wrap);
 
-				.upload-image-button {
-					border-radius: 6px;
-					background-color: $white;
-					color: $white-d;
-					height: 80px;
-					margin: 10px 0px;
-					padding-top: 5px;
-					padding-bottom: 32px;
-					@include element-shadow();
-
-					.button-inner	{
-						@include flex-wrap(wrap);
-
-						ion-icon {
-							flex: 0 0 100%;
-					    max-width: 100%;
-							font-size: 2.2em;
-						}
-
-						.button-title	{
-							flex: 0 0 100%;
-					    max-width: 100%;
-							font-size: 1.4rem;
-							color: $white-d;
-							font-weight: 400;
-							margin: 0px;
-						}
+					ion-icon {
+						flex: 0 0 100%;
+				    max-width: 100%;
+						font-size: 2.2em;
 					}
-				}
 
-				.item.item-textarea	{
-					/*background-color: $white;*/
-					font-size: 1.5rem;
-					.item-inner	{
-						padding: 0px 5px;
-					}
-				}
-
-				.category-select	{
-					padding: 5px 10px 5px 15px;
-					border-radius: 6px;
-					margin-bottom: 20px;
-					background-color: $white;
-					color: $black-c;
-					@include element-shadow();
-				}
-
-				.choose-category-button	{
-					border-radius: 6px;
-					background-color: $white;
-					color: $white-d;
-					margin: 30px 0px;
-					@include element-shadow();
-
-					.button-inner	{
-						@include justify-content(space-between);
-
-						ion-icon {
-							color: $theme-color-2;
-							font-size: 2.2em;
-						}
-					}
-				}
-
-				.section-title {
-					margin-top: 35px;
-					margin-bottom: 25px;
-				}
-
-				@include range-item-styles($white-d, $black-d, $theme-color-1);
-
-				.range-item	{
-					padding: 15px 30px;
-					margin: 0px;
-					background-color: $white;
-
-					ion-label {
-						.range-value {
-							color: $theme-color-1;
-						}
-					}
-				}
-
-				.time-item {
-					padding: 0px 30px;
-					margin: 0px;
-					background-color: $white;
-					border: none !important;
-					@include element-shadow();
-
-					.item-inner {
-						padding: 0px;
-						border: none;
-
-						ion-label {
-							margin: 15px 8px 15px 0px;
-							font-size: 1.4rem;
-							font-weight: 500;
-							letter-spacing: 0.2px;
-							color: $white-d;
-						}
-
-						ion-datetime {
-							padding-right: 0px;
-
-							.datetime-text {
-								font-size: 1.8rem;
-								color: $theme-color-1;
-
-								&::after {
-									content: 'hrs';
-									margin-left: 4px;
-								}
-
-								&:empty::after {
-									display: none;
-								}
-							}
-						}
-					}
-				}
-
-				@include counter-item-styles($white-d, $theme-color-1, $white);
-
-				.counter-item
-				{
-					margin: 0px;
-					background-color: $white;
-
-					.item-inner
-					{
-						.counter-label
-						{
-							margin-left: 30px;
-						}
-
-						counter-input {
-							padding-right: 30px;
-						}
+					.button-title	{
+						flex: 0 0 100%;
+				    max-width: 100%;
+						font-size: 1.4rem;
+						color: $white-d;
+						font-weight: 400;
+						margin: 0px;
 					}
 				}
 			}
-		}
 
+		}
 	}
 }

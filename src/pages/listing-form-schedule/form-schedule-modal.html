@@ -1,0 +1,56 @@
+	<ion-header>
+
+	  <ion-navbar>
+	    <ion-buttons end>
+	      <button ion-button (click)="dismiss()">
+	        save
+	      </button>
+	    </ion-buttons>
+	    <ion-title>Schedule a day</ion-title>
+	  </ion-navbar>
+
+	</ion-header>
+
+	<ion-content class="form-content">
+
+    <form class="form-style" [formGroup]="formScheduleModal">
+
+	    <section class="form-section">
+	      <h2 class="section-title">
+	        <p>Hello! Here you can manage your listing schedule </p>
+	        <p>Set up each day and the range of time that your 
+	        listing to will be avalueble to the customers.</p>
+	      </h2>
+	  	</section>
+
+      <section class="form-section">
+
+        <ion-item no-lines class="button-select">
+          <ion-label>Day</ion-label>
+          <ion-select formControlName="day" multiple="false">
+            <ion-option *ngFor="let option of weekDays" value="{{option.value}}">
+              {{option.label}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-row no-padding class="multi-input-row">
+          <ion-col no-padding width-50>
+            <ion-item class="multi-input time-item">
+            	<ion-label fix>From</ion-label>
+              <ion-datetime formControlName="from_time" displayFormat="h mm a" pickerFormat="h mm A"></ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col no-padding width-50>
+            <ion-item class="multi-input time-item">
+            	<ion-label fix>To</ion-label>
+              <ion-datetime formControlName="to_time" displayFormat="h mm a" pickerFormat="h mm A"></ion-datetime>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+      </section>
+      
+    </form>
+
+	</ion-content>

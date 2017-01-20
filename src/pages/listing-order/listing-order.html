@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        Cancel
+      </button>
+    </ion-buttons>
+    <ion-title>Order</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="order-content" scroll="false">
+	<form class="form-style" [formGroup]="formOrder">
+    <ion-list>
+
+    	<ion-item-divider>Your Order</ion-item-divider>
+    	<ion-item>
+		    <ion-thumbnail large item-left>
+            <preload-image class="avatar-image" [ratio]="{w:1, h:1}" [src]="listing.medias[0].media_path">
+            </preload-image>
+		    </ion-thumbnail>
+		    <h2>{{ listing.title }}</h2>
+		    <p>{{ listing.summary }}</p>
+		    <!-- <button ion-button clear item-right>View</button> -->
+		    <p item-right item-top>
+		    	{{ listing.price.currency }}
+		    	{{ listing.price.main_price }}
+		    </p>
+		  </ion-item>
+
+			<ion-item-divider>Set the Quantity</ion-item-divider>
+      <ion-item class="counter-item">
+	      <span class="counter-label">Quantity</span>
+	      <span class="counter-value">{{ formOrder.value.quantity }}</span>
+	      <counter-input formControlName="quantity" [min]="1" [max]="8" basic></counter-input>
+	    </ion-item>
+
+	    <ion-item-divider></ion-item-divider>
+	    <button ion-item small icon-left>
+	    	<ion-icon name="calendar"></ion-icon>
+        Order Schedule
+      </button>
+
+      <ion-item-divider></ion-item-divider>
+      <ion-item>
+      	<ion-label>Total:</ion-label>
+      	<h2 item-right>{{ formOrder.value.total_price }}</h2>
+	    </ion-item>
+
+	    <ion-item-divider></ion-item-divider>
+	    <button ion-button class="checkout-button" full>
+	    	Check out
+	    </button>
+
+    </ion-list>
+
+  </form>
+</ion-content>

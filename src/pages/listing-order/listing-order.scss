@@ -1,0 +1,29 @@
+page-listing-order {
+	.order-content {
+		background-color: color($colors, background, base);
+
+		@include basic-list-styles($black-d, $black-a);
+
+		@include counter-item-styles($black-d, $theme-color-1, $white);
+		.counter-item	{
+			margin: 0px;
+
+			.item-inner	{
+				.counter-label	{
+					margin-left: 30px;
+				}
+
+				counter-input {
+					padding-right: 30px;
+				}
+			}
+		}
+
+		.checkout-button {
+			background-color: $theme-color-2;
+			/*@include call-to-action-button-styles($theme-color-2, $white);*/
+		}
+
+	}
+
+}

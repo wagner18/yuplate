@@ -19,11 +19,17 @@ import { Storage } from '@ionic/storage';
 */
 // import { HomeAppPage } from '../pages/home-app/home-app';
 import { ListingPage } from '../pages/listing/listing';
+import { ListingDetailsPage } from '../pages/listing-details/listing-details';
 import { ListingUserPage } from '../pages/listing-user/listing-user';
 import { ListingFormPage } from '../pages/listing-form/listing-form';
 import { ListingFormDescPage } from '../pages/listing-form-desc/listing-form-desc';
+import { ListingFormPricePage } from '../pages/listing-form-price/listing-form-price';
+import { ListingFormSchedulePage } from '../pages/listing-form-schedule/listing-form-schedule';
+import { ScheduleModalPage } from '../pages/listing-form-schedule/form-schedule-modal';
 import { ListingFormDetailsPage } from '../pages/listing-form-details/listing-form-details';
+import { ListingOrderPage } from '../pages/listing-order/listing-order';
 import { ListingImagesPage } from '../pages/listing-images/listing-images';
+import { ImageViewModalPage } from '../pages/image-view-modal/image-view-modal';
 import { LocationModalPage} from '../pages/location-modal/location-modal';
 import { ProfilePage } from '../pages/profile/profile';
 import { ProfileFormPage } from '../pages/profile-form/profile-form';
@@ -83,11 +89,17 @@ declare var cordova: any;
   declarations: [
     MyApp,
     ListingPage,
+    ListingDetailsPage,
+    ListingOrderPage,
     ListingUserPage,
     ListingFormPage,
     ListingFormDescPage,
+    ListingFormPricePage,
+    ListingFormSchedulePage,
+    ScheduleModalPage,
     ListingFormDetailsPage,
     ListingImagesPage,
+    ImageViewModalPage,
     LocationModalPage,
     FeedPage,
     FollowersPage,
@@ -129,11 +141,17 @@ declare var cordova: any;
   entryComponents: [
     MyApp,
     ListingPage,
+    ListingDetailsPage,
+    ListingOrderPage,
     ListingUserPage,
     ListingFormPage,
     ListingFormDescPage,
+    ListingFormPricePage,
+    ListingFormSchedulePage,
+    ScheduleModalPage,
     ListingFormDetailsPage,
     ListingImagesPage,
+    ImageViewModalPage,
     LocationModalPage,
     FeedPage,
     FollowersPage,

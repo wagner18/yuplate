@@ -6,4 +6,22 @@
 	font-weight: 500;
 }
 
+
+@mixin alert-button-styles($background, $color){
+	border-radius: 6px;
+	background-color: $background;
+	margin: 0px;
+	@include element-shadow();
+
+	.button-inner	{
+		color: $color;
+		@include justify-content(space-between);
+
+		ion-icon {
+			color: $color;
+			font-size: 2.2em;
+		}
+	}
+}
+
 @import "./segment";

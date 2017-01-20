@@ -8,6 +8,9 @@ import { DataService } from './data.service';
 
 import { ItemModel } from '../models/listing-model';
 import { MediaModel } from '../models/listing-model';
+import { PriceModel } from '../models/listing-model';
+import { ScheduleModel } from '../models/listing-model';
+import { LocationModel } from '../models/listing-model';
 
 
 @Injectable()
@@ -50,6 +53,10 @@ export class ListingService {
   }
 
 
+  /**
+  * Load the listing from the database if there is a Key, if not, create
+  * a craft one based on the Listing Model.
+  */
   loadListingData(key){
 
   	return new Promise((resolve, reject) => {
@@ -58,6 +65,7 @@ export class ListingService {
 	    	let profilePromise = promises[1];
 	      profilePromise.on('value', profileSnap => {
 	        if(profileSnap.val()){
+            var profile = profileSnap.val();
 
 	          // If listing has an key, fetch the data
 	          if(key){
@@ -75,9 +83,13 @@ export class ListingService {
 	            while(i--) {
 	              medias.push({media_path: './assets/images/default-placeholder.png'});
 	            }
+
 	            // Create a craft to the listing
 	            var data = new ItemModel();
 	            data.medias = medias;
+              data.price = new PriceModel();
+                data.price.currency = profile.currency;
+
 	            this.saveListing(data).then((ref) => {
 	            	this.result = { key: ref.key, listing: data};
 	              resolve(this.result);
@@ -135,6 +147,22 @@ export class ListingService {
     ];
 
     return categories;
+  }
+
+
+    // Categories - Take it to the right place
+  getWeedDays(){
+    let weekDays = [
+      {type: 'select', label: 'Sunday', value: 'Sunday'},
+      {type: 'select', label: 'Monday', value: 'Monday'},
+      {type: 'select', label: 'Tuesday', value: 'Tuesday'},
+      {type: 'select', label: 'Wednesday', value: 'Wednesday'},
+      {type: 'select', label: 'Thursday', value: 'Thursday'},
+      {type: 'select', label: 'Friday', value: 'Friday'},
+      {type: 'select', label: 'Saturday', value: 'Saturday'}
+    ];
+
+    return weekDays;
   }
 
 

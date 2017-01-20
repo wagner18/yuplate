@@ -9,9 +9,10 @@ export class ProfileModel {
   email: string  = "";
   phone: string  = "";
   location: string  = "";
+  shortProfile: ShortProfileModel;
   languages: Array<any> = [];
   verifiedInfo: Array<any> = [];
-  currency: Array<any> = ["Dollar"];
+  currency: Array<any> = [];
   balanceAccount: string;
   favorites: Array<any> = [];
   reviews: Array<any> = [];
@@ -20,6 +21,13 @@ export class ProfileModel {
   orderings: Array<any> = [];
   listings: Array<any> = [];
   created_at: number = Date.now();
+}
+
+export class ShortProfileModel{
+  fullName: string = "";
+  image: string = "./assets/images/profile/default-avatar.png";
+  location: string= "";
+  email: string = "";
 }
 
 

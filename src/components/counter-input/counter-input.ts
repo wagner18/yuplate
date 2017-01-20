@@ -65,11 +65,20 @@ export class CounterInput implements ControlValueAccessor, OnChanges {
   registerOnTouched() {}
 
   increase() {
-    this.counterValue++;
+    if(this.counterRangeMax > 0){
+      if(this.counterValue < this.counterRangeMax){
+        this.counterValue++;
+      }
+    }else{
+      this.counterValue++;
+    }
+
   }
 
   decrease() {
-    this.counterValue--;
+    if(this.counterValue > this.counterRangeMin){
+      this.counterValue--;
+    }
   }
 
   validate(c: FormControl) {

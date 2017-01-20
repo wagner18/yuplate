@@ -3,6 +3,7 @@ import { NavController, ModalController, ViewController, NavParams } from 'ionic
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { Geolocation } from 'ionic-native';
 
+import { LocationModel } from '../../models/listing-model';
 import { MapOptions } from './map-options';
 
 declare var google;
@@ -14,8 +15,7 @@ declare var google;
 })
 export class LocationModalPage {
 
-	public address: any = {}; 
-	public data: any;
+  public data: any = {};
 	public baseMap: any;
 	
 	public autocompleteItems;
@@ -28,7 +28,8 @@ export class LocationModalPage {
   	public nav: NavController, 
   	public viewCtrl: ViewController,
   	public params: NavParams
-  ){ 
+  ){
+
   	this.autocompleteItems = [];
     this.autocomplete = {
       query: ''
@@ -36,20 +37,30 @@ export class LocationModalPage {
   }
 
   ionViewDidLoad() {
-    this.address = this.params.get('data');
-
-    console.log(this.address);
-
-    this.autocomplete.query = this.address.address;
-
-    //var options = {timeout: 10000, enableHighAccuracy: true};
-    let center = { lat: 38.046386, lng: -87.551769 }
-    this.baseMap = this.createMap(this.address.geolocation);
+    this.data = this.params.get('data');
+    var geo_position = {};
     
+    if('lat' in this.data.location.geolocation) {
+      geo_position = this.data.location.geolocation;
+      this.autocomplete.query = this.data.location.address;
+    }else{
+      geo_position = { lat: 38.046386, lng: -87.551769 };
+    }
+
+    this.baseMap = this.createMap(geo_position);
   }
 
+
+  /**
+  * Dismiss the Location Modal and retrive the data to the caller
+  */
   dismiss() {
-		this.viewCtrl.dismiss(this.address);
+    if(this.autocomplete.query){
+      this.data.form_control[1] = true;
+    }else{
+      this.data.form_control[1] = false;
+    }
+    this.viewCtrl.dismiss(this.data);
 	}
 
     // Create an new google maps
@@ -80,14 +91,15 @@ export class LocationModalPage {
   		let current_location = { lat: position.coords.latitude, lng: position.coords.longitude };
   		let marker = this.addMarker();
   		marker.setPosition(current_location);
+
   		this.baseMap.setCenter(current_location);
 	  	this.baseMap.setZoom(18);
-  		this.address.geolocation = current_location;
+  		this.data.location.geolocation = current_location;
 
   		let geo = new google.maps.Geocoder;
 			geo.geocode({location: current_location}, (results, status) => {
 				if (status === 'OK') {
-					this.address.address = results[0].formatted_address;
+					this.data.location.address = results[0].formatted_address;
 					this.autocomplete.query = results[0].formatted_address;
 				}
 			});
@@ -146,12 +158,12 @@ export class LocationModalPage {
   chooseAddress(address){
   	this.autocompleteItems = [];
   	this.autocomplete.query = address.description;
-  	this.address.address = address.description;
+  	this.data.location.address = address.description;
 
   	let geo = new google.maps.Geocoder;
 		geo.geocode({placeId: address.place_id}, (results, status) => {
 
-			this.address.geolocation = {
+			this.data.location.geolocation = {
 				lat: results[0].geometry.location.lat(),
 				lng: results[0].geometry.location.lng()
 			}

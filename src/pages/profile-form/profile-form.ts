@@ -97,13 +97,23 @@ export class ProfileFormPage {
     if(this.ProfileForm.valid){
 
       var saveTask: Promise<any>;
-      var profile = this.ProfileForm.value;
+
+      /* set the new data to the profile objetct */
+      this.profile.firstName = this.ProfileForm.value.firstName;
+      this.profile.lastName = this.ProfileForm.value.lastName;
+      this.profile.gender = this.ProfileForm.value.gender;
+      this.profile.birthday = this.ProfileForm.value.birthday;
+      this.profile.about = this.ProfileForm.value.about;
+      this.profile.location = this.ProfileForm.value.location;
+      this.profile.currency = this.ProfileForm.value.currency;
 
       /**
-      * If the is an temp image create a new Blob file and chain 
+      * If there is a temp image create a new Blob file and chain 
       * the promises to upload the file and save the profile
       */
       if(this.tempImage){
+
+        var test = "AAAAAA";
 
         let blobFilePromise = this.mediaService.createBlobFile(this.tempImage);
         let uploadTask = blobFilePromise.then((blobFile) =>{
@@ -112,13 +122,31 @@ export class ProfileFormPage {
 
         saveTask = Promise.all([blobFilePromise, uploadTask]).then((results) => {
           console.log('Promises Results',results);
-          profile.image = results[1];
-          return this.profileService.saveProfile(profile);
+          this.profile.image = results[1];
+          test = "XXXXXXX";
+          return this.profileService.saveProfile(this.profile);
         });
 
       }else{
-        saveTask = this.profileService.saveProfile(profile);
+        saveTask = this.profileService.saveProfile(this.profile);
       }
+
+      saveTask.then((prom) => {
+        console.log("Save taskkkkkkkkkkkkkkkkk",test);
+      });
+
+      /* Set the simple Profile */
+      let fullName = this.profile.firstName +" "+ this.profile.lastName;
+      let shortProfile = {
+          fullName: fullName,
+          image: this.profile.image,
+          location: this.profile.location,
+          email: this.profile.email
+        }
+      this.profileService.saveShortProfile(this.profile.uid, shortProfile)
+      .catch((error) => {
+        console.log("Erro Saving Short Profile ", error.message);
+      });
       
       saveTask.catch((error) => {
         let title = "Ops! Sorry about that";

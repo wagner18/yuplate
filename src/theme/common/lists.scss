@@ -1,13 +1,26 @@
 // These are the forms and layout lists
 @mixin basic-list-styles($text-color, $icon-color){
-	.list-item
-	{
-		padding: 20px;
-		@include element-shadow();
-		border: none;
 
-		.item-inner
-		{
+	ion-item-divider {
+		padding: 15px 0px 0px 25px !important;
+		margin: 0px;
+		background-color: transparent !important;
+
+		ion-label {
+			color: $black-d;
+			font-size: 1.4rem;
+			text-transform: uppercase;
+		}
+	}
+
+	.list-item {
+		background-color: $white;
+		padding: 20px;
+		border: none;
+		@include element-shadow();
+		
+
+		.item-inner	{
 			border: none;
 			background: none;
 			padding: 0px;
@@ -15,8 +28,7 @@
 			ion-label {
 				margin: 0px;
 
-				.item-title
-				{
+				.item-title	{
 					font-size: 1.8rem;
 					letter-spacing: 1px;
 					color: $text-color;
@@ -24,8 +36,7 @@
 					display: inline-block;
 				}
 
-				.item-note
-				{
+				.item-note	{
 					font-size: 1.4rem;
 					letter-spacing: 1px;
 					color: $text-color;
@@ -36,13 +47,11 @@
 			}
 		}
 
-		.item-content
-		{
+		.item-content {
 			@include align-self(center);
 		}
 
-		.item-icon
-		{
+		.item-icon {
 			text-align: right;
 			color: $icon-color;
 

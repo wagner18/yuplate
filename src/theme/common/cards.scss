@@ -5,25 +5,21 @@
 		@include element-shadow();
 	}
 
-	.item-text
-	{
+	.item-text {
 		line-height: 1.6;
 		color: $text-color;
 		margin: 0px;
 	}
 
-	.actions-row
-	{
+	.actions-row {
 		padding: 0px 16px 14px;
 
-		.action-button
-		{
+		.action-button {
 			padding: 0px;
 			margin: 0px;
 			color: $text-color;
 
-			.button-inner
-			{
+			.button-inner	{
 				font-size: 1.2rem;
 			}
 
@@ -31,8 +27,7 @@
 				font-size: 2.0em;
 
 				&[ng-reflect-is-active="true"],
-				&.ion-ios-heart
-				{
+				&.ion-ios-heart	{
 					color: color($colors, danger);
 				}
 			}

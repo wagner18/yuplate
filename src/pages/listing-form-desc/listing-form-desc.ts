@@ -36,13 +36,16 @@ export class ListingFormDescPage {
   }
 
   dismiss() {
-		let data = this.formDescription.value;
+		this.data.title = this.formDescription.value.title;
+    this.data.summary = this.formDescription.value.summary;
+    this.data.description = this.formDescription.value.description;
+
 		if(this.formDescription.valid){
-			data.valid = true;
+			this.data.form_control[0] = true;
 		}else{
-			data.valid = false;
+			this.data.form_control[0] = false;
 		}
-		this.viewCtrl.dismiss(data);
+		this.viewCtrl.dismiss(this.data);
 	}
 
 }

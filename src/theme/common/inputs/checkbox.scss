@@ -1,12 +1,10 @@
 @mixin checkbox-item-styles($color, $background, $active-color){
-	.checkbox-item
-	{
+	.checkbox-item {
 		padding: 0px;
 		border: none !important;
 		@include element-shadow();
 
-		.item-inner
-		{
+		.item-inner	{
 			padding: 0px;
 			border: none;
 
@@ -23,13 +21,11 @@
 			order: 2;
 			margin-right: 22px !important;
 
-			.checkbox-icon
-			{
+			.checkbox-icon {
 				border: none;
 				background-color: $background;
 
-				&.checkbox-checked .checkbox-inner
-				{
+				&.checkbox-checked .checkbox-inner {
 					border-color: $active-color;
 					border-width: 3px;
 					border-top-width: 0px;

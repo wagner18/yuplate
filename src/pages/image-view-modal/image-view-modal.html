@@ -1,0 +1,34 @@
+<!-- <ion-header>
+
+  <ion-navbar>
+    <ion-title>image-view-modal</ion-title>
+  </ion-navbar>
+
+</ion-header> -->
+
+
+<ion-content class="image-content" fullscreen="true">
+
+	<div class="image-modal">
+
+		<ion-row class="header-toolbar">
+			<ion-col width-10>
+				<button ion-button clear (click)="dismiss()">
+					<ion-icon name="arrow-back"></ion-icon>
+				</button>
+			</ion-col>
+			<ion-col width-90>
+			</ion-col>
+		</ion-row>
+
+		<ion-slides>
+	    <ion-slide *ngFor="let media of medias">
+	      <preload-image class="fullscreen-image" [ratio]="{w:5, h:4}" [src]="media.media_path">
+	      </preload-image>
+	    </ion-slide>
+	  </ion-slides>
+
+
+	</div>
+
+</ion-content>

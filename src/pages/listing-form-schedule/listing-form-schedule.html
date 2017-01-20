@@ -1,0 +1,76 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        Done
+      </button>
+    </ion-buttons>
+    <ion-title>Schedule</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content class="form-content">
+	<!-- Step 4 -->
+  <form class="form-style" >
+    <section class="form-section">
+      <h2 class="section-title">
+        <p>Hello! Here you can manage your listing schedule </p>
+        <p>Set up each day and the range of time that your 
+        listing to will be avalueble to the customers.</p>
+      </h2>
+  	</section>
+
+    <section class="form-section">
+      <button ion-button block icon-right class="alert-button" (click)="presentScheduleModal()">
+        Schedule a Day
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </section>
+
+
+    <section class="schedule-content">
+
+      <ion-list>
+        <ion-item-divider> Days in your schedule </ion-item-divider>
+        <ion-item-sliding #item *ngFor="let schedule of schedules; let i = index">
+          <ion-item>
+            <ion-row>
+                <ion-col width-100 class="schedule-data">
+                  <div class="data-item">
+                    <div class="item-content">
+
+                      <h2 class="item-title ">
+                        <ion-icon class="title-icon" ios="ios-calendar" md="md-calendar">
+                        </ion-icon>
+                        {{schedule?.day}}
+                      </h2>
+
+                      <div class="item-description">
+                        <h2 class="description-text">
+                          <ion-icon class="description-icon" name="clock"></ion-icon>
+                          <span class="description-label">From: </span>{{schedule?.from_time}} -
+                          <span class="description-label">To: </span>{{schedule?.to_time}}
+                        </h2>
+                      </div>
+
+                    </div>
+                  </div>
+                </ion-col>
+              </ion-row>
+          </ion-item>
+          <ion-item-options side="right">
+            <button ion-button color="danger" (click)="deleteScheduleItem(i)">
+              <ion-icon ios="ios-trash" md="md-trash"></ion-icon>
+              delete
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+
+    </section>
+  </form>
+
+</ion-content>
+

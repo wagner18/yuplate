@@ -1,10 +1,10 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Listing Form</ion-title>
+    <ion-title>Listing</ion-title>
     <ion-buttons end>
-      <button ion-button (click)="closeForm()">
-        Close
+      <button ion-button (click)="saveListing()">
+        save
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -13,87 +13,88 @@
 
 <ion-content class="forms-content">
 
-  <ion-segment [(ngModel)]="section" (ionChange)="onSegmentChanged($event)">
-    <ion-segment-button value="step1" (ionSelect)="onSegmentSelected($event)">
-    </ion-segment-button>
-    <ion-segment-button value="step2" [disabled]="!step2" (ionSelect)="onSegmentSelected($event)">
-    </ion-segment-button>
-    <ion-segment-button value="step3" [disabled]="!step3" (ionSelect)="onSegmentSelected($event)">
-    </ion-segment-button>
-  </ion-segment>
-
-  <div [ngSwitch]="section" class="forms-wrapper">
+  <div class="forms-wrapper">
     <!-- Step 1 -->
-    <div *ngSwitchCase="'step1'" class="segment-view">
+    <form class="form-style step-form" [formGroup]="step1Form">
+      <section class="form-section">
+        <h2 class="section-title">
+          <p>Hi! let's go show your best recipes!</p>
+          Choose the category and take some beautiful pictures of your dish to go to the next step!
+        </h2>
 
-      <form class="form-style step-form" [formGroup]="step1Form">
-        <section class="form-section">
-          <h2 class="section-title">
-            <p>Hi! let's go show your best recipes!</p>
-            Choose the category and take some beautiful pictures of your dish to go to the next step!
-          </h2>
+        <button ion-button block large class="upload-image-button" (click)="cameraActionSheet()">
+          <ion-icon name="camera"></ion-icon>
+          <h3 class="button-title">Add images</h3>
+        </button>
 
-          <button ion-button block large class="upload-image-button" (click)="cameraActionSheet()">
-            <ion-icon name="camera"></ion-icon>
-            <h3 class="button-title">Add images</h3>
-          </button>
+        <ion-scroll scrollX="true" class="horizontal-photos">
+          <ion-row class="photos-row" no-lines>
+            <ion-col width-50 *ngFor="let media of temp_medias">
+              <ion-button clear (click)="presentImagesModal()">
+                <preload-image [ratio]="{w:5, h:4}" [src]="media.media_path"></preload-image>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-scroll>
+      </section>
 
-          <ion-scroll scrollX="true" class="horizontal-photos">
-            <ion-row class="photos-row" no-lines>
-              <ion-col width-50 *ngFor="let media of temp_medias">
-                <ion-button clear (click)="presentImagesModal()">
-                  <preload-image [ratio]="{w:5, h:4}" [src]="media.media_path"></preload-image>
-                </ion-button>
-              </ion-col>
-            </ion-row>
-          </ion-scroll>
-        </section>
+      <section class="form-section">
 
-        <section class="form-section">
+        <ion-item no-lines class="category-select">
+          <ion-label>Category</ion-label>
+          <ion-select formControlName="category" multiple="false">
+            <ion-option *ngFor="let option of categories" value="{{option.value}}">
+              {{option.label}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
 
-          <ion-item no-lines class="category-select">
-            <ion-label>Category</ion-label>
-            <ion-select formControlName="category" multiple="false">
-              <ion-option *ngFor="let option of categories" value="{{option.value}}">
-                {{option.label}}
-              </ion-option>
-            </ion-select>
-          </ion-item>
+      </section>
 
-        </section>
+      <ion-list class="form-list">
+        <ion-item class="button-item" (click)="presentDescriptionModal()">
+          <ion-icon  name="{{description_radio}}" item-left></ion-icon>
+          <h2>Description</h2>
+          <p>Set a title and summary</p>
+          <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
+        </ion-item>
 
-        <ion-list class="form-list">
-          <ion-item class="button-item" (click)="presentDescriptionModal()">
-            <ion-icon  name="{{description_radio}}" item-left></ion-icon>
-            <h2>Description</h2>
-            <p>Set a title and summary</p>
-            <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
-          </ion-item>  
-          <ion-item class="button-item" (click)="presentLocationModal()">
-            <ion-icon  name="{{location_radio}}" item-left></ion-icon>
-            <h2>Location</h2>
-            <p>Only confirmed customers see your address</p>
-            <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
-          </ion-item>  
-          <ion-item class="button-item" (click)="presentDetailsModal()">
-            <ion-icon  name="{{details_radio}}" item-left></ion-icon>
-            <h2>Details</h2>
-            <p>Set a price and others details</p>
-            <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
-          </ion-item> 
-        </ion-list>
+        <ion-item class="button-item" (click)="presentLocationModal()">
+          <ion-icon  name="{{location_radio}}" item-left></ion-icon>
+          <h2>Location</h2>
+          <p>Only confirmed customers see your address</p>
+          <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
+        </ion-item>
 
-        <section class="form-section">
-          <button ion-button block class="form-action-button create-post-button" type="submit" (click)="saveListing(1)" [disabled]="!step1Form.valid">
-            Save
-          </button>
-        </section>
-        
-      </form>
+        <ion-item class="button-item" (click)="presentPriceModal()">
+          <ion-icon  name="{{price_radio}}" item-left></ion-icon>
+          <h2>Price</h2>
+          <p>Set a price to yout listing</p>
+          <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
+        </ion-item>
 
-    </div>
+        <ion-item class="button-item" (click)="presentScheduleModal()">
+          <ion-icon  name="{{schedule_radio}}" item-left></ion-icon>
+          <h2>Schedule</h2>
+          <p>Set the schedule</p>
+          <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
+        </ion-item> 
 
+        <ion-item class="button-item" (click)="presentDetailsModal()">
+          <ion-icon  name="{{details_radio}}" item-left></ion-icon>
+          <h2>Details</h2>
+          <p>Set others details</p>
+          <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
+        </ion-item> 
+      </ion-list>
 
+      <section class="form-section">
+        <button ion-button block class="form-action-button create-post-button" type="submit" (click)="saveListing()" [disabled]="!step1Form.valid">
+          Save
+        </button>
+      </section>
+      
+    </form>
   </div>
 
 </ion-content>

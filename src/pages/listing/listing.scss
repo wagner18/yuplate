@@ -14,46 +14,94 @@ listing-page {
 	$categories-grid-padding: 10px;
 	$categories-horizontal-list-padding: 10px;
 
-	.listing-header
-	{
-		.header-logo
-		{
-			width: 34vw;
+	.listing-header	{
+		.header-logo {
+			width: 35vw;
 		}
 	}
 
-	.listing-content
-	{
-		.heading-row {
-			background: $theme-color-1;
-			margin: 0px;
-			padding: 0px;
-			height: 45px;
-			text-align: center;
+	.listing-content {
 
-			.heading-button{
-				color: $white;
-				font-size: 5vw;
+		.heard_toolbar {
+			height: 40px;
+			padding: 0px;
+
+			.head-row {
+				margin: 0px;
+				padding: 0px;
+				border: 0px;
+				background: $theme-color-1;
+				text-align: center;
+
+				.head-button{
+					color: $white-c;
+					font-size: 4vw;
+				}
+
+				.head-active-button{
+					border-bottom: 4px;
+					border-color: $theme-color-4;
+					/*background-color: $theme-color-4;*/
+					
+					.head-button{
+						color: $white;
+						font-weight: 600;
+					}
+				}
 			}
 		}
 
+		.item-card-content {
+			position: relative;
+			margin-bottom: 20px;
+
+			.item-profile {
+				background: $white-a;
+			}
+
+			.item-title {
+				font-size: 1.8rem;
+				font-weight: 400;
+				padding: 0px;
+			}
+
+			.item-text {
+				font-size: 1.4rem;
+				color: $black-c;
+				padding: 0px;
+			}
+
+			.price-badge {
+				z-index: 10;
+			  position: absolute;
+			  top: 180px;
+			  right: 10px;
+			  font-size: 1.6rem;
+			  font-weight: 400;
+			  background: $theme-color-2;
+			  opacity: 0.8;
+			  padding: 6px;
+			}
+
+		}
+
 		.categories-title {
-			font-size: 1.2rem;
+			font-size: 1.4rem;
 			font-weight: 400;
 			letter-spacing: 0.7px;
-			color: $white-d;
+			color: $black-d;
 			margin: 8px 16px 16px;
 		}
 
 		.horizontal-categories {
 			border-bottom: 10px solid $white-a;
 			@include element-shadow();
+			margin-bottom: 26px;
 			padding-bottom: 16px;
 
 			.scroll-content	{
 				position: relative;
 			}
-
 
 			preload-image {
 				border-radius: 50%;
@@ -76,8 +124,7 @@ listing-page {
 			}
 		}
 
-		.grid-categories
-		{
+		.grid-categories {
 			padding: 0px ($categories-grid-padding/2);
 			@include flex-wrap(wrap);
 

@@ -1,0 +1,171 @@
+page-listing-form-schedule {
+
+	.form-content {
+		background-color: $white-a;
+
+		.form-style {
+
+			.form-section	{
+				padding: 14px 10px;
+
+				.item:first-child	{
+					margin-top: 10px;
+				}
+
+				.section-title {
+					@include segment-introduction($theme-color-2);
+				}
+
+				.alert-button	{
+					@include alert-button-styles($white, $theme-color-2);
+				}
+
+			}
+
+
+/*			xion-item {
+				@include basic-input-style(color($colors, background, base), $input-color-1, $white-d);
+
+				&.item {
+					background-color: $white;
+					
+					.item-inner	{
+						ion-icon {
+							color: $theme-color-2;
+						}
+					}
+
+				}
+
+				&:first-of-type {
+					margin-top: 0px;
+				}
+			}*/
+			
+			ion-label{
+				margin: 0px;
+				font-size: 1.6rem;
+				letter-spacing: 0.9px;
+				color: $black-c;
+			}
+
+			ion-item-divider {
+				padding: 20px 0px 0px 10px !important;
+				margin: 0px;
+				background-color: transparent !important;
+
+				ion-label {
+					font-size: 1.4rem;
+				}
+			}
+
+
+			.form-action-button	{
+				margin: 0px;
+				margin-top: 10px;
+
+				@include call-to-action-button-styles(color($colors, button, base), color($colors, button, contrast));
+			}
+
+			/* Shedule list*/
+			.schedule-content	{
+
+				.schedule-data {
+					background-color: $white;
+					padding: 12px 14px;
+/*					border-radius: 6px;
+					@include element-shadow();*/
+
+					.data-item {
+						@include display(flex);
+						@include align-items(center);
+						@include justify-content(space-between);
+
+						.item-content	{
+							flex: 0 0 90%;
+					    max-width: 90%;
+							padding-right: 5px;
+
+
+							.title-icon	{
+								color: $theme-color-2;
+								flex: 0 0 12%;
+						    max-width: 12%;
+								padding-right: 2px;
+								font-size: 2.1rem;
+								text-align: left;
+							}
+
+							.item-title	{
+								font-size: 1.6rem;
+								font-weight: 500;
+								letter-spacing: 0.2px;
+								color: $theme-color-2;
+								margin-bottom: 6px;
+
+								&.one-line {
+									overflow: hidden;
+									text-overflow: ellipsis;
+									white-space: nowrap;
+								}
+							}
+
+							.item-description	{
+								margin-bottom: 4px;
+								@include display(flex);
+								@include align-items(center);
+								@include justify-content(space-between);
+
+								&:last-child {
+									margin: 0px;
+								}
+
+								.description-icon	{
+									color: $white-d;
+									flex: 0 0 12%;
+							    max-width: 12%;
+									padding-right: 2px;
+									font-size: 2.1rem;
+									text-align: left;
+								}
+
+								.description-label{
+									font-weight: 400;
+								}
+
+								.description-text	{
+									flex: 0 0 88%;
+							    max-width: 88%;
+									white-space: normal;
+									font-size: 1.6rem;
+									line-height: 1.4;
+									letter-spacing: 0.2px;
+									color: $white-d;
+
+									&.one-line {
+										overflow: hidden;
+									  text-overflow: ellipsis;
+									  white-space: nowrap;
+									}
+								}
+							}
+						}
+
+						.item-icon {
+							flex: 0 0 10%;
+					    max-width: 10%;
+						  text-align: right;
+							color: $theme-color-2;
+							font-size: 2.2em;
+							padding-left: 5px;
+						}
+					}
+				}
+
+			}
+
+
+		}
+
+	}
+}

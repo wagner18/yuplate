@@ -1,0 +1,8 @@
+@mixin segment-introduction($color){
+	font-size: 1.6rem;
+	font-weight: 500;
+	color: $color;
+	letter-spacing: 0.2px;
+	margin-bottom: 25px;
+	text-align: center;
+}

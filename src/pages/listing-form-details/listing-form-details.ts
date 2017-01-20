@@ -26,13 +26,11 @@ export class ListingFormDetailsPage {
   ){
 
   	this.formDetails = new FormGroup({
-  		delivery: new FormControl(),
-      carryout: new FormControl(),
-      servings: new FormControl(2, counterRangeValidator(7, 1)),
-      from_date: new FormControl('2016-09-18', Validators.required),
-      from_time: new FormControl('13:00', Validators.required),
-      to_date: new FormControl('', Validators.required),
-      to_time: new FormControl('', Validators.required)
+      carryout: new FormControl(false),
+  		delivery: new FormControl(false),
+      delivery_fee: new FormControl(0.00),
+      servings: new FormControl(1),
+      confirmation: new FormControl(false)
     });
   }
 
@@ -40,21 +38,28 @@ export class ListingFormDetailsPage {
     this.data = this.params.get('data');
     console.log(this.data);
 
-    // this.formDetails.setValue({
-    // 	delivery: this.data.delivery,
-    // 	carryout: this.data.carryout,
-    // 	servings: this.data.servings
-    // });
+    this.formDetails.setValue({
+      carryout: this.data.carryout,
+    	delivery: this.data.delivery,
+      delivery_fee: this.data.delivery_fee,
+    	servings: this.data.servings,
+      confirmation: this.data.confirmation
+    });
   }
 
   dismiss() {
-		let data = this.formDetails.value;
+    this.data.carryout = this.formDetails.value.carryout;
+		this.data.delivery = this.formDetails.value.delivery;
+    this.data.delivery_fee = this.formDetails.value.delivery_fee;
+    this.data.servings = this.formDetails.value.servings;
+    this.data.confirmation = this.formDetails.value.confirmation;
+
 		if(this.formDetails.valid){
-			data.valid = true;
+			this.data.form_control[4] = true;
 		}else{
-			data.valid = false;
+			this.data.form_control[4] = false;
 		}
-		this.viewCtrl.dismiss(data);
+		this.viewCtrl.dismiss(this.data);
 	}
 
 	chooseCategory(){

@@ -1,33 +1,3 @@
-<!-- <ion-menu [content]="content" [swipeEnabled]="false" scroll="false">
-  <ion-content class="side-menu-gradient">
-
-    <ion-list class="menu-list">
-
-      <ion-item class="profile-image">
-          <img src="assets/images/profile/200x200manny.png">
-          <h2>email</h2>
-          <h4>New York City, NY</h4>
-      </ion-item>
-
-      <button ion-item detail-none *ngFor="let page of pages" (click)="openPage(page)">
-        <ion-icon *ngIf="page.icon" name="{{page.icon}}" item-left></ion-icon>
-        {{page.title}}
-      </button>
-      <button ion-item side-menu-item detail-none *ngFor="let page of pushPages" (click)="pushPage(page)">
-        <ion-icon *ngIf="page.icon" name="{{page.icon}}" item-left></ion-icon>
-        {{page.title}}
-      </button>
-      <button ion-item side-menu-item detail-none (click)="logout()">
-        <ion-icon name="log-out" item-left></ion-icon>
-        Logout
-      </button>
-    </ion-list>
-
-  </ion-content>
-</ion-menu>
-
-<ion-content #content></ion-content> -->
-
 <ion-tabs selectedIndex="1">
   <ion-tab [root]="tab1Root" tabTitle="Profile" tabIcon="person"></ion-tab>
   <ion-tab [root]="tab2Root" tabTitle="Explore" tabIcon="apps"></ion-tab>

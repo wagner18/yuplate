@@ -1,0 +1,54 @@
+page-image-view-modal {
+
+	.image-content{
+		position: relative;
+		background: transparent !important;
+
+
+		ion-scroll { white-space: nowrap; }
+
+		.header-toolbar {
+			position: absolute;
+			z-index: 10;
+			background: transparent !important;
+
+			ion-icon{
+				color: $white;
+				font-size: 3.4rem;
+			}
+		}
+
+		.image-modal {
+			background: $black;
+		  width: 100% !important;
+		  height: 100%;
+		  top: 0 !important;
+		  left: 0 !important;
+		}
+
+		.fullscreen-image {
+		  max-width: 100%;
+		  max-height: 100%;
+		  bottom: 0px;
+		  left: 0;
+		  margin: auto;
+		  overflow: auto;
+		}
+
+		/* Fix modal backdrop for smaller devices */
+/*		@media (max-width: 679px) {
+		  .active .modal-backdrop-bg {
+		    opacity: .5;
+		  }
+		  .modal-backdrop-bg {
+		    -webkit-transition: opacity 300ms ease-in-out;
+		    transition: opacity 300ms ease-in-out;
+		    background-color: #000;
+		    opacity: 0;
+		  }
+		}*/
+
+
+	}
+
+}

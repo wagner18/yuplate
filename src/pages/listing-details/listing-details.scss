@@ -1,0 +1,195 @@
+page-listing-details {
+
+	.listing-content{
+		background-color: color($colors, background, base);
+
+		.item-card-content {
+			@include basic-card-styles($black-d);
+			position: relative;
+			margin-bottom: 20px;
+
+			.item-profile {
+				background: $white-a;
+			}
+
+			.item-title {
+				font-size: 2.2rem;
+				font-weight: 600;
+				padding: 0px;
+			}
+
+			.item-text {
+				font-size: 1.4rem;
+				color: $black-c;
+				padding: 0px;
+			}
+
+			.price-badge {
+				position: absolute;
+			  top: 10px;
+			  right: 10px;
+			  z-index: 20;
+			  font-size: 1.6rem;
+			  font-weight: 300;
+			  background: $black;
+			  opacity: 0.8;
+			  padding: 6px;
+			}
+
+			.favorite-button {
+				position: absolute;
+			  top: 180px;
+			  right: 10px;
+			  z-index: 20;
+			  background: transparent;
+			  padding: 6px;
+
+			  ion-icon {
+			  	font-size: 3.2rem;
+			  	font-weight: 800;
+			  }
+			}
+
+			.chip-content{
+				margin: 0px 0px 10px 10px;
+			}
+
+			.social-row {
+				text-align: center;
+			}
+
+		}
+
+
+
+		ion-list {
+			@include basic-list-styles($black-d, $black-a);
+
+			.map-location {
+				height: 220px;
+				background: #6666ff;
+
+				#map{
+					height: 280px;
+					width: 100%;
+				}
+			}
+
+			.reviews-button-rate {
+				.rating-icon {
+					margin-bottom: 8px;
+				}
+			}
+
+			/* Shedule list*/
+			.schedule-data {
+				background-color: $white;
+				padding: 0px 14px;
+
+				.data-item {
+					@include display(flex);
+					@include align-items(center);
+					@include justify-content(space-between);
+
+					.item-content	{
+						flex: 0 0 90%;
+				    max-width: 90%;
+						padding-right: 5px;
+
+						.title-icon	{
+							color: $black-c;
+							flex: 0 0 12%;
+					    max-width: 12%;
+							padding-right: 2px;
+							font-size: 1.8rem;
+							text-align: left;
+						}
+
+						.item-title	{
+							font-size: 1.6rem;
+							font-weight: 400;
+							letter-spacing: 0.2px;
+							color: $black-c;
+							margin-bottom: 0px;
+
+						}
+
+						.item-description	{
+							margin-bottom: 0px;
+							@include display(flex);
+							@include align-items(center);
+							@include justify-content(space-between);
+
+							&:last-child {
+								margin: 0px;
+							}
+
+							.description-icon	{
+								color: $white-d;
+								flex: 0 0 12%;
+						    max-width: 12%;
+								padding-right: 2px;
+								font-size: 1.8rem;
+								text-align: left;
+							}
+
+							.description-label{
+								font-weight: 400;
+							}
+
+							.description-text	{
+								flex: 0 0 88%;
+						    max-width: 88%;
+								white-space: normal;
+								font-size: 1.5rem;
+								line-height: 1.4;
+								letter-spacing: 0.2px;
+								color: $white-d;
+							}
+						}
+
+					}
+				}
+			}
+				
+		}
+
+	}
+
+	.listing-detail-footer {
+		background-color: $white;
+		padding: 0px;
+		margin: 0px;
+
+		.footer-row{
+			height: 55px;
+			padding-top: 4px;
+
+			.footer-text {
+				text-align: left;
+				line-height: 6px;
+				padding: 5px 0 0 5px;
+				margin: 0px;
+			}
+
+			.footer-rate {
+				font-size: 1.0em;
+				margin: 0px;
+				padding: 0px;
+			}
+
+			.button-order {
+				@include call-to-action-button-styles(color($colors, button, base), color($colors, button, contrast));
+				padding: 5px 30px 5px 30px;
+				margin: 0px;
+
+				.button-inner	{
+					margin: 0px;
+					padding: 0px;
+				} 
+			}
+		}
+		
+	}
+
+}

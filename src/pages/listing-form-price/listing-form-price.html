@@ -1,0 +1,43 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        Done
+      </button>
+    </ion-buttons>
+    <ion-title>Price</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content class="form-content">
+		<!-- Step 2 -->
+	  <form class="form-style" [formGroup]="formPrice">
+	    <section class="form-section">
+	      <h2 class="section-title">
+	        <p>Well, what about pricing your listing now!</p>
+	        <p>Take the time and cauculate your costs, apply 
+	        		your profit margin to define a fair price.</p>
+	      </h2>
+	  	</section>
+
+	    <ion-item-divider></ion-item-divider>
+	  	<ion-item>
+	      <ion-label fixed>Currency</ion-label>
+	      <ion-input type="text" text-right readonly formControlName="currency"></ion-input>
+		  </ion-item>
+
+		  <ion-item-divider> Set the regular price</ion-item-divider>
+	  	<ion-item>
+	      <ion-input type="number" text-right formControlName="main_price"></ion-input>
+	    </ion-item>
+
+	    <ion-item-divider> Set the Long Term price</ion-item-divider>
+	    <ion-item>
+	      <ion-input type="number" text-right formControlName="long_term_price"></ion-input>
+	    </ion-item>
+
+	  </form>
+
+</ion-content>

@@ -10,6 +10,7 @@ export class ProfileService {
 
 	
   private PROFILE_REF: string = "profiles/";
+  private SHORT_PROFILE_REF: string = "short_profiles/";
   private currentUser: any;
   public profile: ProfileModel = new ProfileModel();
 
@@ -25,12 +26,20 @@ export class ProfileService {
     });
   }
 
+  getShortPrifile(uid){
+    let refShortProfile = this.SHORT_PROFILE_REF + uid;
+    return this._dataService.database.child(refShortProfile);
+  }
+
 
   fetchProfile(currentUser){
     let refProfile = this.PROFILE_REF + currentUser.uid;
     return this._dataService.database.child(refProfile);
   }
 
+  saveShortProfile(uid, data){
+    return this._dataService.database.child(this.SHORT_PROFILE_REF + uid).update(data);
+  }
 
   saveProfile(data){
     return this._auth.getCurrentUser().then((currentUser) => {
