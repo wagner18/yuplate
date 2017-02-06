@@ -1,0 +1,69 @@
+	<ion-header>
+
+	  <ion-navbar>
+	    <ion-buttons start>
+	      <button ion-button (click)="saveAddress()">
+	        save
+	      </button>
+	    </ion-buttons>
+	    <ion-title>Schedule a day</ion-title>
+	    <ion-buttons end>
+	      <button ion-button (click)="dismiss()">
+	        Cancel
+	      </button>
+	    </ion-buttons>
+	  </ion-navbar>
+
+	</ion-header>
+
+	<ion-content class="address-content">
+
+		<form [formGroup]="addressForm" class="address-form">
+
+	    <ion-list class="profile-data-content">
+	    	<ion-item-divider></ion-item-divider>
+	      <ion-item>
+	        <ion-label>Full name</ion-label>
+	        <ion-input type="text" formControlName="full_name"></ion-input>
+	      </ion-item>
+	      <ion-item>
+	        <ion-label>Street 1</ion-label>
+	        <ion-input type="text" formControlName="street_1"></ion-input>
+	      </ion-item>
+	      <ion-item>
+	        <ion-label>Street 2 (optional)</ion-label>
+	        <ion-input type="text" formControlName="street_2"></ion-input>
+	      </ion-item>
+	      <ion-item>
+	        <ion-label>City</ion-label>
+	        <ion-input type="text" formControlName="city"></ion-input>
+	      </ion-item>
+	      <ion-item>
+	        <ion-label>State</ion-label>
+	        <ion-input type="text" formControlName="state"></ion-input>
+	      </ion-item>
+	      <ion-item>
+	        <ion-label>ZIP Code</ion-label>
+	        <ion-input type="text" formControlName="zip_code"></ion-input>
+	      </ion-item>
+	      <ion-item>
+	        <ion-label>Phone</ion-label>
+	        <ion-input type="phone" formControlName="phone"></ion-input>
+	      </ion-item>
+	      <ion-item>
+	        <ion-label>Gender</ion-label>
+	        <ion-select interface="action-sheet" formControlName="country">
+	          <ion-option value="United States" selected="true">United States (US)</ion-option>
+	          <ion-option value="Brazil">Brazil (BR)</ion-option>
+	        </ion-select>
+	      </ion-item>
+
+	      <ion-item class="switcher-item">
+	        <ion-label>Primary Address?</ion-label>
+	        <ion-toggle formControlName="primary"></ion-toggle>
+	      </ion-item>
+
+	    </ion-list>
+	  </form>
+
+	</ion-content>

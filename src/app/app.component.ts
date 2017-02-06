@@ -12,6 +12,7 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { DataService } from '../providers/data.service';
 import { AuthService } from '../providers/auth.service';
+import { ProfileService } from '../providers/profile.service';
 
 import { BaseProvider } from './base.provider';
 
@@ -22,10 +23,6 @@ import { ListingFormPage } from '../pages/listing-form/listing-form';
 import { SettingsPage } from '../pages/settings/settings';
 import { LoginPage } from '../pages/login/login';
 
-
-import { FormsPage } from '../pages/forms/forms';
-import { LayoutsPage } from '../pages/layouts/layouts';
-import { NotificationsPage } from '../pages/notifications/notifications';
 
 //import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
 import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
@@ -46,7 +43,7 @@ export class MyApp {
   @Input()  src: string;
 
   // make WalkthroughPage the root (or first) page
-  public rootPage: any;// = TabsNavigationPage; // = WalkthroughPage;
+  public rootPage: any = WalkthroughPage;// LoginPage;// = TabsNavigationPage; // = WalkthroughPage;
   public main_page: { component: any };
 
   public pages: Array<{title: string, icon: string, component: any}>;
@@ -63,7 +60,8 @@ export class MyApp {
     public app: App,
     public menu: MenuController,
     private _dataService: DataService,
-    private _authService: AuthService 
+    private _authService: AuthService,
+    private _profileService: ProfileService
   ){
 
     this.initializeApp();
@@ -77,15 +75,12 @@ export class MyApp {
 
     this.pushPages = [
       { title: 'Listing', icon: 'add-circle', component: ListingUserPage },
-      { title: 'Forms', icon: 'create', component: FormsPage },
-      { title: 'Layouts', icon: 'grid', component: LayoutsPage },
       { title: 'Settings', icon: 'settings', component: SettingsPage }
     ];
   }
 
   initializeApp(){
     this.platform.ready().then(() => {
-
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       Splashscreen.hide();
@@ -95,29 +90,45 @@ export class MyApp {
   }
 
   ngOnInit(){
-
-    // Redirect the page case the user is logged in
-    this._authService.getCurrentUser().then((userProfile) =>{
-
-      console.log("USERRRRRRRRRRRRRRRRRRRRRRR",userProfile);
-
-      if(userProfile !== null){
-        this._setProfile(userProfile);
-        this.nav.setRoot(ListingPage);
-      }else{
-        this.nav.setRoot(LoginPage);
-      }
+    // subscribe to the event publish by the firabe observable onAuthStateChanged
+    this.events.subscribe('user:currentUser', (currentUser) => {
+      this.loadProfile(currentUser);
+      this.events.unsubscribe('user:currentUser');
     });
 
-    this.events.subscribe('user:signin', (data) => {
-      let userProfile = JSON.parse(data);
-      this._setProfile(userProfile);
-
-      // this.events.unsubscribe();
+    // subscribe to the signin events for the authService
+    this.events.subscribe('user:signin', (currentUser) => {
+      this.loadProfile(currentUser);
+      this.events.unsubscribe('user:signin');
     });
 
   }
 
+  /**
+  * Load the profile from the database
+  * @param currentUser - The logged user
+  */
+  private loadProfile(currentUser) {
+    if(currentUser !== undefined){
+      this._profileService.fetchProfile(currentUser).once('value', profileSnap => {
+        if(profileSnap.val()){
+          this._setProfile(profileSnap.val());
+
+          // Set the profile to the local storage
+          this._authService.setCurrentUser(currentUser).then(() => {
+            this._profileService.setLocalProfile(profileSnap.val());
+            this.nav.setRoot(ListingPage);
+          });
+        }
+      }, (error) => {
+        console.log(error.message);
+      });
+    }
+  }
+
+  /**
+  *
+  */
   private _setProfile(userProfile){
     this.profileName = userProfile.firstName;
     this.profileLocation = userProfile.location;

@@ -4,15 +4,12 @@ import { NavController, MenuController, Nav, App, Tabs } from 'ionic-angular';
 import { DataService } from '../../providers/data.service';
 import { AuthService } from '../../providers/auth.service';
 
-import { FormsPage } from '../forms/forms';
-import { LayoutsPage } from '../layouts/layouts';
 import { WalkthroughPage } from '../walkthrough/walkthrough';
 import { SettingsPage } from '../settings/settings';
 import { LoginPage } from '../login/login';
 
 import { ListingPage } from '../listing/listing';
 import { ProfilePage } from '../profile/profile';
-import { NotificationsPage } from '../notifications/notifications';
 
 @Component({
   selector: 'tabs-navigation',
@@ -38,16 +35,13 @@ export class TabsNavigationPage {
   ){
     this.tab1Root = ProfilePage;
     this.tab2Root = ListingPage;
-    this.tab3Root = NotificationsPage;
 
 
     this.pages = [
       { title: 'Home', icon: 'home', component: TabsNavigationPage },
-      { title: 'Forms', icon: 'create', component: FormsPage }
     ];
 
     this.pushPages = [
-      { title: 'Layouts', icon: 'grid', component: LayoutsPage },
       { title: 'Settings', icon: 'settings', component: SettingsPage }
     ];
 

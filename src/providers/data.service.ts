@@ -21,6 +21,7 @@ export class DataService {
 	private ROOT_NODE: string = "/";
 	public database: any; 
 	public auth: any;
+  public storage: any;
   public storageRef: any;
 
   constructor() {
@@ -43,12 +44,14 @@ export class DataService {
 	  	// as well as adding a reference to the Firebase
       // authentication method
       this.auth = firebase.auth();
-
+      // Just provide the storage object
+      this.storage = firebase.storage();
+      // Define a default storage reference
       this.storageRef = firebase.storage().ref(this.ROOT_NODE);
 
   }
 
-  public imageRef(){
+  public imageRef() {
     let imageRef = firebase.storage().ref("images/");
     return imageRef;
   }

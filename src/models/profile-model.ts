@@ -9,6 +9,7 @@ export class ProfileModel {
   email: string  = "";
   phone: string  = "";
   location: string  = "";
+  addresses: Array<ProfileAddressModel> = [];
   shortProfile: ShortProfileModel;
   languages: Array<any> = [];
   verifiedInfo: Array<any> = [];
@@ -30,6 +31,17 @@ export class ShortProfileModel{
   email: string = "";
 }
 
+export class ProfileAddressModel {
+  full_name: string = "";
+  street_1: string = "";
+  street_2: string = "";
+  city: string = "";
+  state: string = "";
+  zip_code: string = "";
+  phone: string = "";
+  country: string = "";
+  primary: boolean = false;
+}
 
 export class UserModel {
   uid: string;
@@ -41,6 +53,7 @@ export class UserModel {
   location: string;
   about: string;
 }
+
 
 export class ProfilePostModel {
   date: Date;

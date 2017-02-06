@@ -2,6 +2,8 @@ profile-form-page {
 	.profile-form-content	{
 		background-color: color($colors, background, base);
 
+		@include basic-list-styles($black-d, $black-a);
+
 		.profile-image-content	{
 			background-color: $white;
 			padding: 16px;

@@ -12,47 +12,151 @@
 <ion-content class="order-content" scroll="false">
 	<form class="form-style" [formGroup]="formOrder">
     <ion-list>
+    	<ion-list-header>
+    		Your Order
+    	</ion-list-header>
 
-    	<ion-item-divider>Your Order</ion-item-divider>
-    	<ion-item>
-		    <ion-thumbnail large item-left>
-            <preload-image class="avatar-image" [ratio]="{w:1, h:1}" [src]="listing.medias[0].media_path">
+    	<ion-item item-left>
+<!-- 		    <ion-thumbnail large item-left>
+            <preload-image [ratio]="{w:1, h:1}" [src]="listing.medias[0].media_path">
             </preload-image>
 		    </ion-thumbnail>
-		    <h2>{{ listing.title }}</h2>
-		    <p>{{ listing.summary }}</p>
-		    <!-- <button ion-button clear item-right>View</button> -->
-		    <p item-right item-top>
+		    <p text-left>{{ listing.title }}</p>
+		    <p text-left>Servings: {{ listing.servings }}</p>
+		    <p><ion-badge item-left>{{ listing.listing_type }}</ion-badge></p>
+		    <div class="price-label" item-right item-top>
 		    	{{ listing.price.currency }}
 		    	{{ listing.price.main_price }}
-		    </p>
+		    </div> -->
+
+        <ion-row>
+          <ion-col width-30>
+            <preload-image [ratio]="{w:1, h:1}" [src]="listing.medias[0].media_path">
+            </preload-image>
+          </ion-col>
+          <ion-col widht-70>
+            <p text-left>{{ listing.title }}</p>
+            <p text-left>Servings: {{ listing.servings }}</p>
+            <p text-left>{{ listing.listing_type }}</p>
+            <div class="price-label" item-right>
+              {{ listing.price.currency }}
+              {{ listing.price.main_price }}
+            </div>
+          </ion-col>
+        </ion-row>
+
 		  </ion-item>
+		</ion-list>
 
-			<ion-item-divider>Set the Quantity</ion-item-divider>
+		<ion-list>
+			<ion-list-header>Set the Quantity</ion-list-header>
       <ion-item class="counter-item">
-	      <span class="counter-label">Quantity</span>
-	      <span class="counter-value">{{ formOrder.value.quantity }}</span>
-	      <counter-input formControlName="quantity" [min]="1" [max]="8" basic></counter-input>
+	      <h2 class="counter-label">Quantity</h2>
+	      <counter-input formControlName="quantity" (ngModelChange)="setTotalPrice($event)" [min]="1" [max]="8"></counter-input>
 	    </ion-item>
+      <ion-item>
+        <h2>Order Subtotal:</h2>
+        <h2 item-right>{{subtotal}}</h2>
+	    </ion-item>
+      <ion-item *ngIf="shipping_address">
+        <h2>Delivery Fee:</h2>
+        <h2 item-right>{{listing.delivery_fee}}</h2>
+      </ion-item>
+      <ion-item>
+        <ion-label>Total:</ion-label>
+        <ion-input class="number-input" readonly formControlName="total_price" ></ion-input>
+      </ion-item>
+	  </ion-list>
+			
+		<ion-list-header no-lines> Delivery Options </ion-list-header>
+	  <ion-list no-lines class="radio-tags" radio-group formControlName="delivery_option">
+      <ion-item class="radio-tag" *ngIf="listing.delivery">
+        <ion-label>Delivery</ion-label>
+        <ion-radio value="Delivery" (click)="setDeliveryAddress()" checked></ion-radio>
+      </ion-item>
+      <ion-item class="radio-tag" *ngIf="listing.carryout">
+        <ion-label>Carryout</ion-label>
+        <ion-radio value="Carryout" (click)="setCarryoutAddress()" ></ion-radio>
+      </ion-item>
+    </ion-list>
 
-	    <ion-item-divider></ion-item-divider>
-	    <button ion-item small icon-left>
-	    	<ion-icon name="calendar"></ion-icon>
+	  <ion-list *ngIf="shipping_address">
+	    <ion-list-header>
+	    	Shipping Address
+	    	<div class="list-sub-header">
+	    		Your address will be shown only after confirmed
+	    	</div>
+	    </ion-list-header>
+	    <ion-item *ngIf="primaryAddress?.primary" class="address-primary">
+	      <h2 class="address-title">{{ primaryAddress?.full_name }}</h2>
+	      <p>{{ primaryAddress?.street_1 }}</p>
+	      <p>{{ primaryAddress?.city }}, {{ primaryAddress?.state }} {{ primaryAddress?.zip_code }}</p>
+	      <p>{{ primaryAddress?.country }}</p>
+	      <h2 item-right *ngIf="primaryAddress?.primary">Primary</h2>
+	    </ion-item>
+	    <button ion-item (click)="setAddress()">
+	      Add a new Address
+	    </button>
+	  </ion-list>
+
+	  <ion-list *ngIf="pickup_address">
+	  	<ion-item>
+      	<h2>Pickup location will be shown after confimed</h2>
+      </ion-item>
+	  </ion-list>
+
+<!-- 	  <ion-list>
+	    <button ion-item small icon-left (click)="setSchedule()">
+	    	<ion-icon icon-left name="calendar"></ion-icon>
         Order Schedule
       </button>
+    </ion-list> -->
 
-      <ion-item-divider></ion-item-divider>
-      <ion-item>
-      	<ion-label>Total:</ion-label>
-      	<h2 item-right>{{ formOrder.value.total_price }}</h2>
-	    </ion-item>
+    <ion-list>
+    	<ion-list-header>
+    		Available dates
+	    	<div class="list-sub-header">
+	    		Shows the available schedule for the next 30 days
+	    	</div>
+    	</ion-list-header>
 
-	    <ion-item-divider></ion-item-divider>
-	    <button ion-button class="checkout-button" full>
-	    	Check out
-	    </button>
+  	  <ion-item class="button-select">
+  	  	<ion-icon icon-left name="calendar"></ion-icon>
+        <ion-label>Shipping Date</ion-label>
+        <ion-select formControlName="schedule_day" (ngModelChange)="setTimeRange($event)"
+         multiple="false">
+          <ion-option *ngFor="let date of availableDays" value="{{date}}">
+            {{date.toDateString()}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+
+    	<ion-item>
+    		<ion-label>Set the time</ion-label>
+    		<ion-datetime formControlName="schedule_time" displayFormat="hh:mm a" pickerFormat="hh:mm a" hourValues="{{time_range?.time_range}}">
+    		</ion-datetime>
+    	</ion-item>
 
     </ion-list>
 
+    <ion-list>
+	    <button ion-item small icon-left (click)="setPaymentMethod()">
+	    	<ion-icon ios="ios-card" md="md-card" item-left></ion-icon>
+        Payment method
+      </button>
+    </ion-list>
+
   </form>
+
 </ion-content>
+
+<ion-footer>
+	<ion-toolbar class="checkout-footer">
+    <ion-buttons end>
+  		<button ion-button class="checkout-button" (click)="checkoutOrder()" item-right  icon-left>
+        <ion-icon item-left ios="ios-cart" md="md-cart"></ion-icon>
+      	Checkout
+      </button>
+    </ion-buttons>
+	</ion-toolbar>
+</ion-footer>

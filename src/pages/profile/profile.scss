@@ -1,6 +1,5 @@
 profile-page {
 	.profile-content {
-
 		background-color: color($colors, background, base);
 
 		.profile-details	{
@@ -132,6 +131,17 @@ profile-page {
 				color: $black-c;
 				flex: 0.5;
 				@include align-self(center);
+			}
+		}
+
+		.address-primary {
+
+			.address-title {
+				font-size: 600;
+			}
+
+			h2 {
+				font-weight: 600;
 			}
 		}
 

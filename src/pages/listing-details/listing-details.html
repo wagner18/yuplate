@@ -1,9 +1,3 @@
-<!--
-  Generated template for the ListingDetails page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
@@ -33,7 +27,7 @@
 
 		<ion-slides (click)="presentImageModal()">
       <ion-slide *ngFor="let media of listing?.medias" style="background-color: white">
-        <preload-image [ratio]="{w:3, h:2}" [src]="media.media_path" title="listing.title"></preload-image>
+        <preload-image [ratio]="{w:3, h:3}" [src]="media.media_path" title="listing.title"></preload-image>
       </ion-slide>
     </ion-slides>
 

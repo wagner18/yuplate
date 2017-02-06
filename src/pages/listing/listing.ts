@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavController, LoadingController, NavParams, Slides} from 'ionic-angular';
 
-import { FeedPage } from '../feed/feed';
 //import 'rxjs/Rx';
 
 import { ProfileService } from '../../providers/profile.service';
@@ -111,11 +110,5 @@ export class ListingPage implements OnDestroy{
     infiniteScroll.complete();
   }
 
-
-  goToFeed(category: any) {
-    this.nav.push(FeedPage, {
-      category: category
-    });
-  }
 
 }

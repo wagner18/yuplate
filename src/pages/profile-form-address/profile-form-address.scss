@@ -1,0 +1,15 @@
+page-profile-form-address {
+	.address-content{
+		background-color: color($colors, background, base);
+		@include basic-list-styles($black-d, $black-a);
+
+		@include basic-input-style($white, $input-color-1, $white-d);
+
+		.address-primary {
+			h2 {
+				font-weight: 600;
+			}
+		}
+
+	}
+}

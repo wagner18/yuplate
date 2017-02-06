@@ -3,7 +3,8 @@
 
     <button ion-button menuToggle>
       <!-- <ion-icon name="menu"></ion-icon> -->
-      <ion-icon ios="ios-contact" md="md-contact"></ion-icon>
+      <!-- <ion-icon ios="ios-contact" md="md-contact"></ion-icon> -->
+      <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
     </button>
 
     <ion-title>
@@ -76,7 +77,7 @@
     </ion-row>
   </ion-scroll>
 
-  <h4 class="categories-title">Browse you dish!</h4>
+  <h4 class="categories-title">Browse you plate</h4>
 
   <!-- <ion-row class="feed-item"> -->
 
@@ -96,21 +97,29 @@
           {{ listing.price?.currency }}
           {{ listing.price?.main_price }}
         </ion-badge>
-        <preload-image [ratio]="{w:3, h:2}" [src]="listing.medias[0].media_path">
+        <preload-image [ratio]="{w:3, h:3}" [src]="listing.medias[0].media_path">
         </preload-image>
 
       
         <ion-card-content>
           <ion-card-title class="item-title">
-            {{listing.title}}
+            {{ listing.title }}
           </ion-card-title>
           <p class="item-text">
-            {{listing.summary}}
+            {{ listing.summary }}
+          </p>
+          <p class="item-text">
+            <ion-badge item-right>
+              {{ listing.listing_type }}
+            </ion-badge>
+            <ion-badge item-right>
+              servings {{ listing.servings }}
+            </ion-badge>      
           </p>
         </ion-card-content>
 
-        <ion-row no-padding class="actions-row">
-          <ion-col no-padding width-35 text-left>
+        <ion-row class="status-row">
+          <ion-col no-padding width-35 text-center>
             <rating [ngModel]="listing.total_rate" max="5" read-only="true"></rating>
           </ion-col>
           <ion-col no-padding width-40 text-center>
@@ -131,8 +140,8 @@
           <ion-avatar item-left>
             <img src="{{listing.profile?.image}}">
           </ion-avatar>
-          <h2>{{listing.profile?.fullName}}</h2>
-          <p>{{listing.profile?.location}}</p>
+          <h2>{{ listing.profile?.fullName }}</h2>
+          <p>{{ listing.profile?.location }}</p>
         </ion-item>
 
       </ion-card>

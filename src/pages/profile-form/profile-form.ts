@@ -10,7 +10,7 @@ import { MediaService } from '../../providers/media.service';
 
 import { ProfileModel } from '../../models/profile-model';
 
-
+import { ProfileFormAddressPage } from '../profile-form-address/profile-form-address';
 import { TermsOfServicePage } from '../terms-of-service/terms-of-service';
 import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
 import { WalkthroughPage } from '../walkthrough/walkthrough';
@@ -23,10 +23,10 @@ export class ProfileFormPage {
 
   @Input()  src: string;
 
-  ProfileForm: FormGroup;
+  public ProfileForm: FormGroup;
   // make WalkthroughPage the root (or first) page
-  rootPage: any = WalkthroughPage;
-  loading: any;
+  public rootPage: any = WalkthroughPage;
+  public loading: any;
   public profile: ProfileModel = new ProfileModel();
   public tempImage: any;
 
@@ -60,20 +60,27 @@ export class ProfileFormPage {
 
   ionViewWillEnter() {
 
-    console.log("Profile Model >>> ",this.profile);
-
-    //this.loading.present();
-    this.profileService.getProfile().then((promises) => {
-      promises[1].on('value', snapshot => {
-        
-        if(snapshot.val()){
-          this.profile = snapshot.val();
-          this.setProfile(this.profile);
-        }
-        //this.loading.dismiss();
-      });
-
+    this.loading.present();
+    this.profileService.getLocalProfile().then((profile) => {
+      if(profile){
+        this.profile = profile;
+        this.setProfile(this.profile);
+        this.loading.dismiss();
+      }
     });
+
+
+    // .then((promises) => {
+    //   promises[1].on('value', snapshot => {
+        
+    //     if(snapshot.val()){
+    //       this.profile = snapshot.val();
+    //       this.setProfile(this.profile);
+    //     }
+    //     //this.loading.dismiss();
+    //   });
+    // });
+
   }
 
 
@@ -159,7 +166,9 @@ export class ProfileFormPage {
     }
   }
 
-
+  /**
+  * Open the device camera or image labrary
+  */
   doGetPicture(source){
     if(this.profile.uid){
       this.mediaService.getProfilePicture(source).then((imageURI) => {
@@ -171,7 +180,9 @@ export class ProfileFormPage {
     }
   }
 
-
+  /**
+  * Show the options to the device camera or image library 
+  */
   cameraActionSheet(){
     let actionSheet = this.actionSheetCtrl.create({
       enableBackdropDismiss: false,
@@ -204,7 +215,9 @@ export class ProfileFormPage {
     actionSheet.present();
   }
 
-
+  /**
+  * Log out the current user
+  */
   logout() {
     // navigate to the new page if it is not the current page
     console.log("Implement the logout methos from here");

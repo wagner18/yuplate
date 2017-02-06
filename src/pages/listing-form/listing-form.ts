@@ -30,9 +30,12 @@ import { ListingImagesPage } from '../listing-images/listing-images';
 export class ListingFormPage {
 
   public listing: any;
+  public typeForm: FormGroup;
   public step1Form: FormGroup;
+  public new_listing: boolean = true;
 
   public description_radio = "radio-button-off";
+  public description_label = "Set a title and summary";
   public location_radio = "radio-button-off";
   public price_radio = "radio-button-off";
   public schedule_radio = "radio-button-off";
@@ -61,6 +64,10 @@ export class ListingFormPage {
     public mediaService: MediaService
   ){
 
+    this.typeForm = new FormGroup({
+      listing_type: new FormControl('', Validators.required)
+    });
+
     this.step1Form = new FormGroup({
       category: new FormControl('', Validators.required),
       medias: new FormControl([])
@@ -70,11 +77,49 @@ export class ListingFormPage {
   }
 
   ionViewWillEnter(){
-    // Categories - Take it to the right place
-    this.categories = this.listingService.getCategories();
+
     // Get the Listing Key Reference form the nav params
     this.listing_ref = this.params.get('key');
-    // Enable the steps if editing 
+
+    // Categories - Take it to the right place
+    this.categories = this.listingService.getCategories();
+
+    // test if the form is an new entry
+    if(this.listing_ref !== undefined){
+      this.new_listing = false;
+      // Load the listing data from the database and set into the view
+      this.loadListingData();
+    }
+
+  }
+
+  /**
+  *
+  */
+  nextListingForm() {
+    if(this.typeForm.valid){      
+      this.listingService.loadListingData(null).then((result) => {
+
+        this.listing_ref = result["key"];
+        this.listing = result["listing"];
+        this.listing.listing_type = this.typeForm.value.listing_type;
+        this.temp_medias = this.listing.medias;
+
+        this.listingService.updateListing(this.listing_ref, { listing_type: this.typeForm.value.listing_type})
+        .then(()=>{
+          this.new_listing = false;
+        });
+        
+      });
+      
+    }
+  }
+
+
+  /**
+  * 
+  */
+  loadListingData() {
 
     this.listingService.loadListingData(this.listing_ref).then((result) => {
 
@@ -82,12 +127,18 @@ export class ListingFormPage {
       if(!this.listing_ref){
         this.listing_ref = result["key"];
       }
-      this.setStep1Form(this.listing);
 
+      // Set the UI Form values on into the view
+      this.temp_medias = this.listing.medias;
+      this.step1Form.setValue({
+        category: this.listing.category,
+        medias: this.listing.medias
+      });
 
       // setup the radio box when the form have been saved
       if(this.listing.form_control[0] === true){
         this.description_radio = "checkmark-circle-outline";
+        this.description_label = this.listing.title;
       }
       if(this.listing.form_control[1] === true){
         this.location_radio = "checkmark-circle-outline";
@@ -102,31 +153,18 @@ export class ListingFormPage {
         this.details_radio = "checkmark-circle-outline";
       }
 
-
     });
+
   }
 
-
-  setStep1Form(data) {
-    this.temp_medias = data.medias;
-    this.step1Form.setValue({
-      category: data.category,
-      medias: data.medias
-    });
-  }
-
-  // Process the step 1
+  /**
+  * Save the listing data
+  */ 
   saveListing(){
-    // if(step == "1"){
-    //   this.step1Form.patchValue({medias: this.temp_medias});
-    //   var data = this.step1Form.value;
-    // }else if(step == "2"){
-    //   var data = this.step2Form.value;
-    // }
-
     if(this.step1Form.valid){
-
-      this.step1Form.patchValue({medias: this.temp_medias});
+      if(this.temp_medias.length > 0){
+        this.step1Form.patchValue({medias: this.temp_medias});
+      }
       var data = this.step1Form.value;
 
       if(this.listing_ref){
@@ -145,20 +183,20 @@ export class ListingFormPage {
   uploadPicture(media){
 
     // this.loading.present();
-     // Get the media local path
+    // Get the media local path
     let media_path = media.media_path;
     // Read the media to Blob file
     let blobFilePromise = this.mediaService.createBlobFile(media_path);
     // Upload the Blob file to the storate server
     let uploadTask = blobFilePromise.then((blobFile) =>{
-      return this.listingService.uploadPicutre(blobFile, this.listing_ref);
+      return this.listingService.uploadPicture(blobFile, this.listing_ref);
     }).catch((error) => {
       console.log(error.message);
     });
 
     Promise.all([blobFilePromise, uploadTask]).then((results) => {
 
-      media.media_path = results[1];
+      media.media_path = results[1]; // Index 1 contein a firebase URI to download the image
       this.temp_medias.unshift(media);
       this.temp_medias.pop();
       this.temp_medias[0].order = 0;
@@ -166,6 +204,7 @@ export class ListingFormPage {
       this.max_media = this.max_media - 1;
 
       media = {medias: this.temp_medias};
+      // Update the listing media reference with the new picture URI
       return this.listingService.updateListing(this.listing_ref, media).then(() => {
         // this.loading.dismiss();
       }).catch((error) => {

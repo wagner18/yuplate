@@ -1,29 +1,109 @@
 page-listing-order {
+
 	.order-content {
 		background-color: color($colors, background, base);
 
-		@include basic-list-styles($black-d, $black-a);
+		.form-style {
 
-		@include counter-item-styles($black-d, $theme-color-1, $white);
-		.counter-item	{
-			margin: 0px;
+			@include basic-list-styles($black-d, $black-a);
+			ion-item {
+				font-size: 1.6rem;
 
-			.item-inner	{
-				.counter-label	{
-					margin-left: 30px;
-				}
-
-				counter-input {
-					padding-right: 30px;
+				.price-label {
+					text-align: right;
+					color: $theme-color-2;
+					font-weight: 600;
+					content: " USD";
 				}
 			}
-		}
 
-		.checkout-button {
-			background-color: $theme-color-2;
-			/*@include call-to-action-button-styles($theme-color-2, $white);*/
-		}
+			.content-row {
+				@include align-items(center);
 
+				.item-content {
+					@include align-content(stretch);
+				  @include display(flex);
+				  @include flex-wrap(wrap);
+				  @include align-self(stretch);
+
+				}
+			}
+
+
+			@include basic-input-style($white, $input-color-1, $white-d);
+			.text-input {
+				padding-right: 5px;
+				text-align: right;
+			}
+
+			@include counter-item-styles($black-c, $input-color-1, $white);
+			.checkout-button {
+				background-color: $theme-color-2;
+				/*@include call-to-action-button-styles($theme-color-2, $white);*/
+			}
+
+			@include radio-tags-styles($white, $theme-color-2, $white);
+			.radio-tags	{
+				@include flex-wrap(nowrap);
+				padding: 0px 10px 0px 10px;
+
+				.radio-tag {
+					border-radius: 6px;
+
+					.item-inner	{
+						padding: 0px 8px 0px 0px;
+
+						ion-label {
+							margin: 8px 0px;
+						}
+					}
+				}
+			}
+
+			.button-select {
+
+			}
+
+			.list-sub-header {
+				font-size: 1.2rem;
+				font-weight: 400;
+				color: $text-color;
+				text-transform: none;
+			}
+
+		}
 	}
+
+	.checkout-footer {
+		background-color: $white;
+		padding: 10px;
+		margin: 0px;
+
+
+			.footer-text {
+				text-align: left;
+				line-height: 6px;
+				padding: 5px 0 0 5px;
+				margin: 0px;
+			}
+
+			.footer-rate {
+				font-size: 1.0em;
+				margin: 0px;
+				padding: 0px;
+			}
+
+			.checkout-button {
+				@include call-to-action-button-styles(color($colors, button, base), color($colors, button, contrast));
+				padding: 5px 30px 5px 30px;
+				margin: 0px;
+
+				.button-inner	{
+					margin: 0px;
+					padding: 0px;
+				} 
+			}
+	}
+
 
 }

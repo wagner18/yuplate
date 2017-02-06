@@ -5,9 +5,10 @@ import { ProfileService } from '../../providers/profile.service';
 import { ListingService } from '../../providers/listing.service';
 import { ItemModel } from '../../models/listing-model';
 
+import { GalleryModal } from '../gallery-modal/gallery-modal';
+
 import { ListingOrderPage } from '../listing-order/listing-order';
 import { ImageViewModalPage } from '../image-view-modal/image-view-modal';
-
 
 declare var google;
 
@@ -115,6 +116,7 @@ export class ListingDetailsPage {
   * Handle the Image Modal
   */
   presentOrderModal() {
+    // this.nav.push(ListingOrderPage, { listing: this.listing });
     let orderModal = this.modalCtrl.create(ListingOrderPage, { listing: this.listing });
     orderModal.present();
   }
@@ -123,8 +125,19 @@ export class ListingDetailsPage {
   * Handle the Image Modal
   */
   presentImageModal() {
-    let imageModal = this.modalCtrl.create(ImageViewModalPage, { medias: this.listing.medias });
+    // let imageModal = this.modalCtrl.create(ImageViewModalPage, { medias: this.listing.medias });
+    // imageModal.present();
+
+    let photos = this.listing.medias.map( function(media, index) {
+      return { url: media.media_path };
+    });
+
+    let imageModal = this.modalCtrl.create(GalleryModal, {
+      photos: photos,
+      initialSlide: 0
+    });
     imageModal.present();
   }
+
 
 }

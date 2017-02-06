@@ -6,7 +6,7 @@
 		.radio-tag
 		{
 			flex: 1;
-			margin: 5px;
+			margin: 0 4px 0 4px;
 			padding: 0px;
 			text-align: center;
 			font-size: 1.4rem;
@@ -43,13 +43,13 @@
 				opacity: 0.5;
 			}
 
-			&.item-radio-checked
-			{
+			&.item-radio-checked {
 				border-color: $color;
 
-				.item-inner
-				{
+				.item-inner	{
+					margin: 0px !important;
 					background-color: $color;
+					border-radius: 4px;
 
 					ion-label {
 						color: $active-color;

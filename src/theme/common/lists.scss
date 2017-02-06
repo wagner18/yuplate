@@ -13,15 +13,19 @@
 		}
 	}
 
+	ion-item {
+		font-size: 1.6rem;
+	}
+
 	.list-item {
 		background-color: $white;
-		padding: 20px;
-		border: none;
+		/*padding: 20px;*/
+		/*border: none;*/
 		@include element-shadow();
 		
 
 		.item-inner	{
-			border: none;
+			/*border: none;*/
 			background: none;
 			padding: 0px;
 
@@ -29,7 +33,7 @@
 				margin: 0px;
 
 				.item-title	{
-					font-size: 1.8rem;
+					font-size: 1.6rem;
 					letter-spacing: 1px;
 					color: $text-color;
 					margin: 0px;

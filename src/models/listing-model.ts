@@ -89,6 +89,7 @@ export class PriceModel{
 
 export class ScheduleModel{
   day: string = "";
+  day_number: number;
   from_time: string = "";
   to_time: string = "";
   status: boolean = true;

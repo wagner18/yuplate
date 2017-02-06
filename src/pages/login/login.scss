@@ -1,35 +1,75 @@
+
+/*.scroll-content{
+    background: url('../../assets/images/login_background.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+}*/
+
 login-page {
-	.login-content
-	{
-		.alt-options
-		{
-			.button
-			{
+	background: url('../assets/images/login_background.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+
+  .toolbar {
+    .toolbar-background {
+    	border: none;
+      background: transparent;
+    }
+  }
+
+	.login-content {
+		background-color: transparent;
+
+    .login-form {
+    	padding-top: 60px;
+
+    	.item {
+    		background-color: transparent;
+
+    		.login-input {
+	    		font-size: 1.8rem;
+	    		font-weight: 200;
+
+	    		.text-input {
+	    			color: $white;
+	    		}
+	    	}
+    	}
+
+    }
+
+		.alt-options {
+			.button	{
 				margin: 0px;
 				padding: 0px;
 				font-size: 1.4rem;
 			}
 
-			.forgot-button
-			{
-				color: $white-d;
+			.forgot-button {
+				color: $theme-color-2;
 
-				.button-inner
-				{
+				.button-inner	{
 					@include justify-content(flex-start);
 				}
 			}
 
-			.signup-button
-			{
+			.signup-button {
 				font-weight: 500;
 				color: $theme-color-2;
 
-				.button-inner
-				{
+				.button-inner	{
 					@include justify-content(flex-end);
 				}
 			}
 		}
 	}
+
+	.login-footer {
+		border: none;
+		font-weight: 200;
+		color: $white;
+	}
+
 }

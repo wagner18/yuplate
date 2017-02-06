@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ViewController, NavController, LoadingController } from 'ionic-angular';
+import { Events, ViewController, NavController, LoadingController } from 'ionic-angular';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 
 import { AuthService } from '../../providers/auth.service';
@@ -20,6 +20,7 @@ export class LoginPage {
   public main_page: { component: any };
 
   constructor(
+    public events: Events,
     private _auth: AuthService,
     public BaseApp: BaseProvider,
     public viewCtrl: ViewController,
@@ -36,15 +37,16 @@ export class LoginPage {
 
   }
 
+  /**
+  *
+  */
   signInUser(){
-
     let credentials = this.login.value;
     this._auth.signInUser(credentials).then((authPromises) => {
 
-      authPromises[1].on('value', userProfile => {
-        this._auth.setCurrentUser(userProfile.val()).then(() => {
-          this.nav.setRoot(ListingPage);
-        });
+      authPromises[1].once('value', (userProfile) => {
+        // Publish the Login event to listeners
+        this.events.publish('user:signin', userProfile.val());
       });
     })
     .catch((error) => {

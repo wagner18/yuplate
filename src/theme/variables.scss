@@ -22,13 +22,13 @@ $black-b: lighten($black, 20%);
 $black-c: lighten($black, 40%);
 $black-d: lighten($black, 60%);
 
-$theme-color-1: #00cc99; // primer color 500 /* bar color */
-$theme-color-2: #00cc99; // Bold color 700 /* Hiligh icons and hedears */
-$theme-color-3: #333333; // light color 300
-$theme-color-4: #339900; // Accent color A400 /* Buttons and actions */
+$theme-color-1: $white-a; /* primer color 500  bar color */
+$theme-color-2: #EF5350; /* Bold color 700  Hiligh icons and hedears */
+$theme-color-3: #E57373; /* light color 300 */
+$theme-color-4: #EF5350; /* Accent color A400  Buttons and actions */
 
-$theme-color-5: #333333; // Title text Colors
-$theme-color-6: #666666; // Secundary texts
+$theme-color-5: #333333; /* Title text Colors */
+$theme-color-6: #666666; /* Secundary texts */
 
 
 // Named Color Variables
@@ -64,23 +64,23 @@ $colors: (
     contrast: $white
   ),
   sidemenu:(
-    base: $theme-color-1,
-    contrast: $white
+    base: $theme-color-3,
+    contrast: $theme-color-4
   ),
   header:(
     base: $theme-color-1,
-    contrast: $white
+    contrast: $theme-color-2
   ),
   header-alt:(
     base: $theme-color-3,
-    contrast: $white
+    contrast: $theme-color-2
   ),
   button:(
-    base: $theme-color-4,
+    base: $theme-color-2,
     contrast: $white
   ),
   button-alt:(
-    base: $theme-color-4,
+    base: $theme-color-3,
     contrast: $white
   ),
   background:(

@@ -1,17 +1,18 @@
-<ion-header class="login-header auth-header">
+<ion-header hide-nav-bar="true">
+<!-- class="login-header auth-header"> -->
   <ion-navbar>
-    <ion-title>Sign in</ion-title>
+    <!-- <ion-title>Sign in</ion-title> -->
   </ion-navbar>
 </ion-header>
 
 <ion-content class="login-content auth-content">
   <form class="login-form auth-form" [formGroup]="login" (ngSubmit)="signInUser()">
     <ion-item>
-      <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+      <ion-input class="login-input" type="email" placeholder="Email" formControlName="email"></ion-input>
     </ion-item>
     <show-hide-container>
       <ion-item>
-        <ion-input type="password" placeholder="Password" formControlName="password" show-hide-input></ion-input>
+        <ion-input class="login-input" type="password" placeholder="Password" formControlName="password" show-hide-input></ion-input>
       </ion-item>
     </show-hide-container>
     <button ion-button block class="auth-action-button login-button" type="submit" [disabled]="!login.valid">Log in</button>
@@ -27,6 +28,17 @@
   <p class="auth-divider">
     Or
   </p>
-  <button ion-button block class="facebook-auth-button" (click)="signInWithFacebook()">Log in with Facebook</button>
-  <button ion-button block class="google-auth-button" (click)="signInWithGoogle()">Log in with Google</button>
+  <button ion-button block icon-left class="facebook-auth-button" (click)="signInWithFacebook()">
+    <ion-icon icon-left ios="logo-facebook" md="logo-facebook"></ion-icon>
+    Log in with Facebook
+  </button>
+<!--   <button ion-button block class="google-auth-button" (click)="signInWithGoogle()">
+    Log in with Google
+  </button> -->
 </ion-content>
+<ion-footer>
+  <ion-toolbar class="login-footer">
+    <p text-center>Yuplate</p>
+    <p text-center>Copyright © 2017 - All reserved rights</p>
+  </ion-toolbar>
+</ion-footer>

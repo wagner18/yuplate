@@ -47,7 +47,7 @@ export class ListingUserPage {
     this.listingService.listListing(query).limitToLast(this.list_limit).on('value', (listingSnap) => {
 
       let objects = listingSnap.val();
-      if(objects){
+      if(objects !== undefined){
 	      this.listings = Object.keys(objects).map(function (key) {
 	      	objects[key].listing_key = key;
 	      	return objects[key]; 

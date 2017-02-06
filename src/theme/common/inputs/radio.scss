@@ -1,18 +1,16 @@
 @mixin radio-item-styles($color, $background, $active-color){
-	.radio-item
-	{
+	.radio-item	{
 		padding: 0px;
-		border: none !important;
+		/*border: none !important;*/
 		@include element-shadow();
 
-		.item-inner
-		{
+		.item-inner	{
 			padding: 0px;
-			border: none;
+			/*border: none;*/
 
 			ion-label {
 				margin: 16px 0px 16px 8px;
-				font-size: 1.4rem;
+				font-size: 1.6rem;
 				font-weight: 500;
 				letter-spacing: 0.2px;
 				color: $color;
@@ -21,29 +19,26 @@
 
 		ion-radio {
 			margin-left: 8px !important;
-			margin-right: 12px !important;
+			margin-right: 24px !important;
 
-			.radio-icon
-			{
+			.radio-icon	{
 				border: none;
 				background-color: $background;
 				border-radius: 50%;
-				width: 22px;
-				height: 22px;
+				width: 25px;
+				height: 25px;
 
-				.radio-inner
-				{
+				.radio-inner {
 					background-color: $background;
 					color: $color;
 				}
 
-				&.radio-checked .radio-inner
-				{
+				&.radio-checked .radio-inner {
 					border: none;
 					background-color: $active-color;
 					border-radius: 50%;
-					width: 12px;
-					height: 12px;
+					width: 15px;
+					height: 15px;
 					top: 5px;
 					left: 5px;
 					transform: rotate(0deg);

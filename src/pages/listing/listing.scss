@@ -25,6 +25,7 @@ listing-page {
 		.heard_toolbar {
 			height: 40px;
 			padding: 0px;
+			border: none;
 
 			.head-row {
 				margin: 0px;
@@ -34,17 +35,15 @@ listing-page {
 				text-align: center;
 
 				.head-button{
-					color: $white-c;
+					color: $theme-color-3;
 					font-size: 4vw;
 				}
 
 				.head-active-button{
-					border-bottom: 4px;
-					border-color: $theme-color-4;
 					/*background-color: $theme-color-4;*/
 					
 					.head-button{
-						color: $white;
+						color: $theme-color-2;
 						font-weight: 600;
 					}
 				}
@@ -71,19 +70,32 @@ listing-page {
 				padding: 0px;
 			}
 
+			.status-row {
+				text-align: center;
+				padding: 5px;
+			}
+
+			ion-badge {
+				background: $theme-color-2;
+			}
+
 			.price-badge {
 				z-index: 10;
 			  position: absolute;
-			  top: 180px;
+			  top: 300px;
 			  right: 10px;
 			  font-size: 1.6rem;
 			  font-weight: 400;
-			  background: $theme-color-2;
-			  opacity: 0.8;
+			  opacity: 0.7;
 			  padding: 6px;
 			}
 
+			.button-inner{
+				color: $theme-color-2;
+			}
+
 		}
+
 
 		.categories-title {
 			font-size: 1.4rem;
@@ -128,16 +140,13 @@ listing-page {
 			padding: 0px ($categories-grid-padding/2);
 			@include flex-wrap(wrap);
 
-			.category-item
-			{
+			.category-item {
 				padding: 0px ($categories-grid-padding/2) $categories-grid-padding;
 
-				.category-heading
-				{
+				.category-heading	{
 					padding-bottom: 100%;
 
-					.bg-overlay
-					{
+					.bg-overlay	{
 						z-index: 1;
 						background-color: rgba($black-c, .6);
 					}
@@ -148,15 +157,13 @@ listing-page {
 
 					@include spinner-color($white);
 
-					.heading-row
-					{
+					.heading-row {
 						height: 100%;
 						z-index: 3;
 		  			position: absolute;
 						@include align-items(center);
 
-						.category-title
-						{
+						.category-title	{
 							@include categories-title-style($white);
 						}
 					}

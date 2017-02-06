@@ -31,27 +31,25 @@ import { ListingOrderPage } from '../pages/listing-order/listing-order';
 import { ListingImagesPage } from '../pages/listing-images/listing-images';
 import { ImageViewModalPage } from '../pages/image-view-modal/image-view-modal';
 import { LocationModalPage} from '../pages/location-modal/location-modal';
+import { GalleryModal } from '../pages/gallery-modal/gallery-modal';
 import { ProfilePage } from '../pages/profile/profile';
 import { ProfileFormPage } from '../pages/profile-form/profile-form';
+import { ProfileFormAddressPage } from '../pages/profile-form-address/profile-form-address';
+import { ProfilePaymentMethodPage } from '../pages/profile-payment-method/profile-payment-method';
+import { AddressFormModal } from '../pages/profile-form-address/address-form-modal';
 import { LoginPage } from '../pages/login/login';
+import { OrderCheckoutPage } from '../pages/order-checkout/order-checkout';
 import { SignupPage } from '../pages/signup/signup';
 import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
 import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
 
-import { FeedPage } from '../pages/feed/feed';
-import { FollowersPage } from '../pages/followers/followers';
-import { LayoutsPage } from '../pages/layouts/layouts';
-import { FormsPage } from '../pages/forms/forms';
-import { NotificationsPage } from '../pages/notifications/notifications';
+
 import { CardFormPage } from '../pages/card-form/card-form';
+
 import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
+
 import { SettingsPage } from '../pages/settings/settings';
-import { SchedulePage } from '../pages/schedule/schedule';
-import { List1Page } from '../pages/list-1/list-1';
-import { List2Page } from '../pages/list-2/list-2';
-import { GridPage } from '../pages/grid/grid';
-import { FormLayoutPage } from '../pages/form-layout/form-layout';
-import { FiltersPage } from '../pages/filters/filters';
+
 
 import { TermsOfServicePage } from '../pages/terms-of-service/terms-of-service';
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
@@ -66,6 +64,7 @@ import { ShowHideInput } from '../components/show-hide-password/show-hide-input'
 import { ColorRadio } from '../components/color-radio/color-radio';
 import { CounterInput } from '../components/counter-input/counter-input';
 import { Rating } from '../components/rating/rating';
+import { ZoomableImage } from '../components/zoomable-image/zoomable-image';
 
 /*
     Import providers
@@ -75,13 +74,10 @@ import { AuthService } from '../providers/auth.service';
 import { BaseProvider } from './base.provider';
 import { MediaService } from '../providers/media.service';
 import { ListingService } from '../providers/listing.service';
+import { OrderService } from '../providers/order.service';
 import { DishService } from '../providers/dish.service';
-import { FeedService } from '../pages/feed/feed.service';
 import { ProfileService } from '../providers/profile.service';
-import { NotificationsService } from '../pages/notifications/notifications.service';
-import { List1Service } from '../pages/list-1/list-1.service';
-import { List2Service } from '../pages/list-2/list-2.service';
-import { ScheduleService } from '../pages/schedule/schedule.service';
+
 
 declare var cordova: any;
 
@@ -101,26 +97,22 @@ declare var cordova: any;
     ListingImagesPage,
     ImageViewModalPage,
     LocationModalPage,
-    FeedPage,
-    FollowersPage,
-    LayoutsPage,
-    FormsPage,
     LoginPage,
-    NotificationsPage,
+
+
     ProfilePage,
     ProfileFormPage,
+    ProfileFormAddressPage,
+    ProfilePaymentMethodPage,
+    AddressFormModal,
+    OrderCheckoutPage,
     CardFormPage,
     TabsNavigationPage,
     WalkthroughPage,
     SettingsPage,
     SignupPage,
     ForgotPasswordPage,
-    SchedulePage,
-    List1Page,
-    List2Page,
-    GridPage,
-    FormLayoutPage,
-    FiltersPage,
+
     TermsOfServicePage,
     PrivacyPolicyPage,
     PreloadImage,
@@ -129,11 +121,13 @@ declare var cordova: any;
     ShowHideInput,
     ColorRadio,
     CounterInput,
-    Rating
+    Rating,
+    GalleryModal,
+    ZoomableImage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
-        menuType: 'reveal',
+        menuType: 'overlay',
         spinner: 'dots'
     })
   ],
@@ -153,28 +147,24 @@ declare var cordova: any;
     ListingImagesPage,
     ImageViewModalPage,
     LocationModalPage,
-    FeedPage,
-    FollowersPage,
-    LayoutsPage,
-    FormsPage,
     LoginPage,
-    NotificationsPage,
     ProfilePage,
     ProfileFormPage,
+    ProfileFormAddressPage,
+    ProfilePaymentMethodPage,
+    AddressFormModal,
+    OrderCheckoutPage,
     CardFormPage,
     TabsNavigationPage,
     WalkthroughPage,
     SettingsPage,
     ForgotPasswordPage,
     SignupPage,
-    SchedulePage,
-    List1Page,
-    List2Page,
-    GridPage,
-    FormLayoutPage,
-    FiltersPage,
+
+
     TermsOfServicePage,
-    PrivacyPolicyPage
+    PrivacyPolicyPage,
+    GalleryModal
   ],
   providers: [
     Storage,
@@ -183,13 +173,9 @@ declare var cordova: any;
     BaseProvider,
     MediaService,
     ListingService,
+    OrderService,
     DishService,
-    FeedService,
-    ProfileService, 
-    NotificationsService, 
-    List1Service, 
-    List2Service, 
-    ScheduleService
+    ProfileService,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

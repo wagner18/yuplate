@@ -14,13 +14,13 @@
       </button>
 
 		  <ion-list-header>
-		    My listings
+		    Plates
 		  </ion-list-header>
 
       <button class="list-item" ion-item *ngFor="let listing of listings" (click)="editListing(listing.listing_key)">
         <ion-row no-padding class="content-row">
           <ion-col no-padding width-33 class="item-avatar">
-            <preload-image class="avatar-image" [ratio]="{w:1, h:1}" [src]="listing.medias[0].media_path"></preload-image>
+            <preload-image class="avatar-image" [ratio]="{w:1, h:1}" [src]="listing?.medias[0].media_path"></preload-image>
           </ion-col>
           <ion-col no-padding width-57 class="item-content">
             <h3 class="item-title">{{listing.title}}</h3>
@@ -32,6 +32,18 @@
           </ion-col>
         </ion-row>
       </button>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header>
+        Recipes
+      </ion-list-header>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header>
+        Crafted
+      </ion-list-header>
     </ion-list>
   </div>
 </ion-content>

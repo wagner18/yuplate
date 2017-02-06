@@ -1,8 +1,8 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Listing</ion-title>
-    <ion-buttons end>
+    <ion-title>My Listing</ion-title>
+    <ion-buttons *ngIf="new_listing == false" end>
       <button ion-button (click)="saveListing()">
         save
       </button>
@@ -11,16 +11,65 @@
 
 </ion-header>
 
-<ion-content class="forms-content">
+<ion-content  class="forms-content">
 
-  <div class="forms-wrapper">
-    <!-- Step 1 -->
-    <form class="form-style step-form" [formGroup]="step1Form">
+  <div *ngIf="new_listing">
+    <form class="form-style" [formGroup]="typeForm">
+
       <section class="form-section">
         <h2 class="section-title">
-          <p>Hi! let's go show your best recipes!</p>
-          Choose the category and take some beautiful pictures of your dish to go to the next step!
+          <p>Welcome! The first step is choose what kind of listing you are going to list.</p>
+          You can list a plate, recipe where you as a chef will prepere this recipe for your customers
         </h2>
+      </section>
+
+      <ion-list class="radio-group" radio-group formControlName="listing_type">
+
+        <ion-item-divider> Listing Type </ion-item-divider>
+        <ion-item class="radio-item">
+          <ion-label>Plate</ion-label>
+          <ion-radio value="Plate"></ion-radio>
+        </ion-item>
+
+        <ion-item class="radio-item">
+          <ion-label>Recipe</ion-label>
+          <ion-radio value="Recipe"></ion-radio>
+        </ion-item>
+
+        <ion-item class="radio-item">
+          <ion-label>Fresh</ion-label>
+          <ion-radio value="Fresh"></ion-radio>
+        </ion-item>
+
+        <ion-item class="radio-item">
+          <ion-label>Crafed</ion-label>
+          <ion-radio value="Crafed"></ion-radio>
+        </ion-item>
+
+      </ion-list>
+
+      <section class="form-section">
+        <button ion-button block class="form-action-button create-post-button" (click)="nextListingForm()" [disabled]="!typeForm.valid">
+          Next
+        </button>
+      </section>
+    </form>
+
+  </div>
+
+  <div *ngIf="new_listing == false" class="forms-wrapper">
+    <!-- Step 1 -->
+    <form class="form-style" [formGroup]="step1Form">
+      <section class="form-section">
+        <h2 class="section-title">
+          <p>Hi! Good pictures of your listing play a vary importante rule.</p>
+          Choose the category and take some beautiful pictures, so then your custumer can see how delicious it is!
+        </h2>
+
+        <ion-item no-lines class="listing-type">
+          <ion-label class="label-type">Listing type</ion-label>
+          <h2 item-right>{{listing?.listing_type}}</h2>
+        </ion-item>
 
         <button ion-button block large class="upload-image-button" (click)="cameraActionSheet()">
           <ion-icon name="camera"></ion-icon>
@@ -38,6 +87,7 @@
         </ion-scroll>
       </section>
 
+
       <section class="form-section">
 
         <ion-item no-lines class="category-select">
@@ -52,10 +102,11 @@
       </section>
 
       <ion-list class="form-list">
+
         <ion-item class="button-item" (click)="presentDescriptionModal()">
           <ion-icon  name="{{description_radio}}" item-left></ion-icon>
           <h2>Description</h2>
-          <p>Set a title and summary</p>
+          <p>{{description_label}}</p>
           <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
         </ion-item>
 
@@ -88,11 +139,11 @@
         </ion-item> 
       </ion-list>
 
-      <section class="form-section">
+<!--       <section class="form-section">
         <button ion-button block class="form-action-button create-post-button" type="submit" (click)="saveListing()" [disabled]="!step1Form.valid">
           Save
         </button>
-      </section>
+      </section> -->
       
     </form>
   </div>

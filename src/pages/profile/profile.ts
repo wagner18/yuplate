@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { NavController, MenuController, SegmentButton, App, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, MenuController, SegmentButton, NavParams, LoadingController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth.service';
 
 import { ProfileFormPage } from '../profile-form/profile-form';
+import { ProfileFormAddressPage } from '../profile-form-address/profile-form-address';
 
 import { ListingUserPage } from '../listing-user/listing-user';
 import { FollowersPage } from '../followers/followers';
@@ -22,14 +23,15 @@ export class ProfilePage {
 
   @Input()  src: string;
 
-  loading: any;
-  display: string;
+  public loading: any;
+  public display: string;
   public profile: ProfileModel = new ProfileModel();
+
+  public primaryAddress: any;
 
   constructor(
     public menu: MenuController,
     public nav: NavController,
-    public app: App,
     public navParams: NavParams,
     public BaseApp: BaseProvider,
     public profileService: ProfileService,
@@ -42,22 +44,28 @@ export class ProfilePage {
     });
   }
 
-  ionViewDidLoad() {
+  ionViewWillLoad() {
 
     this.loading.present();
+    this.profileService.getProfile().then((fatchProfile) => {
+      fatchProfile.on("value", (profileSnap) =>{
 
-    this.profileService.getProfile().then((promises) => {
-      promises[1].on('value', snapshot => {
+        if(profileSnap.val()){
+          console.log('PPPP LOADAD!!!!!!!!!!', profileSnap.val());
+          this.profile = profileSnap.val();
 
-        console.log(" Current profille >>>",snapshot.val());
-
-        if(snapshot.val()){
-          this.profile = snapshot.val();
+          if(this.profile.addresses !== undefined ){
+            this.primaryAddress = this.profile.addresses.find(function(address){
+              return address.primary == true;
+            });
+          }
+          this.loading.dismiss();
         }
 
-        this.loading.dismiss();
       });
-
+      
+    }, (error) => {
+      console.log(error.message);
     });
   
   }
@@ -86,6 +94,13 @@ export class ProfilePage {
     // close the menu when clicking a link from the menu
     this.menu.close();
     this.nav.push(ProfileFormPage);
+  }
+
+  /**
+  * Show the profile shipping address screen
+  */
+  profileAddress() {
+    this.nav.push(ProfileFormAddressPage, { profile: this.profile });
   }
 
   onSegmentChanged(segmentButton: SegmentButton) {

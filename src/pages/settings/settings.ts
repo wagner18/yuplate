@@ -50,30 +50,39 @@ export class SettingsPage {
 
   ionViewDidLoad() {
 
+    // this.profile = this.profileService.getProfile();
+    // if(this.profile !== undefined) {
+    //   this.setProfile(this.profile);
+    // }
+
     this.loading.present();
-    this.profileService.getProfile().then((promises) => {
-
-      promises[1].on('value', snapshot => {
-
-        if(snapshot.val() == null){
-
-          this.profileService.saveProfile(this.profile).then((profile) =>{
-            this.profile = profile;
-            this.setProfile(this.profile);
-          })
-          .catch((error) => {
-            console.log("TREAT THE ERROR! error saving profile", error);
-          });
-
-        }else{
-          this.profile = snapshot.val();
-          this.setProfile(this.profile);
-        }
-    
+    this.profileService.getLocalProfile().then((profile) => {
+      if(profile){
+        this.profile = profile;
+        this.setProfile(this.profile);
         this.loading.dismiss();
-      });
-
+      }
     });
+
+    // this.loading.present();
+    // this.profileService.getProfile().then((promises) => {
+    //   promises[1].on('value', snapshot => {
+    //     if(snapshot.val() == null){
+    //       this.profileService.saveProfile(this.profile).then((profile) =>{
+    //         this.profile = profile;
+    //         this.setProfile(this.profile);
+    //       })
+    //       .catch((error) => {
+    //         console.log("TREAT THE ERROR! error saving profile", error);
+    //       });
+    //     }else{
+    //       this.profile = snapshot.val();
+    //       this.setProfile(this.profile);
+    //     }
+    //     this.loading.dismiss();
+    //   });
+    // });
+
   }
 
 

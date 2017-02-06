@@ -1,0 +1,65 @@
+page-order-checkout {
+
+	.order-content{
+		background-color: color($colors, background, base);
+
+		@include basic-input-style($white, $input-color-1, $white-d);
+		.text-input {
+			padding-right: 5px;
+			text-align: right;
+		}
+
+		.price-label {
+			padding: 0px;
+			margin: 0px;
+			color: $theme-color-2;
+			/*font-weight: 00;*/
+			content: " USD";
+		}
+
+		.list-sub-header {
+			font-size: 1.2rem;
+			font-weight: 400;
+			color: $text-color;
+			text-transform: none;
+		}
+
+	}
+
+	.checkout-footer {
+		background-color: $white;
+		padding: 10px;
+		margin: 0px;
+
+			.toolbar {
+				.toolbar-background {
+					background-color: #008080;
+				}
+			}
+
+
+			.footer-text {
+				text-align: left;
+				line-height: 6px;
+				padding: 5px 0 0 5px;
+				margin: 0px;
+			}
+
+			.footer-rate {
+				font-size: 1.0em;
+				margin: 0px;
+				padding: 0px;
+			}
+
+			.checkout-button {
+				@include call-to-action-button-styles(color($colors, button, base), color($colors, button, contrast));
+				padding: 5px 30px 5px 30px;
+				margin: 0px;
+
+				.button-inner	{
+					margin: 0px;
+					padding: 0px;
+				} 
+			}
+	}
+}

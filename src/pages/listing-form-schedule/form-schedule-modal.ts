@@ -51,12 +51,23 @@ export class ScheduleModalPage {
   }
 
   /**
-  *
+  * Cancel and close the modal
   */
   dismiss() {
+    this.viewCtrl.dismiss();
+  }
 
-    if(this.formScheduleModal.valid) {     
-      this.data.day = this.formScheduleModal.value.day;
+  /**
+  * Check if the form is valid, dismiss the modal and send back the data to 
+  * the Schedule page be handle the database storage
+  */
+  save() {
+
+    if(this.formScheduleModal.valid) {
+      // Set the week day as String and number to be used with data() object
+      this.data.day_number = this.formScheduleModal.value.day;
+      this.data.day = this.weekDays[this.formScheduleModal.value.day].label;
+
       this.data.from_time = this.formScheduleModal.value.from_time;
       this.data.to_time = this.formScheduleModal.value.to_time;
     }else{

@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Events } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/map';
 
 import { AuthService } from './auth.service';
@@ -7,22 +9,86 @@ import { ProfileModel } from '../models/profile-model';
 
 @Injectable()
 export class ProfileService {
-
 	
   private PROFILE_REF: string = "profiles/";
   private SHORT_PROFILE_REF: string = "short_profiles/";
   private currentUser: any;
   public profile: ProfileModel = new ProfileModel();
+  private LOCAL_PROFILE = "local_profile";
 
   constructor(
     private _dataService: DataService, 
-    private _auth: AuthService
-  ){  }
+    private _auth: AuthService,
+    private storage: Storage
+  ){  
 
+    // subscribe to the event publish by the firabe observable onAuthStateChanged
+    // this.events.subscribe('user:currentUser', (currentUser) => {
+    //   this.fetchProfile(currentUser).on('child_changed', profileSnap => {
+    //     if(profileSnap.val()){
+          
 
-  getProfile(){
+    //       this.events.unsubscribe('user:currentUser');
+    //     }
+    //   }, (error) => {
+    //     console.log(error.message);
+    //   });
+    // });
+
+    this._auth.getCurrentUser().then((currentUser) => {
+      if(currentUser !== null){
+        this.fetchProfile(currentUser).on('value', profileSnap => {
+          if(profileSnap.val()){
+            console.log('Profile Changed!!!!!!!!!!', profileSnap.val());
+
+            this.profile = profileSnap.val();
+            this.setLocalProfile(profileSnap.val());
+          }
+        }, (error) => {
+          console.log(error.message);
+        });
+      }
+    });
+
+  }
+
+  /**
+  * Return the current profile
+  */
+  getProfile() {
     return this._auth.getCurrentUser().then((currentUser) => {
-      return Promise.all([currentUser, this.fetchProfile(currentUser)]);
+      return this.fetchProfile(currentUser);
+    });
+  }
+
+  /**
+  * Fetch a profile form the data base usinge the logged user object
+  * @param currentUser - User object
+  */
+  fetchProfile(currentUser){
+    if(currentUser){
+      let refProfile = this.PROFILE_REF + currentUser.uid;
+      return this._dataService.database.child(refProfile);
+    }
+  }
+
+  /**
+  *
+  */
+  setLocalProfile(profile) {
+    if(profile){
+      // stringify and store the user profile
+      profile = JSON.stringify(profile);
+      return this.storage.set(this.LOCAL_PROFILE, profile);
+    }
+  }
+
+  /**
+  *
+  */
+  getLocalProfile() {
+    return this.storage.get(this.LOCAL_PROFILE).then((profile) => {
+      return JSON.parse(profile);
     });
   }
 
@@ -31,21 +97,38 @@ export class ProfileService {
     return this._dataService.database.child(refShortProfile);
   }
 
-
-  fetchProfile(currentUser){
-    let refProfile = this.PROFILE_REF + currentUser.uid;
-    return this._dataService.database.child(refProfile);
-  }
-
   saveShortProfile(uid, data){
     return this._dataService.database.child(this.SHORT_PROFILE_REF + uid).update(data);
   }
 
+  /**
+  * Save the user profile adding the user uid by default
+  * @param data - Profile data to be stored
+  */
   saveProfile(data){
     return this._auth.getCurrentUser().then((currentUser) => {
       data.uid = currentUser.uid;
       return this._dataService.database.child(this.PROFILE_REF + currentUser.uid).update(data);
     });
+  }
+
+  /**
+  * update a specific profile property based on the database reference
+  * @param profile_ref - Profile database reference path
+  * @param data - Profile data to be stored
+  */
+  updateProfile(profile_ref, data){
+    return this._dataService.database.child(this.PROFILE_REF + profile_ref).set(data);
+  }
+
+  /*
+  * remove a specific reference from the database node
+  * @param reference - Node reference path to the item to be removed
+  */
+  removeReference(reference){
+    if(reference){
+      return this._dataService.database.child(this.PROFILE_REF + reference).remove();
+    }  
   }
 
 

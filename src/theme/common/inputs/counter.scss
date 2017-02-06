@@ -1,14 +1,12 @@
 @mixin counter-item-styles($text-color, $value-color, $background){
-	.counter-item
-	{
+	.counter-item {
 		padding: 0px;
 		border: none !important;
 		@include element-shadow();
 
-		.item-inner
-		{
+		.item-inner {
 			padding: 0px;
-			border: none;
+			/*border: none;*/
 
 			ion-label {
 				margin: 0px;
@@ -16,23 +14,22 @@
 				@include justify-content(space-between);
 			}
 
-			.counter-label
-			{
+			.counter-label {
 				margin: 15px;
-				font-size: 1.4rem;
+				font-size: 1.6rem;
 				font-weight: 500;
 				letter-spacing: 0.2px;
 				color: $text-color;
 				flex: 1;
 			}
 
-			.counter-value
-			{
+			.counter-value	{
 				margin: 15px 5px;
 				font-size: 1.6rem;
 				font-weight: 500;
 				text-align: center;
 				color: $value-color;
+
 			}
 
 			counter-input {
@@ -43,8 +40,8 @@
 				@include align-items(center);
 				@include justify-content(flex-end);
 
-				.counter-icon
-				{
+				.counter-icon	{
+					/*padding-right: 15px;*/
 					margin: 0px;
 					border-radius: 50%;
 					border: 1px solid $value-color;
@@ -52,25 +49,23 @@
 					color: $value-color;
 					width: 34px;
 					height: 34px;
-
+					
 					ion-icon {
 						color: $value-color;
 					}
 				}
 
-				&[basic]
-				{
-					.counter-icon
-					{
+				&[basic] {
+					.counter-icon	{
 						width: initial;
-						border-radius: 12px;
+						border-radius: 6px;
 						height: 30px;
+						padding: 0px !important;
 					}
 				}
 
-				.counter-inner
-				{
-					font-size: 1.8rem;
+				.counter-inner	{
+					font-size: 1.6rem;
 					text-align: center;
 					color: $value-color;
 					margin: 0px 12px;

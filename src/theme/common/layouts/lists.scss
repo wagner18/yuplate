@@ -3,19 +3,16 @@
 	ion-list {
 		margin: 0px;
 
-		.list-item
-		{
+		.list-item {
 			padding: 10px;
 			@include element-shadow();
 			border: none !important;
 
-			.content-row
-			{
+			.content-row {
 				@include align-items(flex-start);
 			}
 
-			.item-inner
-			{
+			.item-inner	{
 				border: none;
 				background: none;
 				padding: 0px;
@@ -25,33 +22,29 @@
 				}
 			}
 
-			.item-avatar
-			{
+			.item-avatar {
 				padding-right: 5px;
 
 				preload-image.avatar-image {
-					border-radius: 2px;
+					border-radius: 50%;
 
 					img	{
-						border-radius: 2px;
+						border-radius: 50%;
 					}
 				}
 			}
 
-			.item-content
-			{
+			.item-content	{
 				padding: 0px 5px;
 
-				.item-title
-				{
+				.item-title	{
 					font-size: 1.6rem;
 					font-weight: 500;
 					letter-spacing: 0.2px;
 					color: $color-1;
 				}
 
-				.item-description
-				{
+				.item-description	{
 					font-size: 1.2rem;
 					line-height: 1.1;
 					letter-spacing: 0.2px;
@@ -62,8 +55,7 @@
 				}
 			}
 
-			.item-icon
-			{
+			.item-icon {
 				text-align: right;
 				color: $color-1;
 				padding-left: 10px;

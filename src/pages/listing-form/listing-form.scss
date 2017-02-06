@@ -42,6 +42,19 @@ listing-form-page {
 					}
 				}
 
+				.listing-type {
+					padding: 5px 10px 5px 15px;
+					border-radius: 6px;
+					margin-bottom: 20px;
+					background-color: $theme-color-2;
+					color: $white;
+					@include element-shadow();
+
+					.label-type {
+						color: $white;
+					}
+				}
+
 				.category-select	{
 					padding: 5px 10px 5px 15px;
 					border-radius: 6px;
@@ -125,6 +138,18 @@ listing-form-page {
 
 			}
 
+			.radio-group {
+				background-color: $white;
+				@include element-shadow();
+				@include radio-item-styles($black-c, $white-a, $theme-color-2);
+				@inclide basic-list-styles($black-c, $black-d);
+
+				ion-item {
+					margin-left: 15px;
+					background-color: $white;
+				}
+			}
+
 
 			.form-action-button	{
 				margin: 0px;
@@ -166,3 +191,4 @@ listing-form-page {
 		}
 	}
 }
+

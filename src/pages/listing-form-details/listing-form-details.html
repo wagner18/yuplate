@@ -25,19 +25,19 @@
 	  <ion-list class="form-list">
 
 	  	<ion-item-divider>Service options</ion-item-divider>
-	  	<ion-item class="checkbox-item">
+	  	<ion-item>
 	      <ion-label>Carryout</ion-label>
 	      <ion-toggle formControlName="carryout" checked="false"></ion-toggle>
 	      <!-- <ion-checkbox value="true" formControlName="carryout"></ion-checkbox> -->
 		  </ion-item>
 
-	    <ion-item class="checkbox-item">
+	    <ion-item>
 	      <ion-label>Delivery</ion-label>
 	      <ion-toggle formControlName="delivery" checked="false"></ion-toggle>
 	      <!-- <ion-checkbox value="true" formControlName="delivery"></ion-checkbox> -->
 	    </ion-item>
 
-	    <ion-item *ngIf="formDetails.value.delivery" class="checkbox-item">
+	    <ion-item *ngIf="formDetails.value.delivery">
 	      <ion-label fixed>Delivery Fee</ion-label>
 	      <ion-input class="input-number" text-right type="number" formControlName="delivery_fee"></ion-input>
 	    </ion-item>

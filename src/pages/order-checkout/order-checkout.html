@@ -1,0 +1,107 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Checkout</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="order-content">
+
+	<ion-list>
+  	<ion-list-header>
+  		Your Order
+  	</ion-list-header>
+
+  	<ion-item item-left>
+	    <ion-row>
+	    	<ion-col width-30>
+	    		<preload-image [ratio]="{w:1, h:1}" [src]="order.listing.medias[0].media_path">
+          </preload-image>
+        </ion-col>
+	    	<ion-col widht-70>
+	    		
+	    		<h2 text-left>{{ order.listing.title }}</h2>
+			    <p text-left>Quantity: {{ order.quantity }}</p>
+			    <p text-left>Schedule: {{ schedule.toDateString() }}</p>
+			    <p text-left>Delivery fee: {{ order.listing.delivery_fee }}</p>
+			    <div class="price-label" item-right>
+			    	{{ order.listing.price.currency }}
+			    	{{ order.total_price }}
+			    </div>
+	    	</ion-col>
+	    </ion-row>
+
+	    <ion-row>
+	    	<ion-col width-33>
+	    		<button ion-button small clear (click)="cancelOrderConfirmation()">
+	    			Cancel order
+	    		</button>
+	    	</ion-col>
+	    	<ion-col width-33>
+	    		<button ion-button small clear>
+	    			Edit Order
+	    		</button>
+	    	</ion-col>
+	    	<ion-col width-33>
+	    		<button ion-button small clear>
+	    			Hold Order
+	    		</button>
+	    	</ion-col>	
+	    </ion-row>
+	  </ion-item>
+	</ion-list>
+
+	<ion-list *ngIf="shipping_address">
+	    <ion-list-header>
+	    	Shipping Address
+	    	<div class="list-sub-header">
+	    		Your address will be shown only after confirmed
+	    	</div>
+	    </ion-list-header>
+	    <ion-item *ngIf="order.delivery_address?.primary" class="address-primary">
+	      <h2 class="address-title">{{ order.delivery_address?.full_name }}</h2>
+	      <p>{{ order.delivery_address?.street_1 }}</p>
+	      <p>{{ order.delivery_address?.city }}, {{ order.delivery_address?.state }} {{ order.delivery_address?.zip_code }}</p>
+	      <p>{{ order.delivery_address?.country }}</p>
+	      <h2 item-right *ngIf="order.delivery_address?.primary">Primary</h2>
+	    </ion-item>
+	  </ion-list>
+
+
+		<ion-list *ngIf="carryout_address">
+		    <ion-list-header>
+		    	Carryout Address
+		    	<div class="list-sub-header">
+		    		The carryout address will be shown after confirmed
+		    	</div>
+		    </ion-list-header>
+		    <ion-item class="address-primary">
+		      <h2 class="address-title">{{ order.listing?.location.address }}</h2>
+		    </ion-item>
+		  </ion-list>
+
+  <ion-list>
+    <button ion-item small icon-left (click)="setPaymentMethod()">
+    	<ion-icon ios="ios-card" md="md-card" item-left></ion-icon>
+      Payment method
+    </button>
+  </ion-list>
+
+</ion-content>
+
+<ion-footer>
+	<ion-toolbar class="checkout-footer">
+		<p class="footer-text" item-left>
+			Total Price:
+			<span>{{ order.listing.price.currency }} {{ order.total_price }}</span>
+		</p>
+    <ion-buttons end>
+  		<button ion-button class="checkout-button" item-right  icon-left>
+        <ion-icon ios="logo-usd" md="logo-usd"></ion-icon>
+      	Pay
+      </button>
+    </ion-buttons>
+	</ion-toolbar>
+</ion-footer>
