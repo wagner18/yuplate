@@ -15,7 +15,7 @@ page-listing-form-desc {
 			}
 
 			ion-item {
-				@include basic-input-style(color($colors, background, base), $theme-color-3, $white-d);
+				@include basic-input-style(color($colors, background, base), $black-b, $white-d);
 
 				&.item {
 					margin-top: 5px;

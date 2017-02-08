@@ -128,7 +128,13 @@ declare var cordova: any;
   imports: [
     IonicModule.forRoot(MyApp, {
         menuType: 'overlay',
-        spinner: 'dots'
+        spinner: 'dots',
+        tabsPlacement: 'bottom',
+        platforms: {
+            ios: {
+              statusbarPadding: true
+            }
+        }
     })
   ],
   bootstrap: [IonicApp],

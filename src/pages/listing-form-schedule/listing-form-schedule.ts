@@ -19,7 +19,10 @@ export class ListingFormSchedulePage {
   	public modalCtrl: ModalController,
   	public viewCtrl: ViewController,
   	public params: NavParams
-  ){}
+  ){
+
+    
+  }
 
   ionViewDidLoad() {
   	this.data = this.params.get('data');

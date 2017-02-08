@@ -15,10 +15,6 @@ export class ListingFormDetailsPage {
 	public data: any;
   public measure_units: any;
 
-	categories_checkbox_open: boolean;
-  categories_checkbox_result;
-  categories: Array<any> = [];
-
   constructor(
   	public nav: NavController, 
   	public viewCtrl: ViewController,
@@ -31,8 +27,8 @@ export class ListingFormDetailsPage {
       carryout: new FormControl(false),
   		delivery: new FormControl(false),
       delivery_fee: new FormControl(0.00),
-      measure_unit: new FormControl(''),
-      unit_value: new FormControl(1),
+      measure_unit: new FormControl('', Validators.required),
+      unit_value: new FormControl(1, Validators.required),
       confirmation: new FormControl(false)
     });
   }
@@ -40,6 +36,7 @@ export class ListingFormDetailsPage {
   ionViewDidLoad() {
     this.data = this.params.get('data');
 
+    console.log(this.data);
     this.measure_units = this.listingService.getMeasureUnits();
 
     this.formDetails.setValue({
@@ -67,37 +64,5 @@ export class ListingFormDetailsPage {
 		}
 		this.viewCtrl.dismiss(this.data);
 	}
-
-	chooseCategory(){
-    let alert = this.alertCtrl.create({
-      cssClass: 'category-prompt'
-    });
-    alert.setTitle('Categories');
-
-    alert.addInput({
-      type: 'checkbox',
-      label: 'Steak',
-      value: 'Steak'
-    });
-
-    alert.addInput({
-      type: 'checkbox',
-      label: 'Chicken',
-      value: 'Chicken'
-    });
-
-    alert.addButton('Cancel');
-    alert.addButton({
-      text: 'Confirm',
-      handler: data => {
-        console.log('Checkbox data:', data);
-        this.categories_checkbox_open = false;
-        this.categories_checkbox_result = data;
-      }
-    });
-    alert.present().then(() => {
-      this.categories_checkbox_open = true;
-    });
-  }
 
 }

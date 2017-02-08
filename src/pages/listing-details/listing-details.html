@@ -82,7 +82,7 @@
   </ion-card>
 
   <ion-list>
-    <ion-item-divider>Description</ion-item-divider>
+    <ion-list-header>Description</ion-list-header>
     <ion-row class="listing-description">
       <ion-col width-100>
         <p class="item-text">
@@ -90,25 +90,26 @@
         </p>
       </ion-col>
     </ion-row>
-
-    <ion-item-divider></ion-item-divider>
-    <ion-item no-lines>
+    <ion-item>
       <ion-icon item-left class="description-icon" name="restaurant"></ion-icon>
-      <ion-label> Serving per portion </ion-label>
-      <h2 item-right>{{ listing.unit_value }} </h2>
+      <ion-label>{{ listing.measure_unit }} </ion-label>
+      <h2 item-right>{{ listing.unit_value }}</h2>
     </ion-item>
 
   </ion-list>
 
   <ion-list>
+    <ion-list-header>Location</ion-list-header>
+    <section #map id="map" class="map-location">
+      <div id="map">
+      </div>
+    </section>
+  </ion-list>
 
-  	<ion-item-divider>Location</ion-item-divider>
-  	<section #map id="map" class="map-location">
-  		<div id="map">
-  		</div>
-  	</section>
 
-    <ion-item-divider> Seller information </ion-item-divider>
+  <ion-list>
+
+    <ion-list-header>Seller information</ion-list-header>
     <ion-item no-lines item-left class="item-profile">
       <ion-avatar item-left>
         <img src="{{ listing.profile?.image }}">
@@ -133,8 +134,10 @@
         <rating [ngModel]="listing.total_rate" max="5" read-only="true"></rating>
 			</h2>
   	</ion-item>	 -->
-
-		<ion-item-divider> Schedule </ion-item-divider>
+    </ion-list>
+    
+    <ion-list>
+		<ion-list-header>Schedule</ion-list-header>
   	<ion-item *ngFor="let schedule of listing.schedule">
   		<ion-row>
 		    <ion-col width-100 class="schedule-data">

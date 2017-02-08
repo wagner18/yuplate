@@ -64,6 +64,7 @@ page-listing-details {
 
 
 			.listing-description {
+				@include element-shadow();
 				background-color: $white;
 				padding: 5px 10px 5px 10px;
 			}
