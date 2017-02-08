@@ -4,30 +4,25 @@ walkthrough-page {
 		@include header-styles(color($colors, walkthrough-header, base), color($colors, walkthrough-header, contrast));
 	}
 
-	.walkthrough-content
-	{
+	.walkthrough-content	{
 		// Default background when bouncing isn't disabled
 		background-color: color($colors, walkthrough, base);
 
-		.scroll-content
-		{
+		.scroll-content	{
 			margin: 0px !important;
 		}
 
-		ion-slide:nth-child(odd)
-		{
+		ion-slide:nth-child(odd) {
 			background-color: color($colors, walkthrough, base);
 			color: color($colors, walkthrough, contrast);
 		}
 
-		ion-slide:nth-child(even)
-		{
+		ion-slide:nth-child(even)	{
 			background-color: color($colors, walkthrough-alt, base);
 			color: color($colors, walkthrough-alt, contrast);
 		}
 
-		.swiper-pagination-bullet
-		{
+		.swiper-pagination-bullet	{
 		  background: $white;
 			opacity: .5;
 

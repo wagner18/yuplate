@@ -25,14 +25,13 @@ page-listing-details {
 			}
 
 			.price-badge {
-				position: absolute;
-			  top: 10px;
+				z-index: 10;
+			  position: absolute;
+			  top: 300px;
 			  right: 10px;
-			  z-index: 20;
 			  font-size: 1.6rem;
-			  font-weight: 300;
-			  background: $black;
-			  opacity: 0.8;
+			  font-weight: 400;
+			  opacity: 0.7;
 			  padding: 6px;
 			}
 
@@ -60,14 +59,18 @@ page-listing-details {
 
 		}
 
-
-
 		ion-list {
 			@include basic-list-styles($black-d, $black-a);
 
+
+			.listing-description {
+				background-color: $white;
+				padding: 5px 10px 5px 10px;
+			}
+
 			.map-location {
 				height: 220px;
-				background: #6666ff;
+				background: $white-b;
 
 				#map{
 					height: 280px;

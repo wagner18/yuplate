@@ -63,23 +63,42 @@
       </ion-col>
     </ion-row>
 
-    <ion-card-content>
+<!--     <ion-card-content>
       <ion-card-title class="item-title">
         About this Dish
       </ion-card-title>
       <p class="item-text">
         {{listing.description}}
       </p>
-    </ion-card-content>
+    </ion-card-content> -->
 
-    <ion-item item-right class="item-profile">
+<!--     <ion-item item-right class="item-profile">
       <ion-avatar item-left>
         <img src="{{listing.profile?.image}}">
       </ion-avatar>
       <h2>{{listing.profile?.fullName}}</h2>
       <p>{{listing.profile?.location}}</p>
-    </ion-item>
+    </ion-item> -->
   </ion-card>
+
+  <ion-list>
+    <ion-item-divider>Description</ion-item-divider>
+    <ion-row class="listing-description">
+      <ion-col width-100>
+        <p class="item-text">
+          {{listing.description}}
+        </p>
+      </ion-col>
+    </ion-row>
+
+    <ion-item-divider></ion-item-divider>
+    <ion-item no-lines>
+      <ion-icon item-left class="description-icon" name="restaurant"></ion-icon>
+      <ion-label> Serving per portion </ion-label>
+      <h2 item-right>{{ listing.unit_value }} </h2>
+    </ion-item>
+
+  </ion-list>
 
   <ion-list>
 
@@ -89,12 +108,14 @@
   		</div>
   	</section>
 
-  	<ion-item-divider></ion-item-divider>
-  	<ion-item no-lines>
-			<ion-icon item-left class="description-icon" name="restaurant"></ion-icon>
-      <ion-label> Serving per portion </ion-label>
-      <h2 item-right>{{ listing.servings }} </h2>
-  	</ion-item>
+    <ion-item-divider> Seller information </ion-item-divider>
+    <ion-item no-lines item-left class="item-profile">
+      <ion-avatar item-left>
+        <img src="{{ listing.profile?.image }}">
+      </ion-avatar>
+      <h2>{{listing.profile?.fullName}}</h2>
+      <p>{{listing.profile?.location}}</p>
+    </ion-item>
 
   	<ion-item-divider></ion-item-divider>
     <button ion-item (click)="showReviews()" no-lines>

@@ -43,10 +43,18 @@
 	    </ion-item>
 
 	  	<ion-item-divider>Servings per portion</ion-item-divider>
+	  	<ion-item>
+	      <ion-label>Measure unit</ion-label>
+        <ion-select formControlName="measure_unit" multiple="false">
+          <ion-option *ngFor="let unit of measure_units" value="{{unit.value}}">
+            {{unit.label}}
+          </ion-option>
+        </ion-select>
+	    </ion-item>
 	    <ion-item class="counter-item">
 	      <span class="counter-label">Servings</span>
-	      <span class="counter-value">{{formDetails.value.servings}}</span>
-	      <counter-input [min]="1" [max]="8" formControlName="servings" basic></counter-input>
+	      <span class="counter-value">{{formDetails.value.unit_value}}</span>
+	      <counter-input [min]="1" [max]="8" formControlName="unit_value" basic></counter-input>
 	    </ion-item>
 
 			<ion-item-divider></ion-item-divider>

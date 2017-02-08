@@ -35,7 +35,8 @@ export class ItemModel{
   carryout: boolean = true;
   delivery: boolean = false;
   delivery_fee: number = 0.00;
-  servings: number = 1;
+  measure_unit: string = "";
+  unit_value: number = 1;
   confirmation: boolean = false;
   listing_type: string;
   status: string = "craft";

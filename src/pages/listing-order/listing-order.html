@@ -22,7 +22,7 @@
             </preload-image>
 		    </ion-thumbnail>
 		    <p text-left>{{ listing.title }}</p>
-		    <p text-left>Servings: {{ listing.servings }}</p>
+		    <p text-left>Servings: {{ listing.unit_value }}</p>
 		    <p><ion-badge item-left>{{ listing.listing_type }}</ion-badge></p>
 		    <div class="price-label" item-right item-top>
 		    	{{ listing.price.currency }}
@@ -36,7 +36,7 @@
           </ion-col>
           <ion-col widht-70>
             <p text-left>{{ listing.title }}</p>
-            <p text-left>Servings: {{ listing.servings }}</p>
+            <p text-left>Servings: {{ listing.unit_value }}</p>
             <p text-left>{{ listing.listing_type }}</p>
             <div class="price-label" item-right>
               {{ listing.price.currency }}
@@ -113,16 +113,37 @@
     </ion-list> -->
 
     <ion-list>
+
+      <ion-list-header>
+        Take it today
+        <div class="list-sub-header">
+          Availability for the current day
+        </div>
+      </ion-list-header>
+
+      <ion-item>
+        <h2>Processing time:</h2>
+        <p item-right>50 minutes</p>
+      </ion-item>
+      <ion-item>
+        <ion-label>Set delivery time</ion-label>
+        <ion-datetime formControlName="schedule_time" displayFormat="hh:mm a" pickerFormat="hh:mm a" hourValues="{{time_range?.time_range}}">
+        </ion-datetime>
+      </ion-item>
+
+    </ion-list>
+
+    <ion-list>
     	<ion-list-header>
-    		Available dates
+    		Schedule Delivery
 	    	<div class="list-sub-header">
-	    		Shows the available schedule for the next 30 days
+	    		Shows the available schedule for the next 15 days
 	    	</div>
     	</ion-list-header>
 
   	  <ion-item class="button-select">
   	  	<ion-icon icon-left name="calendar"></ion-icon>
-        <ion-label>Shipping Date</ion-label>
+        <ion-label>Delivery Date</ion-label>
         <ion-select formControlName="schedule_day" (ngModelChange)="setTimeRange($event)"
          multiple="false">
           <ion-option *ngFor="let date of availableDays" value="{{date}}">

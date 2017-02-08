@@ -60,12 +60,13 @@ ion-menu {
 	}
 
 	.profile-image{
+		background-color: $white-a;
 		text-align: center;
 	    img{
 	        border-radius:50%;
 	        margin:10px;
-	        width: 115px;
-	        height: 115px;
+	        width: 95px;
+	        height: 95px;
 	        border: 4px solid $SIDEMENU_TRANSPARENCY;
 	        -webkit-box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);
 	        -moz-box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);

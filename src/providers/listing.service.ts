@@ -160,6 +160,29 @@ export class ListingService {
   }
 
 
+  /**
+  * Return a list of dates that machs the giben weekdays within 30 days
+  * @param {day, time_range} - availableDays - list of Objects with week days available to the specific listing
+  */
+  getAvailableDays(availableDays){
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = today.getMonth();
+    let date = today.getDate();
+    let days = [];
+
+    for(let i = 0; i < 15; i++){
+      let day = new Date(year, month, date + i);
+      availableDays.find(function(weekday) {
+        if(day.getDay() == weekday.day){
+          days.push(day);
+        }
+      });
+    }
+    return days;
+  }
+
+
   // Categories - Take it to the right place
   getCategories(){
     let categories = [
@@ -178,9 +201,9 @@ export class ListingService {
   }
 
 
-    // Categories - Take it to the right place
+  // Categories - Take it to the right place
   getWeedDays(){
-    let weekDays = [
+    let week_days = [
       {type: 'select', label: 'Sunday', value: 0},
       {type: 'select', label: 'Monday', value: 1},
       {type: 'select', label: 'Tuesday', value: 2},
@@ -189,29 +212,25 @@ export class ListingService {
       {type: 'select', label: 'Friday', value: 5},
       {type: 'select', label: 'Saturday', value: 6}
     ];
-    return weekDays;
+    return week_days;
   }
 
   /**
-  * Return a list of dates that machs the giben weekdays within 30 days
-  * @param {day, time_range} - availableDays - list of Objects with week days available to the specific listing
+  * Provide measure units labels to the UI
   */
-  getAvailableDays(availableDays){
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = today.getMonth();
-    let date = today.getDate();
-    let days = [];
-
-    for(let i = 0; i < 30; i++){
-      let day = new Date(year, month, date + i);
-      availableDays.find(function(weekday) {
-        if(day.getDay() == weekday.day){
-          days.push(day);
-        }
-      });
-    }
-    return days;
+  getMeasureUnits() {
+    let measure_units = [
+      { label: "Units", short: "unt", value: "Units"},
+      { label: "Kilograms", short: "kg", value: "Kilograms"},
+      { label: "Grams", short: "g", value: "Grams"},
+      { label: "Pounds", short: "lb", value: "Pounds"},
+      { label: "Ounces", short: "oz", value: "Ounces"},
+      { label: "Liters", short: "l", value: "Liters"},
+      { label: "Milliliters", short: "ml", value: "Milliliters"},
+      { label: "Servings", short: "srv", value: "Servings"},
+      { label: "Seats", short: "seat", value: "Seats"}
+    ]
+    return measure_units;
   }
 
 
