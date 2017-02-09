@@ -35,6 +35,7 @@ export class ItemModel{
   carryout: boolean = true;
   delivery: boolean = false;
   delivery_fee: number = 0.00;
+  processing_time: string = "";
   shipping: boolean = false;
   shipping_fee: number = 0.00;
   measure_unit: string = "";

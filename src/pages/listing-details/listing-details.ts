@@ -81,8 +81,8 @@ export class ListingDetailsPage {
     //let latLng = new google.maps.LatLng(position.lat, position.lng);
     let mapOptions = {
       center: position,
-      draggable: false,
-      maxZoom: 10,
+      draggable: true,
+      maxZoom: 12,
       minZoom: 10,
       scrollwheel: false,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -90,12 +90,23 @@ export class ListingDetailsPage {
     };
     
     let map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    map.setZoom(10);
+    map.setZoom(11);
 
-    let marker = new google.maps.Marker({
-      position: position,
+    // let marker = new google.maps.Marker({
+    //   position: position,
+    //   map: map,
+    //   title: 'Location'
+    // });
+
+    var cityCircle = new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 0,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
       map: map,
-      title: 'Location'
+      center: position,
+      radius: 3000
     });
 
   }

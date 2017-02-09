@@ -37,11 +37,12 @@ page-listing-details {
 
 			.favorite-button {
 				position: absolute;
-			  top: 180px;
-			  right: 10px;
+			  top: 290px;
+			  left: 10px;
 			  z-index: 20;
 			  background: transparent;
 			  padding: 6px;
+			  font-weight: 800;
 
 			  ion-icon {
 			  	font-size: 3.2rem;

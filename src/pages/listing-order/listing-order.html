@@ -56,11 +56,11 @@
 	    </ion-item>
       <ion-item>
         <h2>Order Subtotal:</h2>
-        <h2 item-right>{{subtotal}}</h2>
+        <h2 item-right>${{subtotal}}</h2>
 	    </ion-item>
       <ion-item *ngIf="shipping_address">
         <h2>Delivery Fee:</h2>
-        <h2 item-right>{{listing.delivery_fee}}</h2>
+        <h2 item-right>${{listing.delivery_fee}}</h2>
       </ion-item>
       <ion-item>
         <ion-label>Total:</ion-label>
@@ -123,7 +123,7 @@
 
       <ion-item>
         <h2>Processing time:</h2>
-        <p item-right>50 minutes</p>
+        <p item-right>{{listing.processing_time}}</p>
       </ion-item>
       <ion-item>
         <ion-label>Set delivery time</ion-label>
