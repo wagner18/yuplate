@@ -22,7 +22,7 @@
     </ion-badge>
 
     <button class="favorite-button" ion-button clear>
-      <ion-icon isActive="1" name='heart'></ion-icon>
+      <ion-icon isActive="1" name='md-heart-outline'></ion-icon>
     </button>
 
 		<ion-slides (click)="presentImageModal()">
@@ -40,7 +40,7 @@
       </p> 
     </ion-card-content>
 
-		<ion-chip class="chip-content" *ngIf="listing.delivery" text-center>
+<!-- 		<ion-chip class="chip-content" *ngIf="listing.delivery" text-center>
 		   <ion-icon ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon>
 		  <ion-label>Delivery</ion-label>
 		</ion-chip>
@@ -48,7 +48,28 @@
 		  <ion-icon ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon>
 		  <ion-label>Carryout</ion-label>
 		</ion-chip>
-    
+    <ion-chip class="chip-content"  *ngIf="listing.shipping" text-center>
+      <ion-icon ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon>
+      <ion-label>Shipping</ion-label>
+    </ion-chip> -->
+<!--     <ion-row class="delivery_options">
+      <ion-col  widht-33> -->
+        <ion-badge item-center class="delivery_options" *ngIf="listing.delivery">
+          Delivery
+        </ion-badge>
+<!--       </ion-col>
+      <ion-col  widht-33> -->
+        <ion-badge item-center class="delivery_options" *ngIf="listing.carryout">
+          Carryout
+        </ion-badge>
+<!--       </ion-col>
+      <ion-col  widht-33> -->
+        <ion-badge item-center class="delivery_options" *ngIf="listing.shipping">
+          Shipping
+        </ion-badge>
+<!--       </ion-col>
+    </ion-row> -->
+
     <ion-row no-padding class="social-row">
       <ion-col no-padding width-100>
         <rating [ngModel]="listing.total_rate" max="5" read-only="true"></rating>
@@ -106,9 +127,8 @@
     </section>
   </ion-list>
 
-
   <ion-list>
-
+    
     <ion-list-header>Seller information</ion-list-header>
     <ion-item no-lines item-left class="item-profile">
       <ion-avatar item-left>
@@ -121,7 +141,7 @@
   	<ion-item-divider></ion-item-divider>
     <button ion-item (click)="showReviews()" no-lines>
     <ion-icon item-left name='chatbubbles'></ion-icon>
-      <ion-label>Reviews ({{total_reviews}})</ion-label>
+      <ion-label>Reviews ({{listing.total_reviews}})</ion-label>
       <h1 item-right>
         <rating class="reviews-button-rate" [ngModel]="listing.total_rate" max="5" read-only="true"></rating>
       </h1>
@@ -134,6 +154,15 @@
         <rating [ngModel]="listing.total_rate" max="5" read-only="true"></rating>
 			</h2>
   	</ion-item>	 -->
+    </ion-list>
+
+
+    <ion-list>
+      <ion-list-header>Payment</ion-list-header>
+      <ion-item no-lines>
+        <h2>Methods</h2>
+        <span>Paypal, Visa, MasterCard, American Express, Discover</span>
+      </ion-item>
     </ion-list>
 
     <ion-list>

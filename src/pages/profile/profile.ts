@@ -47,23 +47,21 @@ export class ProfilePage {
   ionViewWillLoad() {
 
     this.loading.present();
-    this.profileService.getProfile().then((fatchProfile) => {
-      fatchProfile.on("value", (profileSnap) =>{
+    // Set a observabole to fecth the updated profile object
+    this.profileService.fetchProfile().on("value", (profileSnap) =>{
 
-        if(profileSnap.val()){
-          console.log('PPPP LOADAD!!!!!!!!!!', profileSnap.val());
-          this.profile = profileSnap.val();
+      if(profileSnap.val()){
+        console.log('PPPP LOADAD!!!!!!!!!!', profileSnap.val());
+        this.profile = profileSnap.val();
 
-          if(this.profile.addresses !== undefined ){
-            this.primaryAddress = this.profile.addresses.find(function(address){
-              return address.primary == true;
-            });
-          }
-          this.loading.dismiss();
+        if(this.profile.addresses !== undefined ){
+          this.primaryAddress = this.profile.addresses.find(function(address){
+            return address.primary == true;
+          });
         }
+        this.loading.dismiss();
+      }
 
-      });
-      
     }, (error) => {
       console.log(error.message);
     });

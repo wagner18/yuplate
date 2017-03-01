@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NavController, LoadingController, NavParams, Slides} from 'ionic-angular';
+import { NavController, ModalController, AlertController, LoadingController, NavParams, Slides} from 'ionic-angular';
 
 //import 'rxjs/Rx';
 
@@ -7,6 +7,8 @@ import { ProfileService } from '../../providers/profile.service';
 import { ListingService } from '../../providers/listing.service';
 import { ItemModel } from '../../models/listing-model';
 
+import { LocationModalPage, } from '../location-modal/location-modal';
+import { ListingFilterPage } from '../listing-filter/listing-filter';
 import { ListingDetailsPage } from '../listing-details/listing-details';
 
 
@@ -18,9 +20,18 @@ export class ListingPage implements OnDestroy{
   
   public slideOptions = {pager: true};
   public loading: any;
+  public current_time = new Date();
 
+  public categories: any;
   public list_limit: number = 10;
   public listings: ItemModel[];
+
+  public searchbar_value: string;
+  public show_searchbar: boolean = false;
+  public show_actionbar: boolean = true;
+
+  public categories_checkbox_open: boolean;
+  public categories_checkbox_result;
 
   public active_button: Array<any> = ["head-active-button", "", "", "", ""];
 
@@ -29,6 +40,8 @@ export class ListingPage implements OnDestroy{
     public listingService: ListingService,
     public params: NavParams,
     private _profileService: ProfileService,
+    public alertCtrl: AlertController,
+    public modalCtrl: ModalController,
     public loadingCtrl: LoadingController
   ){
 
@@ -37,6 +50,8 @@ export class ListingPage implements OnDestroy{
   }
 
   ionViewDidLoad() {
+    this.categories = this.listingService.getListingType();
+
     this.getItems();
   }
 
@@ -55,9 +70,16 @@ export class ListingPage implements OnDestroy{
         orderByKey: true
     };
     this.loading.present();
-    this.listingService.listListing(query).limitToLast(this.list_limit)
-    .on('value', (listingSnap) => {
+
+    // Set query configurations
+    let listing_ref = this.listingService.listListing(query)
+    .orderByChild('created_at');
+    //.limitToLast(this.list_limit);
+
+
+    listing_ref.on('value', (listingSnap) => {
       let objects = listingSnap.val();
+
       this.listings = Object.keys(objects).map(function (key) {
 
         /* get the prorile for each listing */
@@ -75,9 +97,23 @@ export class ListingPage implements OnDestroy{
         return objects[key]; 
       });
 
+      this.listings.reverse();
+
       this.loading.dismiss();
     });
 
+  }
+
+  /**
+  *
+  */
+  doRefresh(refresher) {
+    console.log('Begin async operation', refresher);
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      refresher.complete();
+    }, 2000);
   }
 
   /**
@@ -97,6 +133,86 @@ export class ListingPage implements OnDestroy{
     });
 
     this.active_button[item] = "head-active-button";
+  }
+
+  /**
+  * Show the Location modal
+  */
+  locationModalPage() {
+    let locationModal = this.modalCtrl.create(LocationModalPage);
+    locationModal.onDidDismiss(data => {
+
+      console.log(data);
+      // if(data.location.geolocation){
+      // }
+    });
+    locationModal.present();
+  }
+
+  /**
+  * Show the Filter Modal
+  */
+  filterMofalPage() {
+    let filterModal = this.modalCtrl.create(ListingFilterPage);
+    filterModal.onDidDismiss(data => {
+
+      console.log(data);
+    });
+    filterModal.present();
+  }
+
+  /*
+  * 
+  */
+  toggleActionBar(option){
+    if(option == "searchbar"){
+      this.show_searchbar = true;
+      this.show_actionbar = false;
+    }else{
+      this.show_searchbar = false;
+      this.show_actionbar = true;
+    }
+    
+  }
+
+  /**
+  * @param event - The input event from the search bar
+  */
+  serachbarInput() {
+    console.log(this.searchbar_value);
+  }
+
+  /**
+  * Applay Category filter
+  */
+  setCategoryFilter(){
+    let alert = this.alertCtrl.create({
+      cssClass: 'category-prompt'
+    });
+    alert.setTitle('Categories');
+
+    let categories = this.listingService.getListingCategories();
+    categories.map((category)=>{
+      alert.addInput({
+        type: 'checkbox',
+        label: category.label,
+        value: category.value
+      });
+    });
+
+
+    alert.addButton('Cancel');
+    alert.addButton({
+      text: 'Confirm',
+      handler: data => {
+        console.log('Checkbox data:', data);
+        this.categories_checkbox_open = false;
+        this.categories_checkbox_result = data;
+      }
+    });
+    alert.present().then(() => {
+      this.categories_checkbox_open = true;
+    });
   }
 
 

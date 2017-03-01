@@ -57,33 +57,35 @@ export class ProfileFormPage {
     });
   }
 
-
+  /**
+  *
+  */
   ionViewWillEnter() {
 
     this.loading.present();
-    this.profileService.getLocalProfile().then((profile) => {
-      if(profile){
-        this.profile = profile;
-        this.setProfile(this.profile);
-        this.loading.dismiss();
-      }
-    });
+    this.profile = this.profileService.getCurrentProfile();
 
+    console.log("Editing profile ---- ",this.profile.firstName);
+    
+    if(this.profile.uid !== undefined){
+      this.setProfile(this.profile);
+    }
+    this.loading.dismiss();
 
-    // .then((promises) => {
-    //   promises[1].on('value', snapshot => {
+    // this.profileService.getLocalProfile().then((profile) => {
+    //   if(profile){
+    //     this.profile = profile;
+    //     this.setProfile(this.profile);
         
-    //     if(snapshot.val()){
-    //       this.profile = snapshot.val();
-    //       this.setProfile(this.profile);
-    //     }
-    //     //this.loading.dismiss();
-    //   });
+    //   }
     // });
 
   }
 
-
+  /** 
+  * Set the default profile object
+  * @param profile - Profile data to be setted in the profile object
+  */
   setProfile(profile){
     if(profile){
       this.ProfileForm.setValue({
@@ -93,7 +95,7 @@ export class ProfileFormPage {
           birthday: profile.birthday,
           about: profile.about,
           location: profile.location,
-          currency: 'dollar',
+          currency: 'USD',
           weather: 'fahrenheit',
           notifications: true
         });

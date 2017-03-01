@@ -25,7 +25,8 @@ import { ListingImagesPage } from '../listing-images/listing-images';
 
 @Component({
   selector: 'listing-form-page',
-  templateUrl: 'listing-form.html'
+  templateUrl: 'listing-form.html',
+  providers: [ListingService]
 })
 export class ListingFormPage {
 

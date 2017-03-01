@@ -35,9 +35,9 @@ export class ItemModel{
   carryout: boolean = true;
   delivery: boolean = false;
   delivery_fee: number = 0.00;
-  processing_time: string = "";
   shipping: boolean = false;
   shipping_fee: number = 0.00;
+  processing_time: string = "";
   measure_unit: string = "";
   unit_value: number = 1;
   confirmation: boolean = false;
@@ -65,9 +65,9 @@ export class ItemModel{
 
 export class ListingType {
   service: boolean; // Recipes listed as a chef service to preper this recipe.
-  dish: boolean; // A dish form a local restaurant or licecid chef.
-  event: boolean // A event as dinner, fears and so on.
-  crafted_food: boolean; // to specific craft products such farm cheese, tometoes cans, condiments, crafts bread and so on.
+  dish: boolean; // A dish from a local restaurant or licensed chef.
+  event: boolean // A event as dinner, fairs and so on.
+  crafted_food: boolean; // to specific craft products such farm cheese, tometoes cans, condiments, crafts pesto and so on.
   farm_fresh: boolean; // a service to allow local farms set up an fresh engridients chain in box to delivery or pickup
 }
 
@@ -112,16 +112,3 @@ export class ReviewModel {
   created_at: number = Date.now();
   updated_at: number = Date.now();
 }
-
-export class ListingOrderModel {
-  listing_uid: string = "";
-  customer_uid: string = "";
-  quantity: number;
-  total_price: number;
-  confimed: boolean = true;
-  schedule: any;
-  payment: any;
-  messages: any;
-  created_at: number;
-}
-

@@ -1,0 +1,43 @@
+page-order-payment {
+
+	.order-content{
+		background-color: color($colors, background, base);
+
+		@include basic-input-style($white, $input-color-1, $white-d);
+		.text-input {
+			padding-right: 5px;
+			text-align: right;
+		}
+
+		.price-label {
+			padding: 0px;
+			margin: 0px;
+			color: $theme-color-2;
+			/*font-weight: 00;*/
+			content: " USD";
+		}
+
+		.list-sub-header {
+			font-size: 1.2rem;
+			font-weight: 400;
+			color: $text-color;
+			text-transform: none;
+		}
+
+		.button {
+			color: $theme-color-2;
+		}
+
+		.section-title {
+			padding: 15px 15px 0px 15px;
+			text-align: left;
+			color: $positive-text;
+
+			.sub-text {
+				color: $black-d;
+			}
+		}
+
+	}
+
+}

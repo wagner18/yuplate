@@ -50,6 +50,15 @@ listing-page {
 			}
 		}
 
+		.action-bar-button {
+			text-align: center;
+			color: $theme-color-2;
+			font-size: 1.8rem;
+			font-weight: 600;
+			margin: 0px;
+			padding: 0px;
+		}
+
 		.item-card-content {
 			position: relative;
 			margin-bottom: 20px;
@@ -81,9 +90,9 @@ listing-page {
 
 			.price-badge {
 				z-index: 10;
-			  position: absolute;
-			  top: 300px;
-			  right: 10px;
+			  position: relative;
+			  top: 290px;
+			 	left: 70%;
 			  font-size: 1.6rem;
 			  font-weight: 400;
 			  opacity: 0.7;
@@ -168,6 +177,87 @@ listing-page {
 						}
 					}
 				}
+			}
+		}
+	}
+}
+
+
+ion-alert.category-prompt {
+	.alert-wrapper
+	{
+		width: 80%;
+		background-color: $white;
+	}
+
+	.alert-head
+	{
+		padding-bottom: 20px;
+
+		.alert-title
+		{
+			font-size: 2.0rem;
+			line-height: 1.2;
+			letter-spacing: 1.1px;
+			color: $theme-color-2;
+			font-weight: 400;
+		}
+	}
+
+	.alert-message:empty
+	{
+		display: none;
+	}
+
+	.alert-checkbox-group
+	{
+		border: none;
+		padding: 0px 20px;
+
+		.alert-checkbox
+		{
+			margin: 14px 0px;
+
+			.alert-checkbox-label
+			{
+				border-radius: 6px;
+				font-size: 1.4rem;
+				font-weight: 500;
+				letter-spacing: 0.2px;
+				background-color: $white-a;
+				color: $theme-color-2;
+				text-align: center;
+				@include element-shadow();
+			}
+
+			&[aria-checked=true] .alert-checkbox-label
+			{
+				background-color: $theme-color-2;
+				color: $white;
+			}
+
+			.alert-checkbox-icon
+			{
+				display: none;
+			}
+		}
+	}
+
+	.alert-button-group
+	{
+		padding: 14px 0px;
+
+		.alert-button
+		{
+			@include segment-text-styles($white-d);
+			border-top: none;
+		  border-right-color: rgba($white-d, 0.3);
+			font-weight: 400;
+
+			&:last-child
+			{
+			  font-weight: 500;
+				color: $theme-color-2;
 			}
 		}
 	}

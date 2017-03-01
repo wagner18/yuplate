@@ -19,6 +19,7 @@ import { Storage } from '@ionic/storage';
 */
 // import { HomeAppPage } from '../pages/home-app/home-app';
 import { ListingPage } from '../pages/listing/listing';
+import { ListingFilterPage } from '../pages/listing-filter/listing-filter';
 import { ListingDetailsPage } from '../pages/listing-details/listing-details';
 import { ListingUserPage } from '../pages/listing-user/listing-user';
 import { ListingFormPage } from '../pages/listing-form/listing-form';
@@ -36,9 +37,12 @@ import { ProfilePage } from '../pages/profile/profile';
 import { ProfileFormPage } from '../pages/profile-form/profile-form';
 import { ProfileFormAddressPage } from '../pages/profile-form-address/profile-form-address';
 import { ProfilePaymentMethodPage } from '../pages/profile-payment-method/profile-payment-method';
+import { ProfileOrdersPage } from '../pages/profile-orders/profile-orders';
+
 import { AddressFormModal } from '../pages/profile-form-address/address-form-modal';
 import { LoginPage } from '../pages/login/login';
 import { OrderCheckoutPage } from '../pages/order-checkout/order-checkout';
+import { OrderPaymentPage } from '../pages/order-payment/order-payment';
 import { SignupPage } from '../pages/signup/signup';
 import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
 import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
@@ -85,6 +89,7 @@ declare var cordova: any;
   declarations: [
     MyApp,
     ListingPage,
+    ListingFilterPage,
     ListingDetailsPage,
     ListingOrderPage,
     ListingUserPage,
@@ -104,8 +109,10 @@ declare var cordova: any;
     ProfileFormPage,
     ProfileFormAddressPage,
     ProfilePaymentMethodPage,
+    ProfileOrdersPage,
     AddressFormModal,
     OrderCheckoutPage,
+    OrderPaymentPage,
     CardFormPage,
     TabsNavigationPage,
     WalkthroughPage,
@@ -141,6 +148,7 @@ declare var cordova: any;
   entryComponents: [
     MyApp,
     ListingPage,
+    ListingFilterPage,
     ListingDetailsPage,
     ListingOrderPage,
     ListingUserPage,
@@ -158,8 +166,10 @@ declare var cordova: any;
     ProfileFormPage,
     ProfileFormAddressPage,
     ProfilePaymentMethodPage,
+    ProfileOrdersPage,
     AddressFormModal,
     OrderCheckoutPage,
+    OrderPaymentPage,
     CardFormPage,
     TabsNavigationPage,
     WalkthroughPage,
@@ -176,12 +186,11 @@ declare var cordova: any;
     Storage,
     DataService,
     AuthService,
+    ProfileService,
     BaseProvider,
     MediaService,
     ListingService,
-    OrderService,
-    DishService,
-    ProfileService,
+    // OrderService,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

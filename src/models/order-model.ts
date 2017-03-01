@@ -8,7 +8,7 @@ export class OrderModel{
   quantity: number = 1;
   subtotal: number = 0.00;
   total_price: number = 0.00;
-  schedule: number;
+  delivery_schedule: number;
 
   confirmed: boolean = false;
   buyer_uid: string = "";

@@ -49,13 +49,13 @@
           <ion-col no-padding width-50>
             <ion-item class="multi-input time-item">
             	<ion-label fix>From</ion-label>
-              <ion-datetime formControlName="from_time" displayFormat="hh:mm a"></ion-datetime>
+              <ion-datetime formControlName="from_time" displayFormat="HH:mm"></ion-datetime>
             </ion-item>
           </ion-col>
           <ion-col no-padding width-50>
             <ion-item class="multi-input time-item">
             	<ion-label fix>To</ion-label>
-              <ion-datetime formControlName="to_time" displayFormat="hh:mm a"></ion-datetime>
+              <ion-datetime formControlName="to_time" displayFormat="HH:mm" minuteValues="0,15,30,45"></ion-datetime>
             </ion-item>
           </ion-col>
         </ion-row>

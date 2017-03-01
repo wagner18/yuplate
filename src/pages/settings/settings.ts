@@ -56,13 +56,9 @@ export class SettingsPage {
     // }
 
     this.loading.present();
-    this.profileService.getLocalProfile().then((profile) => {
-      if(profile){
-        this.profile = profile;
-        this.setProfile(this.profile);
-        this.loading.dismiss();
-      }
-    });
+    this.profile = this.profileService.getCurrentProfile();
+    this.setProfile(this.profile);
+    this.loading.dismiss();
 
     // this.loading.present();
     // this.profileService.getProfile().then((promises) => {

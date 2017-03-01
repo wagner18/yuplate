@@ -1,0 +1,64 @@
+<!--
+  Generated template for the OrderPayment page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Yuplate Thank You</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="order-content">
+
+	<section class="section-title">
+		<h2>Thank you, your order has been placed.</h2>
+		<h6 class="sub-text">An email confirmation has been sent to you.</h6>
+	</section>
+
+	<ion-list>
+  	<ion-list-header>
+  		Your Order Informations
+  	</ion-list-header>
+  	<ion-item item-left>
+	    <ion-row>
+	    	<ion-col width-30>
+	    		<preload-image [ratio]="{w:1, h:1}" [src]="order.listing.medias[0].media_path">
+          </preload-image>
+        </ion-col>
+	    	<ion-col widht-70>
+	    		<h2 text-left>{{ order.listing.title }}</h2>
+			    <h2 text-left>Quantity: {{ order.quantity }}</h2>
+			    <h2 text-left *ngIf="show_delivery_fee">
+			    	<!-- Implemente currency pipi!! -->
+			    	Delivery fee: {{ order.listing.price.currency }} ${{ order.listing.delivery_fee }}
+			    </h2>
+			    <div class="price-label" item-right>
+			    	<!-- Implemente currency pipi!! -->
+			    	Price: 
+			    	{{ order.listing.price.currency }}
+			    	${{ order.subtotal }}
+			    </div>
+	    	</ion-col>
+	    </ion-row>
+	  </ion-item>
+  	<ion-item *ngIf="order.delivery_address?.primary" class="address-primary">
+  		<h2>Your order will be send to</h2>
+      <h2 class="address-title">{{ order.delivery_address?.full_name }}</h2>
+      <p>{{ order.delivery_address?.street_1 }}</p>
+      <p>{{ order.delivery_address?.city }}, {{ order.delivery_address?.state }} {{ order.delivery_address?.zip_code }}</p>
+      <p>{{ order.delivery_address?.country }}</p>
+      <!-- <h2 item-right *ngIf="order.delivery_address?.primary">Primary</h2> -->
+    </ion-item>
+	</ion-list>
+
+	<button ion-item class="page-button"  (click)="goToHome()">
+		Home
+	</button>
+
+
+</ion-content>

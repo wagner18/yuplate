@@ -43,6 +43,10 @@ export class ProfileAddressModel {
   primary: boolean = false;
 }
 
+// export class ProfilePaymentMethods {
+  
+// }
+
 export class UserModel {
   uid: string;
   firstName: string;

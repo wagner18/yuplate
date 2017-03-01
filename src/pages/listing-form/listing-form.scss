@@ -147,7 +147,13 @@ listing-form-page {
 				ion-item {
 					margin-left: 15px;
 					background-color: $white;
+
+					.listing-type-info {
+						font-size: 1.0rem;
+						color: $black;
+					}
 				}
+				
 			}
 
 

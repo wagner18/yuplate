@@ -18,6 +18,7 @@ import { BaseProvider } from './base.provider';
 
 import { ListingPage } from '../pages/listing/listing';
 import { ProfilePage } from '../pages/profile/profile';
+import { ProfileOrdersPage } from '../pages/profile-orders/profile-orders';
 import { ListingUserPage } from '../pages/listing-user/listing-user';
 import { ListingFormPage } from '../pages/listing-form/listing-form';
 import { SettingsPage } from '../pages/settings/settings';
@@ -70,10 +71,13 @@ export class MyApp {
 
     this.pages = [
       { title: 'Home', icon: 'home', component: ListingPage },
-      { title: 'Profile', icon: 'contact', component: ProfilePage } 
+      { title: 'Profile', icon: 'contact', component: ProfilePage },
+      { title: 'Subscription', icon: 'create', component: ListingUserPage }
+
     ];
 
     this.pushPages = [
+      { title: 'My Orders', icon: 'ios-bookmarks', component: ProfileOrdersPage },
       { title: 'Listing', icon: 'add-circle', component: ListingUserPage },
       { title: 'Settings', icon: 'settings', component: SettingsPage }
     ];
@@ -102,6 +106,12 @@ export class MyApp {
       this.events.unsubscribe('user:signin');
     });
 
+    // subscribe to the profile updated events
+    this.events.subscribe('profile:changed', (profile) => {
+      this._setProfile(profile);
+      // this.events.unsubscribe('profile:changed');
+    });
+
   }
 
   /**
@@ -110,13 +120,15 @@ export class MyApp {
   */
   private loadProfile(currentUser) {
     if(currentUser !== undefined){
-      this._profileService.fetchProfile(currentUser).once('value', profileSnap => {
+      // Set the current user
+      this._profileService.setCurrentUser(currentUser);
+      this._profileService.fetchProfile().once('value', profileSnap => {
         if(profileSnap.val()){
           this._setProfile(profileSnap.val());
 
           // Set the profile to the local storage
           this._authService.setCurrentUser(currentUser).then(() => {
-            this._profileService.setLocalProfile(profileSnap.val());
+            this._profileService.setProfile(profileSnap.val());
             this.nav.setRoot(ListingPage);
           });
         }

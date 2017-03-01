@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, ViewController, NavParams } from 'ionic-angular';
+import { App, NavController, ModalController, ViewController, NavParams } from 'ionic-angular';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { counterRangeValidator } from '../../components/counter-input/counter-input';
 import { Observable } from 'rxjs/Observable';
@@ -13,12 +13,12 @@ import { OrderCheckoutPage } from '../order-checkout/order-checkout';
 import { ProfileFormAddressPage } from '../profile-form-address/profile-form-address';
 import { ProfilePaymentMethodPage } from '../profile-payment-method/profile-payment-method';
 
-import { ListingOrderModel } from '../../models/listing-model';
 import { OrderModel } from '../../models/order-model';
 
 @Component({
   selector: 'page-listing-order',
-  templateUrl: 'listing-order.html'
+  templateUrl: 'listing-order.html',
+  providers: [OrderService]
 })
 export class ListingOrderPage {
 
@@ -27,18 +27,31 @@ export class ListingOrderPage {
 	public quantity: number = 1;
   public subtotal: number = 0;
 
-  public userProfile: any;
+  public profile: any;
   public primaryAddress: any;
   public shipping_address: boolean = true;
   public pickup_address: boolean = false;
   public order: OrderModel;
   public order_key: string;
 
+  // Schedule properties
+  public formSchedule: FormGroup;
+  public current_time: any = new Date();
   public availableDays: Array<any> = [];
-  public time_range: any;
   public scheduleDays: Array<any> = [];
 
+  public delivery_time_range: Array<any> = [];
+  public schedule_time_range: any;
+  public order_schedule: any;
+  
+
+  public take_today: boolean = false;
+  public schedule_delivery: boolean = false;
+  public intime_schedule: boolean = false;
+  
+
   constructor(
+    public appCtrl: App,
   	public nav: NavController, 
   	public viewCtrl: ViewController,
   	public params: NavParams,
@@ -52,10 +65,16 @@ export class ListingOrderPage {
       quantity: new FormControl(1, Validators.required),
       total_price: new FormControl(0.00, Validators.required),
       delivery_option: new FormControl("Delivery", Validators.required),
-      schedule_day: new FormControl('',Validators.required),
-      schedule_time: new FormControl('', Validators.required),
+      delivery_schedule: new FormControl(''),
       confirmation: new FormControl(false)
     });
+
+    this.formSchedule = new FormGroup({
+      delivery_time: new FormControl(''),
+      schedule_day: new FormControl(''),
+      schedule_time: new FormControl('')
+    });
+
   }
 
   ionViewWillLoad() {
@@ -64,22 +83,31 @@ export class ListingOrderPage {
 
     if(this.listing.delivery){
 
-      this.profileService.getProfile().then((fatchProfile) => {
-        fatchProfile.on("value", (profileSnap) =>{
-          if(profileSnap.val()){
-            this.userProfile = profileSnap.val();
+      this.profile = this.profileService.getCurrentProfile();
 
-            if(this.userProfile.addresses !== undefined ){
-              this.primaryAddress = this.userProfile.addresses.find(function(address){
-                return address.primary == true;
-              });
-            }
+      console.log('prof=====', this.profile);
 
-          }
+      if(this.profile.addresses !== undefined ){
+        this.primaryAddress = this.profile.addresses.find(function(address){
+          return address.primary == true;
         });
-      },(error) => {
-        console.log(error.message);
-      });
+      }
+
+      // Set the primary user address
+      // this.profileService.getProfile().then((fatchProfile) => {
+      //   fatchProfile.on("value", (profileSnap) =>{
+      //     if(profileSnap.val()){
+      //       this.userProfile = profileSnap.val();
+      //       if(this.userProfile.addresses !== undefined ){
+      //         this.primaryAddress = this.userProfile.addresses.find(function(address){
+      //           return address.primary == true;
+      //         });
+      //       }
+      //     }
+      //   });
+      // },(error) => {
+      //   console.log(error.message);
+      // });
 
     }else{
 
@@ -90,8 +118,6 @@ export class ListingOrderPage {
       console.log("JUST Carryout",this.listing);
     }
 
-    // Set the date availability to schedule
-    this.setSchedule();
   }
 
   /**
@@ -161,7 +187,7 @@ export class ListingOrderPage {
   * Send the user profile data as a parammeter to the target page
   */
   setAddress() {
-    this.nav.push(ProfileFormAddressPage, { profile: this.userProfile });
+    this.nav.push(ProfileFormAddressPage, { profile: this.profile });
   }
 
   /**
@@ -169,11 +195,31 @@ export class ListingOrderPage {
   * Send the user profile data as a parammeter to the target page
   */
   setPaymentMethod() {
-    this.nav.push(ProfilePaymentMethodPage, { profile: this.userProfile });
+    this.nav.push(ProfilePaymentMethodPage, { profile: this.profile });
+  }
+
+  /**
+  *
+  */
+  setScheduleIntime() {
+    this.take_today = true;
+    this.schedule_delivery = false;
+    // Set the date availability to schedule
+    this.setSchedule();
+  }
+
+  /**
+  *
+  */
+  setScheduleDelivery() {
+    this.schedule_delivery = true;
+    this.take_today = false;
+    // Set the date availability to schedule
+    this.setSchedule();
   }
 
 
-  /**
+  /** SEND TO THE LISTING SERVICE PROVIDER!!!
   * Set the available dates and range of time from 
   * the listing schedule with the next 30 days
   */
@@ -184,16 +230,34 @@ export class ListingOrderPage {
       let time_range = [];
       let from = parseInt(day.from_time.split(':')[0]);
       let to   = parseInt(day.to_time.split(':')[0]);
-      while(from <= to){
-        time_range.push(from);
-        from += 1;
+      let time = from;
+
+      // Set the time range availability
+      while(time <= to){
+        time_range.push(time);
+
+        // Define if the intime schedule are available and
+        // check if the start time is greater than current time
+        if(this.current_time.getDay() == day.day_number){
+          console.log(time,this.current_time.getHours());
+          if(time > this.current_time.getHours()) {
+            this.intime_schedule = true;
+            this.delivery_time_range.push(time);
+            // check if the current time is greater than the start time
+            // if() {}
+          }
+        }
+        time += 1;
       }
+
       return {day: day.day_number, time_range: time_range.toString()};
     });
 
     // User a service method to return the available days within the next 30 days.
-    this.availableDays = this.listingService.getAvailableDays(this.scheduleDays).map((day) => {
-      return day;
+    this.listingService.getAvailableDays(this.scheduleDays).map((day) => {
+      if(day.getDay() != this.current_time.getDay()){
+        this.availableDays.push(day);
+      }
       //return weekdays[day.getDay()].label +" "+ (day.getMonth()+1) +"/"+ day.getDate();// +"/"+ day.getFullYear();
     });
   }
@@ -204,7 +268,7 @@ export class ListingOrderPage {
   */
   setTimeRange(selectDate) {
     let date = new Date(selectDate);
-    this.time_range = this.scheduleDays.find((obj) => {
+    this.schedule_time_range = this.scheduleDays.find((obj) => {
       return obj.day == date.getDay();
     });
   }
@@ -212,18 +276,36 @@ export class ListingOrderPage {
   /**
   *
   */
+  validOrder(){
+    return (this.formOrder.valid) &&  (this.formSchedule.value.delivery_time != '' ||   this.formSchedule.value.schedule_day != '');
+  }
+
+  /** - MOVE THE ORDER OBJECT THE THE ORDER SERVICE PROVIDER!!!!!
+  * Set the Order Checkout object
+  */
   checkoutOrder() {
-    if(this.formOrder.valid) {
+    console.log(this.validOrder());
+    if(this.validOrder()){
 
       this.order = new OrderModel();
 
       //Process the order scheduleDay
-      let order_schedule = new Date(this.formOrder.value.schedule_day);
-      let schedule_time = this.formOrder.value.schedule_time.split(":");
-      order_schedule.setHours(schedule_time[0]);
-      order_schedule.setMinutes(schedule_time[1]);
-      order_schedule.setSeconds(0);;
+      if(this.take_today){
+        this.order_schedule = new Date();
+        let delivery_time = this.formSchedule.value.delivery_time.split(":");
+        this.order_schedule.setHours(delivery_time[0]);
+        this.order_schedule.setMinutes(delivery_time[1]);
 
+      }else if(this.schedule_delivery){
+        this.order_schedule = new Date(this.formSchedule.value.schedule_day);
+        let schedule_time = this.formSchedule.value.schedule_time.split(":");
+        this.order_schedule.setHours(schedule_time[0]);
+        this.order_schedule.setMinutes(schedule_time[1]);
+        this.order_schedule.setSeconds(0);;
+      }
+
+
+      console.log(this.order_schedule);
       // Base listing data
       let summarized_listing = this.listingService.summarizeListing(this.listing);
       this.order.listing = summarized_listing;
@@ -233,12 +315,12 @@ export class ListingOrderPage {
       this.order.delivery_option = this.formOrder.value.delivery_option;
       this.order.total_price = this.formOrder.value.total_price;
       this.order.subtotal = this.subtotal;
-      this.order.schedule = order_schedule.getTime();
+      this.order.delivery_schedule = this.order_schedule.getTime();
 
       if(this.order.delivery_option == "Delivery"){
         this.order.delivery_address = this.primaryAddress;
       }
-      this.order.buyer_uid = this.userProfile.uid;
+      this.order.buyer_uid = this.profile.uid;
       this.order.seller_uid = this.listing.uid;
 
       // Set the order status
@@ -250,7 +332,10 @@ export class ListingOrderPage {
       if(this.order_key){
         this.orderService.updateOrder(this.order_key, this.order).then(()=>{
           console.log(this.order);
-          this.nav.push(OrderCheckoutPage, { order: this.order });
+          // this.nav.push(OrderCheckoutPage, { order: this.order });
+
+          this.viewCtrl.dismiss();
+          this.appCtrl.getRootNav().push(OrderCheckoutPage, { order: this.order });
         })
         .catch((error)=>{
           console.log(error.message);
@@ -259,7 +344,11 @@ export class ListingOrderPage {
         // Save the data to the database
         this.orderService.createOrder(this.order).then((result)=>{
           this.order_key = result.key;
-          this.nav.push(OrderCheckoutPage, { order_key: this.order_key, order: this.order});
+          // this.nav.push(OrderCheckoutPage, { order_key: this.order_key, order: this.order});
+
+          this.viewCtrl.dismiss();
+          this.appCtrl.getRootNav().push(OrderCheckoutPage, { order_key: this.order_key, order: this.order});
+
         }).catch((error)=>{
           console.log(error.message);
         });

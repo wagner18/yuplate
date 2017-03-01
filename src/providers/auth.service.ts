@@ -12,11 +12,14 @@ import { ProfileModel } from '../models/profile-model';
 export class AuthService {
 
 
+  public fireAuth: any;
   private PROFILE_REF: string = "profiles/";
   private CURRENT_USER = "current_user";
-  public fireAuth: any;
   private userProfile: any;
-  private user; any;
+  private user: any;
+
+  // Current user property
+  public currentUser: any;
 
 
   constructor(
@@ -45,6 +48,8 @@ export class AuthService {
   */
   setCurrentUser(currentUser){
     if(currentUser){
+      //set current user property
+      this.currentUser = currentUser;
       // stringify and store the user profile
       currentUser = JSON.stringify(currentUser);
       return this.storage.set(this.CURRENT_USER, currentUser);

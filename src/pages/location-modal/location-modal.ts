@@ -37,15 +37,18 @@ export class LocationModalPage {
   }
 
   ionViewDidLoad() {
-    this.data = this.params.get('data');
+    let data = this.params.get('data');
     var geo_position = {};
     
-    if('lat' in this.data.location.geolocation) {
-      geo_position = this.data.location.geolocation;
-      this.autocomplete.query = this.data.location.address;
-    }else{
-      geo_position = { lat: 38.046386, lng: -87.551769 };
-    }
+      if(data!== undefined && 'lat' in data.location.geolocation) {
+        geo_position = data.location.geolocation;
+        this.autocomplete.query = data.location.address;
+        this.data = data;
+      }else{
+        geo_position = { lat: 38.046386, lng: -87.551769 };
+        this.data = {location: geo_position};
+      }
+
 
     this.baseMap = this.createMap(geo_position);
   }
@@ -55,11 +58,17 @@ export class LocationModalPage {
   * Dismiss the Location Modal and retrive the data to the caller
   */
   dismiss() {
-    if(this.autocomplete.query){
-      this.data.form_control[1] = true;
-    }else{
-      this.data.form_control[1] = false;
+
+    //Set the form controler return to the listing form 
+    // if being used for the listing form
+    if(this.data.form_control !== undefined){
+      if(this.autocomplete.query){
+        this.data.form_control[1] = true;
+      }else{
+        this.data.form_control[1] = false;
+      }
     }
+
     this.viewCtrl.dismiss(this.data);
 	}
 
@@ -82,6 +91,18 @@ export class LocationModalPage {
 
     let map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     map.setZoom(12);
+
+      var cityCircle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.6,
+        strokeWeight: 0,
+        fillColor: '#FF0000',
+        fillOpacity: 0.25,
+        map: map,
+        center: latLng,
+        radius: 4000
+      });
+
     return map;
   }
 
@@ -93,7 +114,7 @@ export class LocationModalPage {
   		marker.setPosition(current_location);
 
   		this.baseMap.setCenter(current_location);
-	  	this.baseMap.setZoom(18);
+	  	this.baseMap.setZoom(13);
   		this.data.location.geolocation = current_location;
 
   		let geo = new google.maps.Geocoder;
@@ -110,7 +131,9 @@ export class LocationModalPage {
     });
   }
   
-
+  /**
+  *
+  */
   addMarker(){
 	  let marker = new google.maps.Marker({
 	    map: this.baseMap,
@@ -121,6 +144,11 @@ export class LocationModalPage {
 	 	return marker;
 	}
 
+  /**
+  * Add information content to the specific marker
+  * @param marker - the google marker which will host the information
+  * @param content - gogole informatio content
+  */
 	addInfoWindow(marker, content){
  
 	  let infoWindow = new google.maps.InfoWindow({
@@ -175,7 +203,7 @@ export class LocationModalPage {
 			});
 	    marker.setVisible(true);
 	    this.baseMap.setCenter(results[0].geometry.location);
-	  	this.baseMap.setZoom(18);
+	  	this.baseMap.setZoom(12);
 		});
   }
 

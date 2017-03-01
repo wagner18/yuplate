@@ -35,7 +35,6 @@ export class ListingDetailsPage {
   ionViewWillLoad() {
     // Get the Listing Key Reference form the nav params
     this.listing = this.params.get('listing');
-    console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",this.listing);
 
     if(this.listing.reviews !== undefined ){
        this.total_reviews = this.listing.reviews.lenght;
@@ -76,12 +75,10 @@ export class ListingDetailsPage {
   // Create an new google maps
   private createMap(position) {
 
-    console.log(position);
-
     //let latLng = new google.maps.LatLng(position.lat, position.lng);
     let mapOptions = {
       center: position,
-      draggable: true,
+      draggable: false,
       maxZoom: 12,
       minZoom: 10,
       scrollwheel: false,
@@ -90,7 +87,7 @@ export class ListingDetailsPage {
     };
     
     let map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    map.setZoom(11);
+    map.setZoom(10);
 
     // let marker = new google.maps.Marker({
     //   position: position,

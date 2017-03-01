@@ -2,9 +2,9 @@
   <ion-navbar>
 
     <button ion-button menuToggle>
-      <!-- <ion-icon name="menu"></ion-icon> -->
+      <ion-icon name="menu"></ion-icon>
       <!-- <ion-icon ios="ios-contact" md="md-contact"></ion-icon> -->
-      <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      <!-- <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon> -->
     </button>
 
     <ion-title>
@@ -16,7 +16,7 @@
 
     <ion-buttons end>
       <button ion-button icon-only color="royal">
-        <ion-icon ios="ios-notifications" md="md-notifications"></ion-icon>
+        <ion-icon name="md-chatboxes"></ion-icon>
       </button>
     </ion-buttons>
 
@@ -25,59 +25,122 @@
 
 <ion-content class="listing-content">
 
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-toolbar class="heard_toolbar ">
+<!--     <section class="section-address">
+      <ion-input class="address-search" clearInput placeholder="Address" [(ngModel)]="autocomplete.query" (keyup)="updateSearch()">
+      </ion-input>
+    </section> -->
+
     <ion-row class="head-row">
-      <ion-col width-20 class="{{active_button[0]}}">
+      <ion-col width-16 class="{{active_button[0]}}">
         <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(0)">
           <!-- <ion-icon ios="ios-heart" md="md-heart"></ion-icon> -->
-          Plates
+          All
         </button>
       </ion-col>
-
-      <ion-col width-20 class="{{active_button[1]}}">
+      <ion-col width-21 class="{{active_button[1]}}">
         <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(1)">
+          <!-- <ion-icon ios="ios-heart" md="md-heart"></ion-icon> -->
+          Dishes
+        </button>
+      </ion-col>
+      <ion-col width-21 class="{{active_button[2]}}">
+        <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(2)">
           <!-- <ion-icon ios="ios-browsers" md="md-browsers"></ion-icon> -->
           Recipes
         </button>
       </ion-col>
-
-      <ion-col width-20 class="{{active_button[2]}}">
-        <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(2)">
+      <ion-col width-21 class="{{active_button[3]}}">
+        <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(3)">
           <!-- <ion-icon ios="ios-navigate" md="md-navigate"></ion-icon> -->
           Fresh
         </button>
       </ion-col>
-
-      <ion-col width-20 class="{{active_button[3]}}">
-        <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(3)">
+      <ion-col width-21 class="{{active_button[4]}}">
+        <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(4)">
           <!-- <ion-icon ios="ios-search" md="md-search"></ion-icon> -->
           Crafted
         </button>
       </ion-col>
-
-      <ion-col width-20 class="{{active_button[4]}}">
-        <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(4)">
+<!--       <ion-col width-20 class="{{active_button[4]}}">
+        <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(4)"> -->
           <!-- <ion-icon ios="ios-search" md="md-search"></ion-icon> -->
-          Events
+<!--           Events
         </button>
-      </ion-col>
+      </ion-col> -->
     </ion-row>
+    
   </ion-toolbar>
 
   <!--     <ion-col col-center width-100>
       <h2 class="main-title">{{listing.banner_title}}</h2>
     </ion-col> -->
 
-  <h4 class="categories-title">Popular</h4>
+<!--   <h4 class="categories-title">Popular</h4>
   <ion-scroll scrollX="true" class="horizontal-categories">
-    <ion-row class="categories-row">
+    <ion-row class="categories-row"> -->
 <!--       <ion-col width-30 class="horizontal-item" *ngFor="let popular of items.populars">
         <preload-image [ratio]="{w:1, h:1}" [src]="popular.image" title="popular.title"></preload-image>
       </ion-col> -->
-    </ion-row>
-  </ion-scroll>
+<!--     </ion-row>
+  </ion-scroll> -->
 
-  <h4 class="categories-title">Browse you plate</h4>
+<!--   <ion-searchbar>
+  </ion-searchbar> -->
+
+<!--   <ion-row class="grid-categories">
+    <ion-col width-50 class="category-item" *ngFor="let category of categories">
+      <background-image class="category-heading" [src]="category.image" (click)="goToFeed(category)">
+        <ion-row class="heading-row">
+          <ion-col no-padding width-100>
+            <h2 class="category-title">{{category.label}}</h2>
+          </ion-col>
+        </ion-row>
+      </background-image>
+    </ion-col>
+  </ion-row> -->
+
+  <ion-row *ngIf="show_actionbar">
+    <ion-col width-25 text-center>
+        <button ion-button small icon-only clear no-padding class="action-bar-button" (click)="listingType(0)">
+          <ion-icon name="ios-heart-outline"></ion-icon>
+        </button>
+    </ion-col>
+    <ion-col width-25 text-center>
+        <button ion-button small icon-only clear no-padding class="action-bar-button" (click)="setCategoryFilter()">
+          <ion-icon name="ios-browsers-outline"></ion-icon>
+        </button>
+    </ion-col>
+    <ion-col width-25 text-center>
+        <button ion-button small icon-only clear no-padding class="action-bar-button" (click)="listingType(0)" (click)="locationModalPage()">
+          <ion-icon name="ios-navigate-outline"></ion-icon>
+        </button>
+    </ion-col>
+    <ion-col width-25 text-center>
+        <button ion-button small icon-only clear no-padding class="action-bar-button"
+        (click)="filterMofalPage()" >
+        <!-- (click)="toggleActionBar('searchbar')" -->
+          <!-- <ion-icon name="ios-search-outline"></ion-icon> -->
+          <ion-icon name="ios-funnel-outline"></ion-icon>
+        </button>
+    </ion-col>
+  </ion-row>
+
+  <ion-searchbar
+    *ngIf="show_searchbar"
+    (ngModel)="searchbar_value"
+    spellcheck
+    showCancelButton
+    autocomplete
+    (ionInput)="serachbarInput($event)"
+    (ionCancel)="toggleActionBar('actionbar')">
+  </ion-searchbar>
+
+  <h4 class="categories-title">Most popular</h4>
 
   <!-- <ion-row class="feed-item"> -->
 
@@ -85,8 +148,7 @@
 
       <ion-card 
         class="item-card-content" 
-        *ngFor="let listing of listings; let index = index "
-        (click)="listingDetails(index)">
+        *ngFor="let listing of listings; let index = index ">
 
 <!--    <ion-slides [options]="slideOptions">
           <ion-slide *ngFor="let media of listing.medias" style="background-color: white">
@@ -97,7 +159,8 @@
           {{ listing.price?.currency }}
           {{ listing.price?.main_price }}
         </ion-badge>
-        <preload-image [ratio]="{w:3, h:3}" [src]="listing.medias[0].media_path">
+        <preload-image [ratio]="{w:3, h:3}" [src]="listing.medias[0].media_path"
+        (click)="listingDetails(index)">
         </preload-image>
 
       
@@ -150,7 +213,7 @@
 
    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
      <ion-infinite-scroll-content loadingSpinner="dots"
-      loadingText="Loading more data...">></ion-infinite-scroll-content>
+      loadingText="Loading more data..."></ion-infinite-scroll-content>
    </ion-infinite-scroll>
 
 

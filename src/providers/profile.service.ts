@@ -10,39 +10,29 @@ import { ProfileModel } from '../models/profile-model';
 @Injectable()
 export class ProfileService {
 	
+  private currentUser: any;
+  private profile: ProfileModel = new ProfileModel();
+
   private PROFILE_REF: string = "profiles/";
   private SHORT_PROFILE_REF: string = "short_profiles/";
-  private currentUser: any;
-  public profile: ProfileModel = new ProfileModel();
   private LOCAL_PROFILE = "local_profile";
+
 
   constructor(
     private _dataService: DataService, 
     private _auth: AuthService,
-    private storage: Storage
+    private storage: Storage,
+    private events: Events
   ){  
 
-    // subscribe to the event publish by the firabe observable onAuthStateChanged
-    // this.events.subscribe('user:currentUser', (currentUser) => {
-    //   this.fetchProfile(currentUser).on('child_changed', profileSnap => {
-    //     if(profileSnap.val()){
-          
-
-    //       this.events.unsubscribe('user:currentUser');
-    //     }
-    //   }, (error) => {
-    //     console.log(error.message);
-    //   });
-    // });
-
+    // subscribe to the event publish by the firabase observable onAuthStateChanged
     this._auth.getCurrentUser().then((currentUser) => {
       if(currentUser !== null){
-        this.fetchProfile(currentUser).on('value', profileSnap => {
-          if(profileSnap.val()){
-            console.log('Profile Changed!!!!!!!!!!', profileSnap.val());
+        this.setCurrentUser(currentUser);
 
-            this.profile = profileSnap.val();
-            this.setLocalProfile(profileSnap.val());
+        this.fetchProfile().on('value', profileSnap => {
+          if(profileSnap.val()){
+            this.setProfile(profileSnap.val());
           }
         }, (error) => {
           console.log(error.message);
@@ -53,44 +43,41 @@ export class ProfileService {
   }
 
   /**
-  * Return the current profile
+  * Set current user
+  * @param currentUser - Firebase auth current user
   */
-  getProfile() {
-    return this._auth.getCurrentUser().then((currentUser) => {
-      return this.fetchProfile(currentUser);
-    });
+  setCurrentUser(currentUser){
+    this.currentUser = currentUser;
   }
 
+
   /**
-  * Fetch a profile form the data base usinge the logged user object
-  * @param currentUser - User object
+  * Return the current profile, if in memory, return the current object
+  * if no, get from local storage.
   */
-  fetchProfile(currentUser){
-    if(currentUser){
-      let refProfile = this.PROFILE_REF + currentUser.uid;
-      return this._dataService.database.child(refProfile);
+  getCurrentProfile() {
+    if(this.profile.uid !== undefined){
+      return this.profile;
+    }else{
+      return undefined;
     }
   }
 
   /**
   *
   */
-  setLocalProfile(profile) {
-    if(profile){
+  setProfile(profile) {
+    if(profile.uid !== undefined){
+      //Update the profile local property
+      this.profile = profile;
+      // Set the event to listen the profile changings
+      this.events.publish('profile:changed', this.profile);
       // stringify and store the user profile
-      profile = JSON.stringify(profile);
-      return this.storage.set(this.LOCAL_PROFILE, profile);
+      // profile = JSON.stringify(profile);
+      // return this.storage.set(this.LOCAL_PROFILE, profile);
     }
   }
 
-  /**
-  *
-  */
-  getLocalProfile() {
-    return this.storage.get(this.LOCAL_PROFILE).then((profile) => {
-      return JSON.parse(profile);
-    });
-  }
 
   getShortPrifile(uid){
     let refShortProfile = this.SHORT_PROFILE_REF + uid;
@@ -99,6 +86,20 @@ export class ProfileService {
 
   saveShortProfile(uid, data){
     return this._dataService.database.child(this.SHORT_PROFILE_REF + uid).update(data);
+  }
+
+
+
+  /**
+  * Fetch a profile form the data base usinge the logged user object
+  */
+  fetchProfile(){
+    if(this.currentUser.uid !== undefined){
+      let refProfile = this.PROFILE_REF + this.currentUser.uid;
+      return this._dataService.database.child(refProfile);
+    }else{
+      console.log("None user founded");
+    }
   }
 
   /**

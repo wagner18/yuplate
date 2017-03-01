@@ -17,6 +17,11 @@
 		font-size: 1.6rem;
 	}
 
+/*	button	{
+		color: $theme-color-2;
+		@include justify-content(space-between);
+	}*/
+
 	.list-item {
 		background-color: $white;
 		/*padding: 20px;*/
@@ -63,5 +68,7 @@
 				font-size: 2.0em;
 			}
 		}
+
+
 	}
 }

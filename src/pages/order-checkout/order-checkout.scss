@@ -24,6 +24,27 @@ page-order-checkout {
 			text-transform: none;
 		}
 
+		.checkout-actions {
+			margin: 0px;
+			padding: 0px;
+
+			.button {
+				color: $theme-color-2;
+			}
+		}
+
+	}
+
+	.payment-method {
+		.title-text {
+			font-weight: 700px;
+			color: $theme-color-2;
+		}
+	}
+
+	.delivery-schedule {
+		color: $positive-text;
+		font-weight: 600;
 	}
 
 	.checkout-footer {

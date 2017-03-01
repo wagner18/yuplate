@@ -11,18 +11,21 @@ import { ListingDetailsPage } from '../listing-details/listing-details';
 import { ListingOrderPage } from '../listing-order/listing-order';
 import { ProfilePaymentMethodPage } from '../profile-payment-method/profile-payment-method';
 
+import { OrderPaymentPage } from '../order-payment/order-payment';
 
 @Component({
   selector: 'page-order-checkout',
-  templateUrl: 'order-checkout.html'
+  templateUrl: 'order-checkout.html',
+  providers: [OrderService]
 })
 export class OrderCheckoutPage {
 
 	public order: any;
 	public order_key: string;
-	public schedule: Date;
+  public show_delivery_fee: boolean = false;
 	public shipping_address: boolean = false;
 	public carryout_address: boolean = false;
+  public schedule: any;
 
   constructor(
   	public nav: NavController, 
@@ -41,14 +44,16 @@ export class OrderCheckoutPage {
   	this.order = this.params.get('order');
   	this.order_key = this.params.get('order_key');
 
-  	console.log(this.order_key);
+  	console.log(this.order);
 
   	//Set a data object to the schedule's timestamp
-  	this.schedule = new Date(this.order.schedule);
+  	this.schedule = new Date(this.order.delivery_schedule);
+    this.schedule = this.schedule.toString().slice(0,21);// + " " + this.delivery_schedule.getHours() +":"+ this.delivery_schedule.getMinutes();
 
   	// Set the shipping address - if for delivery
   	if(this.order.delivery_option == "Delivery") {
   		this.shipping_address = true;
+      this.show_delivery_fee = true;
   	}else{
   		this.carryout_address = true;
   	}
@@ -118,11 +123,19 @@ export class OrderCheckoutPage {
   }
 
   /**
+  *
+  */
+  proceedPayment() {
+    this.nav.setRoot(OrderPaymentPage, { order: this.order, order_key: this.order_key });
+  }
+  
+
+  /**
   * Show the profile shipping address screen
   * Send the user profile data as a parammeter to the target page
   */
   setPaymentMethod() {
-    this.nav.push(ProfilePaymentMethodPage, { profile: "" });
+    
   }
 
 }

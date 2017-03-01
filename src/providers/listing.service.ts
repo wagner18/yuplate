@@ -73,50 +73,44 @@ export class ListingService {
   loadListingData(key){
 
   	return new Promise((resolve, reject) => {
-	    this.profileService.getLocalProfile().then((profile) => {
-        if(profile !== undefined){
 
-          this.profile = profile;
+      this.profile = this.profileService.getCurrentProfile();
 
-          // If listing has an key, fetch the data
-          if(key){
-            this.getListing(key).once('value', (listingSnap) => {
-            	this.result = { key: listingSnap.key, listing: listingSnap.val() };
-             	resolve(this.result);
-            })
-            .catch((error) => {
-            	reject(error);
-            });
-          }else{
+      // If listing has an key, fetch the data
+      if(key){
+        this.getListing(key).once('value', (listingSnap) => {
+          this.result = { key: listingSnap.key, listing: listingSnap.val() };
+           resolve(this.result);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+      }else{
 
-          	let medias = [];
-          	let i = this.max_media;
-            while(i--) {
-              medias.push({media_path: './assets/images/default-placeholder.png'});
-            }
-
-            // Create a craft to the listing
-            var data = new ItemModel();
-            data.medias = medias;
-            data.price = new PriceModel();
-              data.price.currency = this.profile.currency;
-
-              console.log("Currencyyyyyyyyyy",data);
-
-            this.saveListing(data).then((ref) => {
-            	this.result = { key: ref.key, listing: data};
-              resolve(this.result);
-            })
-            .catch((error) => {
-            	reject(error);
-            });
-          }
-
+        let medias = [];
+        let i = this.max_media;
+        while(i--) {
+          medias.push({media_path: './assets/images/default-placeholder.png'});
         }
 
-      });
+        // Create a craft to the listing
+        var data = new ItemModel();
+        data.medias = medias;
+        data.price = new PriceModel();
+          data.price.currency = this.profile.currency;
 
-	  });
+          console.log("Currencyyyyyyyyyy",data);
+
+        this.saveListing(data).then((ref) => {
+          this.result = { key: ref.key, listing: data};
+          resolve(this.result);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+      }
+    });
+
   }
 
   /**
@@ -182,6 +176,22 @@ export class ListingService {
     return days;
   }
 
+  /**
+  *
+  */
+  getListingType(){
+    let type = [
+      {label: "Plate", image: "./assets/images/login_background.png"},
+      {label: "Service", image: "./assets/images/login_background.png"},
+      {label: "Fresh", image: "./assets/images/login_background.png"},
+      {label: "Crafted", image: "./assets/images/login_background.png"},
+      {label: "Engredient", image: "./assets/images/login_background.png"},
+      {label: "Event", image: "./assets/images/login_background.png"}
+    ];
+
+    return type;
+  }
+
 
   // Categories - Take it to the right place
   getCategories(){
@@ -231,6 +241,45 @@ export class ListingService {
       { label: "Seats", short: "seat", value: "Seats"}
     ]
     return measure_units;
+  }
+
+
+  /**
+  *
+  */
+  getListingCategories(){
+    let categories = [
+      {label: "All", value:"All"},
+      {label:"Light", value:"Light"},
+      {label:"Diet", value:"Diet"},
+      {label:"Vegetarian", value:"Vegetarian"},
+      {label:"Vegan", value:"Vegan"},
+      {label:"Global", value:"Global"},
+      {label:"France", value:"France"},
+      {label:"Italian", value:"Italian"},
+      {label:"Italian", value:"Italian"},
+      {label:"Purtuguese", value:"Purtuguese"},
+      {label:"Indian", value:"Indian"},
+      {label:"Brazilian", value:"Brazilian"},
+      {label:"Greek", value:"Greek"},
+      {label:"Mexican", value:"Mexican"},
+      {label:"Thay", value:"Thay"},
+      {label:"Japanese", value:"Japanese"},
+      {label:"Chinese", value:"Chinese"},
+      {label:"Chicken", value:"Chicken"},
+      {label:"Beef", value:"Beef"},
+      {label:"Fish", value:"Fish"},
+      {label:"Seafood", value:"Seafood"},
+      {label:"Salad", value:"Salad"},
+      {label:"Vegetables", value:"Vegetables"},
+      {label:"Pasta", value:"Pasta"},
+      {label:"Soup", value:"Soup"},
+      {label:"Sandwich", value:"Fish"},
+      {label:"Brad", value:"Brad"},
+      {label:"Exotic food", value:"Fish"}
+    ];
+
+    return categories;
   }
 
 

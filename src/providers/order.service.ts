@@ -16,12 +16,15 @@ import { LocationModel } from '../models/listing-model';
 export class OrderService {
 
 	private ORDER_REF: string = "orders/";
+  private profile: any;
 
   constructor(
   	private _dataService: DataService, 
     private _auth: AuthService,
     public profileService: ProfileService
   ){
+
+    this.profile = this.profileService.getCurrentProfile();
   }
 
   /**
@@ -47,6 +50,15 @@ export class OrderService {
       let order_ref = this.ORDER_REF + currentUser.uid + "/";
       return this._dataService.database.child(order_ref + key).set(data);
     });
+  }
+
+
+  /**
+  *
+  */
+  getProfileOrders(){
+    let order_ref = this.ORDER_REF + this.profile.uid;
+    return this._dataService.database.child(order_ref);
   }
 
 

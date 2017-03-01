@@ -1,11 +1,13 @@
 <ion-header>
-
   <ion-navbar>
+    <ion-buttons end>
+      <button ion-button>
+        Cancel
+      </button>
+    </ion-buttons>
     <ion-title>Checkout</ion-title>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content class="order-content">
 
@@ -21,19 +23,22 @@
           </preload-image>
         </ion-col>
 	    	<ion-col widht-70>
-	    		
 	    		<h2 text-left>{{ order.listing.title }}</h2>
-			    <p text-left>Quantity: {{ order.quantity }}</p>
-			    <p text-left>Schedule: {{ schedule.toDateString() }}</p>
-			    <p text-left>Delivery fee: {{ order.listing.delivery_fee }}</p>
+			    <h2 text-left>Quantity: {{ order.quantity }}</h2>
+			    <h2 text-left *ngIf="show_delivery_fee">
+			    	<!-- Implemente currency pipi!! -->
+			    	Delivery fee: {{ order.listing.price.currency }} ${{ order.listing.delivery_fee }}
+			    </h2>
 			    <div class="price-label" item-right>
+			    	<!-- Implemente currency pipi!! -->
+			    	Price: 
 			    	{{ order.listing.price.currency }}
-			    	{{ order.total_price }}
+			    	${{ order.subtotal }}
 			    </div>
 	    	</ion-col>
 	    </ion-row>
 
-	    <ion-row>
+	    <ion-row class="checkout-actions">
 	    	<ion-col width-33>
 	    		<button ion-button small clear (click)="cancelOrderConfirmation()">
 	    			Cancel order
@@ -53,6 +58,30 @@
 	  </ion-item>
 	</ion-list>
 
+  <ion-list>
+  	<ion-item>
+  		<h2>Total Price:</h2>
+  		<h2 class="price-label" item-right>
+	    	<!-- Implemente currency pipi!! -->
+	    	{{ order.listing.price.currency }}
+	    	${{ order.total_price }}
+	    </h2>
+  	</ion-item>
+  </ion-list>
+
+	<ion-list>
+		<ion-list-header>
+    	Estimate Delivery
+    	<div class="list-sub-header">
+    		The estimate add the processting time
+    	</div>
+    </ion-list-header>
+    <ion-item>
+    	<h2>Est. Delivery</h2>
+    	<h2 class="delivery-schedule">{{ schedule }}</h2>
+    </ion-item>
+	</ion-list>
+
 	<ion-list *ngIf="shipping_address">
 	    <ion-list-header>
 	    	Shipping Address
@@ -65,7 +94,7 @@
 	      <p>{{ order.delivery_address?.street_1 }}</p>
 	      <p>{{ order.delivery_address?.city }}, {{ order.delivery_address?.state }} {{ order.delivery_address?.zip_code }}</p>
 	      <p>{{ order.delivery_address?.country }}</p>
-	      <h2 item-right *ngIf="order.delivery_address?.primary">Primary</h2>
+	      <!-- <h2 item-right *ngIf="order.delivery_address?.primary">Primary</h2> -->
 	    </ion-item>
 	  </ion-list>
 
@@ -82,11 +111,23 @@
 		    </ion-item>
 		  </ion-list>
 
-  <ion-list>
-    <button ion-item small icon-left (click)="setPaymentMethod()">
+  <ion-list class="payment-method">
+  	<ion-list-header>
+  		Payment Methods
+  	</ion-list-header>
+  	<ion-item>
+      <h2>Paypal Account</h2>
+      <h4>user@email.com</h4>
+      <h2 item-right class="title-text">Primary</h2>
+    </ion-item>
+    <button ion-item small (click)="setPaymentMethod()">
     	<ion-icon ios="ios-card" md="md-card" item-left></ion-icon>
-      Payment method
+      Add payment method
     </button>
+<!--     <ion-item>
+      <span>Paypal, Visa, MasterCard, American Express, Discover</span>
+      <h6>Cards are processed by Paypal</h6>
+    </ion-item> -->
   </ion-list>
 
 </ion-content>
@@ -98,7 +139,7 @@
 			<span>{{ order.listing.price.currency }} {{ order.total_price }}</span>
 		</p>
     <ion-buttons end>
-  		<button ion-button class="checkout-button" item-right  icon-left>
+  		<button ion-button class="checkout-button" (click)="proceedPayment()" item-right  icon-left>
         <ion-icon ios="logo-usd" md="logo-usd"></ion-icon>
       	Pay
       </button>

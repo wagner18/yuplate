@@ -9,7 +9,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="order-content" scroll="false">
+<ion-content class="order-content">
 	<form class="form-style" [formGroup]="formOrder">
     <ion-list>
     	<ion-list-header>
@@ -36,7 +36,7 @@
           </ion-col>
           <ion-col widht-70>
             <p text-left>{{ listing.title }}</p>
-            <p text-left>Servings: {{ listing.unit_value }}</p>
+            <p text-left>{{ listing.measure_unit }}: {{ listing.unit_value }}</p>
             <p text-left>{{ listing.listing_type }}</p>
             <div class="price-label" item-right>
               {{ listing.price.currency }}
@@ -78,6 +78,10 @@
         <ion-label>Carryout</ion-label>
         <ion-radio value="Carryout" (click)="setCarryoutAddress()" ></ion-radio>
       </ion-item>
+      <ion-item class="radio-tag" *ngIf="listing.shipping">
+        <ion-label>Shipping</ion-label>
+        <ion-radio value="Shipping" (click)="setDeliveryAddress()" ></ion-radio>
+      </ion-item>
     </ion-list>
 
 	  <ion-list *ngIf="shipping_address">
@@ -104,38 +108,48 @@
       	<h2>Pickup location will be shown after confimed</h2>
       </ion-item>
 	  </ion-list>
+  </form>
 
-<!-- 	  <ion-list>
-	    <button ion-item small icon-left (click)="setSchedule()">
-	    	<ion-icon icon-left name="calendar"></ion-icon>
-        Order Schedule
-      </button>
-    </ion-list> -->
+  <form class="form-style" [formGroup]="formSchedule">
+    <ion-list radio-group>
+      <ion-item>
+        <ion-label>Take it today</ion-label>
+        <ion-radio value="schuedule_today" (click)="setScheduleIntime()"></ion-radio>
+      </ion-item>
 
-    <ion-list>
+      <ion-item>
+        <ion-label>Schedule Delivery</ion-label>
+        <ion-radio value="schedule_delivery" (click)="setScheduleDelivery()"></ion-radio>
+      </ion-item>
+    </ion-list>
 
+    <ion-list *ngIf="take_today">
       <ion-list-header>
         Take it today
         <div class="list-sub-header">
           Availability for the current day
         </div>
       </ion-list-header>
-
-      <ion-item>
-        <h2>Processing time:</h2>
-        <p item-right>{{listing.processing_time}}</p>
+      <item-group *ngIf="intime_schedule">
+        <ion-item >
+          <h2>Processing time:</h2>
+          <h2 item-right>{{ listing.processing_time }}</h2>
+        </ion-item>
+        <ion-item>
+          <ion-label>Set delivery time</ion-label>
+          <ion-datetime formControlName="delivery_time" displayFormat="HH:mm" 
+          hourValues="{{delivery_time_range}}" minuteValues="0,15,30,45">
+          </ion-datetime>
+        </ion-item>
+      </item-group>
+      <ion-item *ngIf="!intime_schedule" danger>
+        <h2>Not available for today</h2>
       </ion-item>
-      <ion-item>
-        <ion-label>Set delivery time</ion-label>
-        <ion-datetime formControlName="schedule_time" displayFormat="hh:mm a" pickerFormat="hh:mm a" hourValues="{{time_range?.time_range}}">
-        </ion-datetime>
-      </ion-item>
-
     </ion-list>
 
-    <ion-list>
+    <ion-list *ngIf="schedule_delivery">
     	<ion-list-header>
-    		Schedule Delivery
+    		Schedule
 	    	<div class="list-sub-header">
 	    		Shows the available schedule for the next 15 days
 	    	</div>
@@ -154,19 +168,10 @@
 
     	<ion-item>
     		<ion-label>Set the time</ion-label>
-    		<ion-datetime formControlName="schedule_time" displayFormat="hh:mm a" pickerFormat="hh:mm a" hourValues="{{time_range?.time_range}}">
+    		<ion-datetime formControlName="schedule_time" displayFormat="HH:mm"hourValues="{{schedule_time_range?.time_range}}" minuteValues="0,15,30,45">
     		</ion-datetime>
     	</ion-item>
-
     </ion-list>
-
-    <ion-list>
-	    <button ion-item small icon-left (click)="setPaymentMethod()">
-	    	<ion-icon ios="ios-card" md="md-card" item-left></ion-icon>
-        Payment method
-      </button>
-    </ion-list>
-
   </form>
 
 </ion-content>

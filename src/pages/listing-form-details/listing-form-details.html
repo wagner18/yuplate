@@ -45,8 +45,20 @@
 	    <ion-item-divider></ion-item-divider>
 	    <ion-item>
       	<ion-label>Processing time</ion-label>
-      	<ion-datetime formControlName="processing_time" displayFormat="HH:mm"></ion-datetime>
+      	<ion-datetime formControlName="processing_time" displayFormat="HH:mm" minuteValues="0,15,30,45"></ion-datetime>
     	</ion-item>
+
+			<ion-item-divider></ion-item-divider>
+    	<ion-item>
+	      <ion-label>Shipping</ion-label>
+	      <ion-toggle formControlName="shipping" checked="false"></ion-toggle>
+	      <!-- <ion-checkbox value="true" formControlName="delivery"></ion-checkbox> -->
+	    </ion-item>
+
+	    <ion-item *ngIf="formDetails.value.delivery">
+	      <ion-label fixed>Shipping Fee</ion-label>
+	      <ion-input class="input-number" text-right type="number" formControlName="shipping_fee"></ion-input>
+	    </ion-item>
 
 	  	<ion-item-divider>Servings per portion</ion-item-divider>
 	  	<ion-item>

@@ -1,0 +1,81 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        Cancel
+      </button>
+    </ion-buttons>
+    <ion-title>Filter</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (click)="applyFilter()">
+        <!-- <ion-icon ios="ios-navigate" md="md-navigate"></ion-icon> -->
+        Apply
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="filter-content">
+
+	<form class="form-style" [formGroup]="formFilter">
+
+		<ion-list>
+			<ion-item-divider>
+				Availability
+			</ion-item-divider>
+	  	<ion-item>
+	      <ion-label>Show just Available today</ion-label>
+	      <ion-toggle formControlName="available_today" checked="false"></ion-toggle>
+		  </ion-item>
+
+		  <ion-item-divider>
+		  	Distance in miles
+		  </ion-item-divider>
+		  <ion-item>
+		    <ion-label>Miles: {{formFilter.value.distance}}</ion-label>
+		    <ion-range formControlName="distance" min="1" max="15" step="1" snaps="true">
+	    		<ion-icon range-left small name="ios-remove-circle-outline"></ion-icon>
+    			<ion-icon range-right small name="ios-add-circle-outline"></ion-icon>
+		    </ion-range>
+		  </ion-item>
+
+		  <ion-item-divider>
+		  	Price Range
+		  </ion-item-divider>
+      <ion-row no-padding class="multi-input-row">
+        <ion-col no-padding width-50>
+          <ion-item class="multi-input time-item">
+          	<ion-label fix>$</ion-label>
+            <ion-input type="number" pattern="\d*" formControlName="price_range_from"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col no-padding width-50>
+          <ion-item class="multi-input time-item">
+          	<ion-label fix>$</ion-label>
+            <ion-input type="number" pattern="\d*" formControlName="price_range_to"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+		</ion-list>
+
+		<ion-list>
+			<ion-item-divider>
+			Categories
+			</ion-item-divider>
+<!-- 			<ion-list-header>
+				
+			</ion-list-header> -->
+
+			<ion-item *ngFor="let category of categories">
+			  <ion-label>{{category.label}}</ion-label>
+		    <ion-checkbox formControlName="categories_filter" (click)="setCetetories(category.value)">
+		    </ion-checkbox>
+			</ion-item>
+		</ion-list>
+
+	</form>
+
+</ion-content>
