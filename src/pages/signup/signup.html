@@ -6,6 +6,16 @@
 
 <ion-content class="signup-content auth-content">
   <h2 class="auth-title">Create an account</h2>
+
+    <ion-segment class="forms-segment" [(ngModel)]="section" (ionChange)="onSegmentChanged($event)">
+      <ion-segment-button value="personal" (ionSelect)="onSegmentSelected($event)">
+       Personal account
+      </ion-segment-button>
+      <ion-segment-button value="business" (ionSelect)="onSegmentSelected($event)">
+        Business account
+      </ion-segment-button>
+    </ion-segment>
+
   <form class="signup-form auth-form" [formGroup]="signup" (ngSubmit)="signUpUser()">
     <ion-item>
       <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>

@@ -26,9 +26,7 @@ export class ListingPage implements OnDestroy{
   public list_limit: number = 10;
   public listings: ItemModel[];
 
-  public searchbar_value: string;
-  public show_searchbar: boolean = false;
-  public show_actionbar: boolean = true;
+  public search_query: string;
 
   public categories_checkbox_open: boolean;
   public categories_checkbox_result;
@@ -152,7 +150,7 @@ export class ListingPage implements OnDestroy{
   /**
   * Show the Filter Modal
   */
-  filterMofalPage() {
+  filterModalPage() {
     let filterModal = this.modalCtrl.create(ListingFilterPage);
     filterModal.onDidDismiss(data => {
 
@@ -161,25 +159,11 @@ export class ListingPage implements OnDestroy{
     filterModal.present();
   }
 
-  /*
-  * 
-  */
-  toggleActionBar(option){
-    if(option == "searchbar"){
-      this.show_searchbar = true;
-      this.show_actionbar = false;
-    }else{
-      this.show_searchbar = false;
-      this.show_actionbar = true;
-    }
-    
-  }
-
   /**
   * @param event - The input event from the search bar
   */
-  serachbarInput() {
-    console.log(this.searchbar_value);
+  updateSearch($event) {
+    console.log("search query = ",this.search_query);
   }
 
   /**

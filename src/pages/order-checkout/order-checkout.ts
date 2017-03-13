@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController, AlertController, ViewController, NavParams } from 'ionic-angular';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
+import { FullDateFormat } from '../../app/pipes/full-date-format';
 
 import { AuthService } from '../../providers/auth.service';
 import { ProfileService } from '../../providers/profile.service';
@@ -16,6 +17,7 @@ import { OrderPaymentPage } from '../order-payment/order-payment';
 @Component({
   selector: 'page-order-checkout',
   templateUrl: 'order-checkout.html',
+  // pipes: [FullDateFormat],
   providers: [OrderService]
 })
 export class OrderCheckoutPage {

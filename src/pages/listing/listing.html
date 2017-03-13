@@ -29,52 +29,35 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-toolbar class="heard_toolbar ">
-<!--     <section class="section-address">
-      <ion-input class="address-search" clearInput placeholder="Address" [(ngModel)]="autocomplete.query" (keyup)="updateSearch()">
-      </ion-input>
-    </section> -->
-
+<!--   <ion-toolbar class="head_toolbar ">
     <ion-row class="head-row">
       <ion-col width-16 class="{{active_button[0]}}">
         <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(0)">
-          <!-- <ion-icon ios="ios-heart" md="md-heart"></ion-icon> -->
           All
         </button>
       </ion-col>
       <ion-col width-21 class="{{active_button[1]}}">
         <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(1)">
-          <!-- <ion-icon ios="ios-heart" md="md-heart"></ion-icon> -->
           Dishes
         </button>
       </ion-col>
       <ion-col width-21 class="{{active_button[2]}}">
         <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(2)">
-          <!-- <ion-icon ios="ios-browsers" md="md-browsers"></ion-icon> -->
           Recipes
         </button>
       </ion-col>
       <ion-col width-21 class="{{active_button[3]}}">
         <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(3)">
-          <!-- <ion-icon ios="ios-navigate" md="md-navigate"></ion-icon> -->
           Fresh
         </button>
       </ion-col>
       <ion-col width-21 class="{{active_button[4]}}">
         <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(4)">
-          <!-- <ion-icon ios="ios-search" md="md-search"></ion-icon> -->
           Crafted
         </button>
       </ion-col>
-<!--       <ion-col width-20 class="{{active_button[4]}}">
-        <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(4)"> -->
-          <!-- <ion-icon ios="ios-search" md="md-search"></ion-icon> -->
-<!--           Events
-        </button>
-      </ion-col> -->
     </ion-row>
-    
-  </ion-toolbar>
+  </ion-toolbar> -->
 
   <!--     <ion-col col-center width-100>
       <h2 class="main-title">{{listing.banner_title}}</h2>
@@ -104,7 +87,17 @@
     </ion-col>
   </ion-row> -->
 
-  <ion-row *ngIf="show_actionbar">
+  <ion-searchbar
+    (ngModel)="search_query"
+    [showCancelButton]="false"
+    (ionInput)="updateSearch($event)"
+    placeholder="Search"
+    autocomplete="true"
+    spellcheck="true"
+    debounce="2000">
+  </ion-searchbar>
+
+  <ion-row>
     <ion-col width-25 text-center>
         <button ion-button small icon-only clear no-padding class="action-bar-button" (click)="listingType(0)">
           <ion-icon name="ios-heart-outline"></ion-icon>
@@ -122,23 +115,13 @@
     </ion-col>
     <ion-col width-25 text-center>
         <button ion-button small icon-only clear no-padding class="action-bar-button"
-        (click)="filterMofalPage()" >
+        (click)="filterModalPage()" >
         <!-- (click)="toggleActionBar('searchbar')" -->
           <!-- <ion-icon name="ios-search-outline"></ion-icon> -->
           <ion-icon name="ios-funnel-outline"></ion-icon>
         </button>
     </ion-col>
   </ion-row>
-
-  <ion-searchbar
-    *ngIf="show_searchbar"
-    (ngModel)="searchbar_value"
-    spellcheck
-    showCancelButton
-    autocomplete
-    (ionInput)="serachbarInput($event)"
-    (ionCancel)="toggleActionBar('actionbar')">
-  </ion-searchbar>
 
   <h4 class="categories-title">Most popular</h4>
 

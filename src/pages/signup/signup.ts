@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController} from 'ionic-angular';
+import { NavController, ModalController, SegmentButton} from 'ionic-angular';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 
 import { AuthService } from '../../providers/auth.service';
@@ -21,8 +21,9 @@ export class SignupPage {
   // Properties
   private user: any;
 
-  signup: FormGroup;
-  main_page: { component: any };
+  public signup: FormGroup;
+  public main_page: { component: any };
+  public section: string;
 
   constructor(
     public nav: NavController,
@@ -31,7 +32,7 @@ export class SignupPage {
     private _auth: AuthService,
     private _profile: ProfileService
   ){
-
+    this.section = "personal";
     this.main_page = { component: ListingPage };
 
     this.signup = new FormGroup({
@@ -60,6 +61,17 @@ export class SignupPage {
       console.log(error);
       this.BaseApp.showAlert(title, error.message);
     });
+  }
+
+  /**
+  *
+  */
+  onSegmentChanged(segmentButton: SegmentButton) {
+    // console.log('Segment changed to', segmentButton.value);
+  }
+
+  onSegmentSelected(segmentButton: SegmentButton) {
+    // console.log('Segment selected', segmentButton.value);
   }
 
   signInWithFacebook(): void {

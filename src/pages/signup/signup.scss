@@ -1,6 +1,19 @@
 signup-page {
-	.signup-content
-	{
+	.signup-content {
+
+		.forms-segment{
+			padding: 4px 0px;
+			background-color: $white;
+			@include element-shadow();
+
+			@include segment-button-styles($theme-color-2);
+
+			.segment-button	{
+				@include segment-text-styles($white-d);
+			}
+		}
+
+
 		.legal-stuff
 		{
 			color: $white-d;

@@ -71,14 +71,14 @@ export class MyApp {
 
     this.pages = [
       { title: 'Home', icon: 'home', component: ListingPage },
-      { title: 'Profile', icon: 'contact', component: ProfilePage },
-      { title: 'Subscription', icon: 'create', component: ListingUserPage }
-
+      { title: 'Profile', icon: 'contact', component: ProfilePage }
     ];
 
     this.pushPages = [
-      { title: 'My Orders', icon: 'ios-bookmarks', component: ProfileOrdersPage },
       { title: 'Listing', icon: 'add-circle', component: ListingUserPage },
+      { title: 'My Orders', icon: 'ios-bookmarks', component: ProfileOrdersPage },
+      { title: 'Subscription', icon: 'create', component: ListingUserPage },
+      { title: 'Drivers Pool', icon: 'ios-car-outline', component: ListingUserPage },
       { title: 'Settings', icon: 'settings', component: SettingsPage }
     ];
   }

@@ -274,9 +274,9 @@ export class ListingService {
       {label:"Vegetables", value:"Vegetables"},
       {label:"Pasta", value:"Pasta"},
       {label:"Soup", value:"Soup"},
-      {label:"Sandwich", value:"Fish"},
+      {label:"Sandwich", value:"Sandwich"},
       {label:"Brad", value:"Brad"},
-      {label:"Exotic food", value:"Fish"}
+      {label:"Exotic food", value:"Exotic food"}
     ];
 
     return categories;
