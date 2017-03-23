@@ -33,10 +33,10 @@ export class ListingFormSchedulePage {
 
   dismiss() {
 		if(this.schedules.length > 0){
-			this.data.form_control[3] = true;
+			this.data.form_control.schedule = true;
       this.data.schedule = this.schedules;
 		}else{
-			this.data.form_control[3] = false;
+			this.data.form_control.schedule = false;
 		}
 		this.viewCtrl.dismiss(this.data);
 	}

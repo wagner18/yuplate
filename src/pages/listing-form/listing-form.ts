@@ -6,7 +6,7 @@ import { counterRangeValidator } from '../../components/counter-input/counter-in
 
 import { ListingPage } from '../listing/listing';
 
-import { AuthService } from '../../providers/auth.service';
+// import { AuthService } from '../../providers/auth.service';
 import { ProfileService } from '../../providers/profile.service';
 import { BaseProvider } from '../../app/base.provider';
 import { ListingService } from '../../providers/listing.service';
@@ -16,6 +16,7 @@ import { ItemModel } from '../../models/listing-model';
 import { MediaModel } from '../../models/listing-model';
 
 /* Pages */
+import { ListingFormCategoriesPage } from '../listing-form-categories/listing-form-categories';
 import { ListingFormDescPage } from '../listing-form-desc/listing-form-desc';
 import { ListingFormPricePage } from '../listing-form-price/listing-form-price';
 import { ListingFormSchedulePage } from '../listing-form-schedule/listing-form-schedule';
@@ -32,25 +33,25 @@ export class ListingFormPage {
 
   public listing: any;
   public typeForm: FormGroup;
-  public step1Form: FormGroup;
   public new_listing: boolean = true;
+  public categories: Array<any> = [];
 
-  public description_radio = "radio-button-off";
-  public description_label = "Set a title and summary";
-  public location_radio = "radio-button-off";
-  public price_radio = "radio-button-off";
-  public schedule_radio = "radio-button-off";
-  public details_radio = "radio-button-off";
+  public steps_validation: number = 0;
+  public publish_disabled: boolean = true;
+  public formControlRadio: any = {
+    categories: "radio-button-off",
+    description:"radio-button-off",
+    description_label: "Set a title and summary",
+    location: "radio-button-off",
+    price: "radio-button-off",
+    schedule: "radio-button-off",
+    details: "radio-button-off"
+  }
 
   public listing_ref: string = null;
   public max_media: number = 6;
   public temp_medias: Array<any> = [];
-
   public loading: any;
-
-  categories_checkbox_open: boolean;
-  categories_checkbox_result;
-  categories: Array<any> = [];
 
   constructor(
     public nav: NavController,
@@ -67,11 +68,6 @@ export class ListingFormPage {
 
     this.typeForm = new FormGroup({
       listing_type: new FormControl('', Validators.required)
-    });
-
-    this.step1Form = new FormGroup({
-      category: new FormControl('', Validators.required),
-      medias: new FormControl([])
     });
 
     this.loading = this.loadingCtrl.create();
@@ -95,7 +91,7 @@ export class ListingFormPage {
   }
 
   /**
-  *
+  * Save the listing type and show the next listing form
   */
   nextListingForm() {
     if(this.typeForm.valid){      
@@ -118,7 +114,7 @@ export class ListingFormPage {
 
 
   /**
-  * 
+  * Load the listing data
   */
   loadListingData() {
 
@@ -131,56 +127,88 @@ export class ListingFormPage {
 
       // Set the UI Form values on into the view
       this.temp_medias = this.listing.medias;
-      this.step1Form.setValue({
-        category: this.listing.category,
-        medias: this.listing.medias
+
+      // setup the radio boxies when the form have been saved
+      Object.keys(this.listing.form_control).map(key => {
+        if(this.listing.form_control[key] === true){
+          this.formControlRadio[key] = "checkmark-circle-outline";
+          this.steps_validation++;
+        }
       });
 
-      // setup the radio box when the form have been saved
-      if(this.listing.form_control[0] === true){
-        this.description_radio = "checkmark-circle-outline";
-        this.description_label = this.listing.title;
-      }
-      if(this.listing.form_control[1] === true){
-        this.location_radio = "checkmark-circle-outline";
-      }
-      if(this.listing.form_control[2] === true){
-        this.price_radio = "checkmark-circle-outline";
-      }
-      if(this.listing.form_control[3] === true){
-        this.schedule_radio = "checkmark-circle-outline";
-      }
-      if(this.listing.form_control[4] === true){
-        this.details_radio = "checkmark-circle-outline";
-      }
-
+      this.checkPublishValidation();
     });
 
+  }
+
+  /**
+  * Check if all the steps are true and enable the 
+  * publishing toggle
+  */
+  checkPublishValidation(){
+    if(this.listing.medias.length > 1 && this.steps_validation === 6){
+      this.publish_disabled = false;
+    }else{
+      this.listing.active = false;
+      this.publish_disabled = true;
+    }
   }
 
   /**
   * Save the listing data
   */ 
   saveListing(){
-    if(this.step1Form.valid){
       if(this.temp_medias.length > 0){
-        this.step1Form.patchValue({medias: this.temp_medias});
+        this.listing.medias = this.temp_medias;
       }
-      var data = this.step1Form.value;
 
       if(this.listing_ref){
-        this.listingService.updateListing(this.listing_ref, data)
-        .catch((error) => {
+        this.listingService.updateListing(this.listing_ref, this.listing).catch((error) => {
           console.log(error);
           let title = "Ops! Sorry about that";
           this.BaseApp.showAlert(title, error.message);
         });
       }
 
+      this.checkPublishValidation();
+  }
+
+  /**
+  * Save each step of the form
+  * @param data = listing object with the update data to be saved
+  */
+  saveStep(){
+    if(this.listing !== undefined && this.listing_ref){
+
+      let check = 6;
+      Object.keys(this.listing.form_control).map( ctrl_key => {
+        if(this.listing.form_control[ctrl_key] === true){
+          if(this.steps_validation < check){
+            this.steps_validation++;
+          }
+        }else{
+          if(this.steps_validation > 0){
+            this.steps_validation--;
+            check--;
+          }
+        }
+      });
+
+      this.checkPublishValidation();
+
+      this.listingService.updateListing(this.listing_ref, this.listing).catch((error) => {
+        console.log(error);
+        let title = "Ops! Sorry about that";
+        this.BaseApp.showAlert(title, error.message);
+      });
+
     }
   }
 
-  // Move this to listing.service!!!
+  /**
+  * Upload the picture to the database - Move this to listing.service!!!
+  * @param media = media object with the picture path
+  */
   uploadPicture(media){
 
     // this.loading.present();
@@ -273,12 +301,34 @@ export class ListingFormPage {
     let imagesModal = this.modalCtrl.create(ListingImagesPage, { medias: this.temp_medias });
     imagesModal.onDidDismiss(data => {
       this.temp_medias = data;
-
       let media = {medias: this.temp_medias};
-      return this.listingService.updateListing(this.listing_ref, media);
+      
+
+      // Set to save
+      // this.saveStep(media);
     });
     imagesModal.present();
   }
+
+  /**
+  * Handle the Categories Modal with the checkbox controle
+  */
+  presentCategoriesModal() {
+    let catModal = this.modalCtrl.create(ListingFormCategoriesPage, { data: this.listing });
+    catModal.onDidDismiss(data => {
+      if(data !== undefined) {
+        if(data.form_control.categories === true){
+          this.formControlRadio.categories = "checkmark-circle-outline";
+        }else{
+          this.formControlRadio.categories = "radio-button-off";
+        }
+        this.listing = data;
+        this.saveStep();
+      }
+    });
+    catModal.present();
+  }
+
 
   /**
   * Handle the Description Modal with the checkbox controle
@@ -286,13 +336,13 @@ export class ListingFormPage {
   presentDescriptionModal() {
     let descModal = this.modalCtrl.create(ListingFormDescPage, { data: this.listing });
     descModal.onDidDismiss(data => {
-      let desc_data = data;
-      if(desc_data.form_control[0] === true){
-        this.description_radio = "checkmark-circle-outline";
+      if(data.form_control.description === true){
+        this.formControlRadio.description = "checkmark-circle-outline";
       }else{
-        this.description_radio = "radio-button-off";
+        this.formControlRadio.description = "radio-button-off";
       }
-      return this.listingService.updateListing(this.listing_ref, desc_data);
+      this.listing = data;
+      this.saveStep();
     });
     descModal.present();
   }
@@ -305,13 +355,13 @@ export class ListingFormPage {
     locationModal.onDidDismiss(data => {
       if(data.location.geolocation){ 
 
-        if(data.form_control[1] === true){
-          this.location_radio = "checkmark-circle-outline";
+        if(data.form_control.location === true){
+          this.formControlRadio.location = "checkmark-circle-outline";
         }else{
-          this.location_radio = "radio-button-off";
+          this.formControlRadio.location = "radio-button-off";
         }
-
-        this.listingService.updateListing(this.listing_ref, data);
+        this.listing = data;
+        this.saveStep();
       }
     });
     locationModal.present();
@@ -324,14 +374,13 @@ export class ListingFormPage {
     let priceModal = this.modalCtrl.create(ListingFormPricePage, { data: this.listing });
     priceModal.onDidDismiss(data => {
 
-      console.log('PRICEEEEEEEEEE',data);
-
-      if(data.form_control[2] === true){
-        this.price_radio = "checkmark-circle-outline";
+      if(data.form_control.price === true){
+        this.formControlRadio.price = "checkmark-circle-outline";
       }else{
-        this.price_radio = "radio-button-off";
+        this.formControlRadio.price = "radio-button-off";
       }
-      return this.listingService.updateListing(this.listing_ref, data);
+      this.listing = data;
+      this.saveStep();
     });
     priceModal.present();
   }
@@ -343,12 +392,13 @@ export class ListingFormPage {
     let scheduleModal = this.modalCtrl.create(ListingFormSchedulePage, { data: this.listing });
     scheduleModal.onDidDismiss(data => {
 
-      if(data.form_control[3] === true){
-        this.schedule_radio = "checkmark-circle-outline";
+      if(data.form_control.schedule === true){
+        this.formControlRadio.schedule = "checkmark-circle-outline";
       }else{
-        this.schedule_radio = "radio-button-off";
+        this.formControlRadio.schedule = "radio-button-off";
       }
-      return this.listingService.updateListing(this.listing_ref, data);
+      this.listing = data;
+      this.saveStep();
     });
     scheduleModal.present();
   }
@@ -359,18 +409,20 @@ export class ListingFormPage {
   presentDetailsModal() {
     let detailsModal = this.modalCtrl.create(ListingFormDetailsPage, { data: this.listing });
     detailsModal.onDidDismiss(data => {
-      let details_data = data;
-      if(details_data.form_control[4] === true){
-        this.details_radio = "checkmark-circle-outline";
+      if(data.form_control.details === true){
+        this.formControlRadio.details = "checkmark-circle-outline";
       }else{
-        this.details_radio = "radio-button-off";
+        this.formControlRadio.details = "radio-button-off";
       }
-      return this.listingService.updateListing(this.listing_ref, details_data);
+      this.listing = data;
+      this.saveStep();
     });
     detailsModal.present();
   }
 
-
+  /**
+  *
+  */
   reorderMedias(medias){
     let len = medias.length;
     while(len--){

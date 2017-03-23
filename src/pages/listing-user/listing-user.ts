@@ -55,8 +55,12 @@ export class ListingUserPage {
 	    }else{
 	    	this.listings = [];
 	    }
+
+      this.listings.reverse();
       this.loading.dismiss();
     });
+
+
 
   }
 

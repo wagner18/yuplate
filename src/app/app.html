@@ -4,9 +4,9 @@
     <ion-list class="menu-list">
 
       <ion-item class="profile-image">
-          <img class="image" src="{{profileImage}}">
+          <img item-left class="image" src="{{profileImage}}">
           <h2>{{profileName}}</h2>
-          <h4>{{profileLocation}}</h4>
+          <!-- <h4>{{profileLocation}}</h4> -->
       </ion-item>
 
       <button ion-item detail-none *ngFor="let page of pages" (click)="openPage(page)">

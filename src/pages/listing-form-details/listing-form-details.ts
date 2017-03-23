@@ -67,9 +67,9 @@ export class ListingFormDetailsPage {
     this.data.confirmation = this.formDetails.value.confirmation;
 
 		if(this.formDetails.valid){
-			this.data.form_control[4] = true;
+			this.data.form_control.details = true;
 		}else{
-			this.data.form_control[4] = false;
+			this.data.form_control.details = false;
 		}
 		this.viewCtrl.dismiss(this.data);
 	}

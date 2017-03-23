@@ -1,0 +1,87 @@
+page-listing-form-categories {
+
+	.form-content {
+		background-color: $white-a;
+
+		.form-style {
+
+			.form-section	{
+				padding: 0px 5px;
+				padding-bottom: 10px;
+
+				.item:first-child	{
+					margin-top: 10px;
+				}
+			}
+
+			.checkbox-list{
+				padding-left: 15px;
+				padding-right: 15px;
+				@include element-shadow();
+
+				@include checkbox-item-styles($black-d, $white-a, $theme-color-2);
+			}
+
+			ion-item {
+				@include basic-input-style(color($colors, background, base), $black-b, $white-d);
+
+				&.item {
+					margin-top: 5px;
+					margin-left: 0px;
+
+					&.item-label {
+						margin: 0px;
+						font-size: 1.6rem;
+						color: $black-d;
+						margin: 0px;
+					}
+
+					&.item-label-floating{
+						margin-top: 0px;
+
+						ion-label {
+							color: $black-d;
+						}
+					}
+
+					&.item-label-stacked {
+						margin-top: 0px;
+						ion-label {
+							font-size: 1.4rem;
+							color: $black-d;
+						}
+					}
+
+					.item-inner	{
+						ion-icon {
+							color: $theme-color-2;
+						}
+					}
+
+					&.item-textarea	{
+						font-size: 1.5rem;
+					}
+
+				}
+
+				&:first-of-type {
+					margin-top: 0px;
+				}
+			}
+
+			.section-title {
+				@include segment-introduction($theme-color-2);
+			}
+
+			.form-action-button	{
+				margin: 0px;
+				margin-top: 10px;
+
+				@include call-to-action-button-styles(color($colors, button, base), color($colors, button, contrast));
+			}
+		}
+
+	}
+
+
+}

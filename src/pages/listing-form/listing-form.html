@@ -11,7 +11,7 @@
 
 </ion-header>
 
-<ion-content  class="forms-content">
+<ion-content class="forms-content">
 
   <div *ngIf="new_listing">
     <form class="form-style" [formGroup]="typeForm">
@@ -30,7 +30,7 @@
           <ion-label>
             Dish
             <div class="listing-type-info">
-              <p>A prepered meal by a local restaurant or chef</p>
+              <p>A prepered meal from local restaurant or chef</p>
               <p>and listed as a item.</p>
             </div>
           </ion-label>
@@ -39,23 +39,33 @@
 
         <ion-item class="radio-item">
           <ion-label>
-            Recipe
+            Pantry
             <div class="listing-type-info">
-              <p>A recipe that can be prepared for you as chef,</p>
-              <p>and delivered to your custumer.</p>
+              <p>An pantry ingredient such as spices, herbs,</p>
+              <p>or a rare item that you can sell and ship.</p>
             </div>
           </ion-label>
-          <ion-radio value="Recipe"></ion-radio>
+          <ion-radio value="Pantry"></ion-radio>
         </ion-item>
 
         <ion-item class="radio-item">
-          <ion-label>Fresh</ion-label>
-          <ion-radio value="Fresh"></ion-radio>
+          <ion-label>
+            Bakery
+            <div class="listing-type-info">
+              <p>Bakery Products, like brands, cakes and so on.</p>
+            </div>
+          </ion-label>
+          <ion-radio value="Bakery"></ion-radio>
         </ion-item>
 
         <ion-item class="radio-item">
-          <ion-label>Crafted</ion-label>
-          <ion-radio value="Crafted"></ion-radio>
+          <ion-label>
+            Farm fresh
+            <div class="listing-type-info">
+              <p>Farm fresh products, such as fruits and vegetables.</p>
+            </div>
+          </ion-label>
+          <ion-radio value="Farm"></ion-radio>
         </ion-item>
 
       </ion-list>
@@ -69,19 +79,14 @@
 
   </div>
 
-  <div *ngIf="new_listing == false" class="forms-wrapper">
+  <div *ngIf="new_listing == false">
     <!-- Step 1 -->
-    <form class="form-style" [formGroup]="step1Form">
+    <form class="form-style">
       <section class="form-section">
         <h2 class="section-title">
           <p>Hi! Good pictures of your listing play a vary importante rule.</p>
           Choose the category and take some beautiful pictures, so then your custumer can see how delicious it is!
         </h2>
-
-        <ion-item no-lines class="listing-type">
-          <ion-label class="label-type">Listing type</ion-label>
-          <h2 item-right>{{listing?.listing_type}}</h2>
-        </ion-item>
 
         <button ion-button block large class="upload-image-button" (click)="cameraActionSheet()">
           <ion-icon name="camera"></ion-icon>
@@ -101,54 +106,76 @@
 
 
       <section class="form-section">
+        <ion-item no-lines class="listing-type">
+          <ion-label class="label-type">Listing type</ion-label>
+          <h2 item-right>{{listing?.listing_type}}</h2>
+        </ion-item>
 
-        <ion-item no-lines class="category-select">
+<!--         <ion-item no-lines class="category-select">
           <ion-label>Category</ion-label>
           <ion-select formControlName="category" multiple="false">
             <ion-option *ngFor="let option of categories" value="{{option.value}}">
               {{option.label}}
             </ion-option>
           </ion-select>
-        </ion-item>
+        </ion-item> -->
 
       </section>
 
       <ion-list class="form-list">
+        <ion-item class="button-item" (click)="presentCategoriesModal()">
+          <ion-icon  name="{{formControlRadio.categories}}" item-left></ion-icon>
+          <h2>Cetegories</h2>
+          <p>List of categories your listing belongs to</p>
+          <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
+        </ion-item>
 
         <ion-item class="button-item" (click)="presentDescriptionModal()">
-          <ion-icon  name="{{description_radio}}" item-left></ion-icon>
+          <ion-icon  name="{{formControlRadio.description}}" item-left></ion-icon>
           <h2>Description</h2>
-          <p>{{description_label}}</p>
+          <p>{{formControlRadio.description_label}}</p>
           <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
         </ion-item>
 
         <ion-item class="button-item" (click)="presentLocationModal()">
-          <ion-icon  name="{{location_radio}}" item-left></ion-icon>
+          <ion-icon  name="{{formControlRadio.location}}" item-left></ion-icon>
           <h2>Location</h2>
           <p>Only confirmed customers see your address</p>
           <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
         </ion-item>
 
         <ion-item class="button-item" (click)="presentPriceModal()">
-          <ion-icon  name="{{price_radio}}" item-left></ion-icon>
+          <ion-icon  name="{{formControlRadio.price}}" item-left></ion-icon>
           <h2>Price</h2>
           <p>Set a price to yout listing</p>
           <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
         </ion-item>
 
         <ion-item class="button-item" (click)="presentScheduleModal()">
-          <ion-icon  name="{{schedule_radio}}" item-left></ion-icon>
+          <ion-icon  name="{{formControlRadio.schedule}}" item-left></ion-icon>
           <h2>Schedule</h2>
           <p>Set the schedule</p>
           <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
         </ion-item> 
 
         <ion-item class="button-item" (click)="presentDetailsModal()">
-          <ion-icon  name="{{details_radio}}" item-left></ion-icon>
+          <ion-icon  name="{{formControlRadio.details}}" item-left></ion-icon>
           <h2>Details</h2>
           <p>Set others details</p>
           <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
-        </ion-item> 
+        </ion-item>
+
+      </ion-list>
+
+      <ion-list>
+        <ion-item-divider *ngIf="publish_disabled">
+          <p>Complete your listin to publish it.</p>
+        </ion-item-divider>
+
+        <ion-item class="publish-item">
+          <ion-label>Publish this listing?</ion-label>
+          <ion-toggle name="active" [(ngModel)]="listing.active" [disabled]="publish_disabled"></ion-toggle>
+        </ion-item>
       </ion-list>
 
 <!--       <section class="form-section">
@@ -156,6 +183,7 @@
           Save
         </button>
       </section> -->
+
       
     </form>
   </div>

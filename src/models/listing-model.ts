@@ -30,7 +30,6 @@ export class ItemModel{
   title: string = "";
   summary: string = "";
   description: string = "";
-  category: string = "";
   privacity: string = "public";
   carryout: boolean = true;
   delivery: boolean = false;
@@ -42,7 +41,8 @@ export class ItemModel{
   unit_value: number = 1;
   confirmation: boolean = false;
   listing_type: string;
-  status: string = "craft";
+  active: boolean = false;
+
   total_favorites: number = 0;
   total_reviews: number =  0;
   total_rate: number = 1;
@@ -52,6 +52,7 @@ export class ItemModel{
       geolocation: { lat: 38.046386, lng: -87.551769 }
     }
 
+  categories: Array<any> = [];
   price: PriceModel;
   schedule: Array<ScheduleModel> = [];
   medias: Array<any> = [];
@@ -59,16 +60,24 @@ export class ItemModel{
 
   created_at: number = Date.now();
   update_at: number = Date.now();
-  form_control: Array<boolean> = [false, false, false,false, false];
+  form_control: any = { 
+      categories: false,
+      description: false,
+      location: false,
+      price: false,
+      schedule: false,
+      details: false
+    };
 
 }
 
 export class ListingType {
   service: boolean; // Recipes listed as a chef service to preper this recipe.
   dish: boolean; // A dish from a local restaurant or licensed chef.
-  event: boolean // A event as dinner, fairs and so on.
-  crafted_food: boolean; // to specific craft products such farm cheese, tometoes cans, condiments, crafts pesto and so on.
+  pantry: boolean; // to specific craft products such spices. tometoes cans, crafts pesto and so on.
+  bakery: boolean; // bakery products such as brads, cakes and so on.
   farm_fresh: boolean; // a service to allow local farms set up an fresh engridients chain in box to delivery or pickup
+  event: boolean // A event as dinner, fairs and so on.
 }
 
 export class LocationModel{

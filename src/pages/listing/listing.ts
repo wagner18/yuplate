@@ -72,6 +72,7 @@ export class ListingPage implements OnDestroy{
     // Set query configurations
     let listing_ref = this.listingService.listListing(query)
     .orderByChild('created_at');
+    // .equalTo('true', 'active');
     //.limitToLast(this.list_limit);
 
 
@@ -140,7 +141,12 @@ export class ListingPage implements OnDestroy{
     let locationModal = this.modalCtrl.create(LocationModalPage);
     locationModal.onDidDismiss(data => {
 
-      console.log(data);
+      let load = this.loadingCtrl.create();
+      load.present();
+        this.listings.sort(function(){return 0.5 - Math.random()});
+      load.dismiss();
+
+      console.log(this.listings, data);
       // if(data.location.geolocation){
       // }
     });
@@ -154,7 +160,10 @@ export class ListingPage implements OnDestroy{
     let filterModal = this.modalCtrl.create(ListingFilterPage);
     filterModal.onDidDismiss(data => {
 
-      console.log(data);
+      let load = this.loadingCtrl.create();
+      load.present();
+        this.listings.sort(function(){return 0.5 - Math.random()});
+      load.dismiss();
     });
     filterModal.present();
   }

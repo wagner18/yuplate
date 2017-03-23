@@ -1,47 +1,55 @@
-// Common list styles can be found in "./common.styles/layouts/lists"
-$list-big-description-font-size: 12px;
+/*
+$list-big-description-font-size: 12px;*/
 
 page-listing-user {
 
-/*	ion-header {
-		@include header-styles(color($colors, header-alt, base), color($colors, header-alt, contrast));
-	}*/
-
 	.list-content {
 		background-color: color($colors, background, base);
+		@include layout-list-styles($theme-color-2, $white-d);
 
-		.list-div	{
-			@include layout-list-styles($theme-color-2, $white-d);
+		ion-list {
+			.list-item {
+				
+/*				.content-row {
+					@include align-items(center);
+				}*/
 
-			ion-list {
-				.list-item {
-					
-					.content-row {
-						@include align-items(center);
+				.item-content {
+					/*@include align-content(stretch);*/
+				  @include display(flex);
+				  @include flex-wrap(wrap);
+				  @include align-self(stretch);
+
+					.item-title	{
+						font-size: 1.4rem;
+						margin-bottom: 8px;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
 					}
 
-					.item-content {
-						@include align-content(stretch);
-					  @include display(flex);
-					  @include flex-wrap(wrap);
-					  @include align-self(stretch);
+					.item-description	{
+						margin: 0px;
+						padding-bottom: 15px;
+						/*@include multi-line-ellipsis($list-big-description-font-size);*/
+					}
 
-						.item-title	{
-							margin-bottom: 8px;
-							overflow: hidden;
-							text-overflow: ellipsis;
-							white-space: nowrap;
-						}
-
-						.item-description	{
-							@include multi-line-ellipsis($list-big-description-font-size);
-						}
-
+					.item-price {
+						font-size: 1.4rem;
+						color: $black-d;
 					}
 
 				}
-			}
 
+			}
+		}
+
+		preload-image {
+			border-radius: 4%;
+
+			img	{
+				border-radius: 4%;
+			}
 		}
 
 		.add-button {
@@ -68,7 +76,7 @@ page-listing-user {
 			    max-width: 100%;
 					font-size: 1.4rem;
 					color: $white-d;
-					font-weight: 400;
+					font-weight: 600;
 					margin: 0px;
 				}
 			}

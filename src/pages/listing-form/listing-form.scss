@@ -11,6 +11,11 @@ listing-form-page {
 		.form-style {
 			padding-bottom: 20px;
 
+			.publish-item {
+				background-color: #99cccc;
+				padding-left: 40px;
+			}
+
 			.form-section	{
 				padding: 0px 14px;
 				padding-bottom: 10px;
@@ -115,6 +120,7 @@ listing-form-page {
 				&:first-of-type {
 					margin-top: 0px;
 				}
+
 			}
 
 			.form-list {

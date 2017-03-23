@@ -16,20 +16,20 @@
 
 	<ion-card class="item-card-content">
 
+    <ion-slides (click)="presentImageModal()">
+      <ion-slide *ngFor="let media of listing?.medias" style="background-color: white">
+      <preload-image [ratio]="{w:3, h:3}" [src]="media.media_path" title="listing.title"></preload-image>
+      </ion-slide>
+    </ion-slides>
+
     <ion-badge class="price-badge" item-right>
       {{ listing.price?.currency }}
       {{ listing.price?.main_price }}
     </ion-badge>
 
-    <button class="favorite-button" ion-button clear>
+<!--     <button class="favorite-button" ion-button clear>
       <ion-icon isActive="1" name='md-heart-outline'></ion-icon>
-    </button>
-
-		<ion-slides (click)="presentImageModal()">
-      <ion-slide *ngFor="let media of listing?.medias" style="background-color: white">
-        <preload-image [ratio]="{w:3, h:3}" [src]="media.media_path" title="listing.title"></preload-image>
-      </ion-slide>
-    </ion-slides>
+    </button> -->
 
     <ion-card-content>
       <ion-card-title class="item-title">
@@ -37,7 +37,7 @@
       </ion-card-title>
       <p class="item-text">
         {{listing.summary}}
-      </p> 
+      </p>
     </ion-card-content>
 
 <!-- 		<ion-chip class="chip-content" *ngIf="listing.delivery" text-center>
@@ -72,7 +72,7 @@
 
     <ion-row no-padding class="social-row">
       <ion-col no-padding width-100>
-        <rating [ngModel]="listing.total_rate" max="5" read-only="true"></rating>
+        <!-- <rating [ngModel]="listing.total_rate" max="5" read-only="true"></rating> -->
         <button ion-button clear small icon-left>
           <ion-icon name='chatbubbles'></ion-icon>
           {{listing.total_reviews}} Reviews

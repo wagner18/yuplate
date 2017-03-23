@@ -51,9 +51,9 @@ export class ListingFormPricePage {
 	    this.data.price.long_term_price = this.formPrice.value.long_term_price;
 	    this.data.price.currency = this.formPrice.value.currency;
 
-			this.data.form_control[2] = true;
+			this.data.form_control.price = true;
 		}else{
-			this.data.form_control[2] = false;
+			this.data.form_control.price = false;
 		}
 
 		this.viewCtrl.dismiss(this.data);

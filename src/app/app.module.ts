@@ -23,6 +23,9 @@ import { ListingFilterPage } from '../pages/listing-filter/listing-filter';
 import { ListingDetailsPage } from '../pages/listing-details/listing-details';
 import { ListingUserPage } from '../pages/listing-user/listing-user';
 import { ListingFormPage } from '../pages/listing-form/listing-form';
+
+import { ListingFormCategoriesPage } from '../pages/listing-form-categories/listing-form-categories';
+
 import { ListingFormDescPage } from '../pages/listing-form-desc/listing-form-desc';
 import { ListingFormPricePage } from '../pages/listing-form-price/listing-form-price';
 import { ListingFormSchedulePage } from '../pages/listing-form-schedule/listing-form-schedule';
@@ -94,6 +97,7 @@ declare var cordova: any;
     ListingOrderPage,
     ListingUserPage,
     ListingFormPage,
+    ListingFormCategoriesPage,
     ListingFormDescPage,
     ListingFormPricePage,
     ListingFormSchedulePage,
@@ -153,6 +157,7 @@ declare var cordova: any;
     ListingOrderPage,
     ListingUserPage,
     ListingFormPage,
+    ListingFormCategoriesPage,
     ListingFormDescPage,
     ListingFormPricePage,
     ListingFormSchedulePage,

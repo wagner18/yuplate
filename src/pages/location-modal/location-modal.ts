@@ -63,9 +63,9 @@ export class LocationModalPage {
     // if being used for the listing form
     if(this.data.form_control !== undefined){
       if(this.autocomplete.query){
-        this.data.form_control[1] = true;
+        this.data.form_control.location = true;
       }else{
-        this.data.form_control[1] = false;
+        this.data.form_control.location = false;
       }
     }
 

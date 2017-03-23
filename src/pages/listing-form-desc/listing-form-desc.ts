@@ -26,7 +26,6 @@ export class ListingFormDescPage {
 
   ionViewDidLoad() {
     this.data = this.params.get('data');
-    console.log(this.data);
 
     this.formDescription.setValue({
     	title: this.data.title,
@@ -41,9 +40,9 @@ export class ListingFormDescPage {
     this.data.description = this.formDescription.value.description;
 
 		if(this.formDescription.valid){
-			this.data.form_control[0] = true;
+			this.data.form_control.description = true;
 		}else{
-			this.data.form_control[0] = false;
+			this.data.form_control.description = false;
 		}
 		this.viewCtrl.dismiss(this.data);
 	}

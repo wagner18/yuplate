@@ -16,7 +16,7 @@ import { LocationModel } from '../models/listing-model';
 @Injectable()
 export class ListingService {
 
-	private LISTING_REF: string = "listing/";
+	private LISTING_REF: string = "listing_draft/";
 	private profile: any;
 
 	public listing: ItemModel;
@@ -249,34 +249,35 @@ export class ListingService {
   */
   getListingCategories(){
     let categories = [
-      {label: "All", value:"All"},
-      {label:"Light", value:"Light"},
-      {label:"Diet", value:"Diet"},
+      {label:"Chicken", value:"Chicken", checked: false},
+      {label:"Beef", value:"Beef", checked: false},
+      {label:"Fish", value:"Fish", checked: false},
+      {label:"Seafood", value:"Seafood", checked: false},
+      {label:"Salad", value:"Salad", checked: false},
+      {label:"Spice", value:"Spice", checked: false},
+      {label:"Herbs", value:"Herbs", checked: false},
+      {label:"Vegetables", value:"Vegetables", checked: false},
+      {label:"Pasta", value:"Pasta", checked: false},
+      {label:"Soup", value:"Soup", checked: false},
+      {label:"Sandwich", value:"Sandwich", checked: false},
+      {label:"Brad", value:"Brad", checked: false},
+      {label:"Cake", value:"Cake", checked: false},
+      {label:"France", value:"France", checked: false},
+      {label:"Italian", value:"Italian", checked: false},
+      {label:"Purtuguese", value:"Purtuguese", checked: false},
+      {label:"Indian", value:"Indian", checked: false},
+      {label:"Brazilian", value:"Brazilian", checked: false},
+      {label:"Greek", value:"Greek", checked: false},
+      {label:"Mexican", value:"Mexican", checked: false},
+      {label:"Thay", value:"Thay", checked: false},
+      {label:"Japanese", value:"Japanese", checked: false},
+      {label:"Chinese", value:"Chinese", checked: false},
+      {label:"Light", value:"Light", checked: false},
+      {label:"Diet", value:"Diet", checked: false},
       {label:"Vegetarian", value:"Vegetarian"},
-      {label:"Vegan", value:"Vegan"},
-      {label:"Global", value:"Global"},
-      {label:"France", value:"France"},
-      {label:"Italian", value:"Italian"},
-      {label:"Italian", value:"Italian"},
-      {label:"Purtuguese", value:"Purtuguese"},
-      {label:"Indian", value:"Indian"},
-      {label:"Brazilian", value:"Brazilian"},
-      {label:"Greek", value:"Greek"},
-      {label:"Mexican", value:"Mexican"},
-      {label:"Thay", value:"Thay"},
-      {label:"Japanese", value:"Japanese"},
-      {label:"Chinese", value:"Chinese"},
-      {label:"Chicken", value:"Chicken"},
-      {label:"Beef", value:"Beef"},
-      {label:"Fish", value:"Fish"},
-      {label:"Seafood", value:"Seafood"},
-      {label:"Salad", value:"Salad"},
-      {label:"Vegetables", value:"Vegetables"},
-      {label:"Pasta", value:"Pasta"},
-      {label:"Soup", value:"Soup"},
-      {label:"Sandwich", value:"Sandwich"},
-      {label:"Brad", value:"Brad"},
-      {label:"Exotic food", value:"Exotic food"}
+      {label:"Vegan", value:"Vegan", checked: false},
+      {label:"Exotic food", value:"Exotic food", checked: false},
+      {label:"Global", value:"Global", checked: false}
     ];
 
     return categories;

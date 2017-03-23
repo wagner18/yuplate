@@ -29,35 +29,6 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-<!--   <ion-toolbar class="head_toolbar ">
-    <ion-row class="head-row">
-      <ion-col width-16 class="{{active_button[0]}}">
-        <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(0)">
-          All
-        </button>
-      </ion-col>
-      <ion-col width-21 class="{{active_button[1]}}">
-        <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(1)">
-          Dishes
-        </button>
-      </ion-col>
-      <ion-col width-21 class="{{active_button[2]}}">
-        <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(2)">
-          Recipes
-        </button>
-      </ion-col>
-      <ion-col width-21 class="{{active_button[3]}}">
-        <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(3)">
-          Fresh
-        </button>
-      </ion-col>
-      <ion-col width-21 class="{{active_button[4]}}">
-        <button ion-button small icon-only clear no-padding class="head-button" (click)="listingType(4)">
-          Crafted
-        </button>
-      </ion-col>
-    </ion-row>
-  </ion-toolbar> -->
 
   <!--     <ion-col col-center width-100>
       <h2 class="main-title">{{listing.banner_title}}</h2>
@@ -94,7 +65,8 @@
     placeholder="Search"
     autocomplete="true"
     spellcheck="true"
-    debounce="2000">
+    debounce="2000"
+    color="light">
   </ion-searchbar>
 
   <ion-row>
@@ -133,6 +105,10 @@
         class="item-card-content" 
         *ngFor="let listing of listings; let index = index ">
 
+        <preload-image [ratio]="{w:4, h:3}" [src]="listing.medias[0].media_path"
+        (click)="listingDetails(index)">
+        </preload-image>
+
 <!--    <ion-slides [options]="slideOptions">
           <ion-slide *ngFor="let media of listing.medias" style="background-color: white">
             <preload-image [ratio]="{w:3, h:2}" [src]="media.media_path" title="listing.title"></preload-image>
@@ -142,27 +118,33 @@
           {{ listing.price?.currency }}
           {{ listing.price?.main_price }}
         </ion-badge>
-        <preload-image [ratio]="{w:3, h:3}" [src]="listing.medias[0].media_path"
-        (click)="listingDetails(index)">
-        </preload-image>
 
       
-        <ion-card-content>
+        <!-- <ion-card-content> -->
           <ion-card-title class="item-title">
             {{ listing.title }}
           </ion-card-title>
-          <p class="item-text">
+<!--           <p class="item-text">
             {{ listing.summary }}
-          </p>
+          </p> -->
           <p class="item-text">
-            <ion-badge item-right>
+            <ion-badge item-right *ngIf="listing.delivery">
+              Delivery
+            </ion-badge>
+            <ion-badge item-right *ngIf="listing.carryout">
+              Carryout
+            </ion-badge>
+            <ion-badge item-right *ngIf="listing.shipping">
+              Shipping
+            </ion-badge>
+<!--             <ion-badge item-right>
               {{ listing.listing_type }}
             </ion-badge>
             <ion-badge item-right>
              {{ listing.unit_value }} {{ listing.measure_unit }} 
-            </ion-badge>      
+            </ion-badge>    -->   
           </p>
-        </ion-card-content>
+        <!-- </ion-card-content> -->
 
         <ion-row class="status-row">
           <ion-col no-padding width-35 text-center>
