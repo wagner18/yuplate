@@ -18,7 +18,6 @@ import { ListingFormPage } from '../listing-form/listing-form';
 export class ListingUserPage {
 
 	public listings: Array<ItemModel> = [];
-	public list_limit: number = 20;
 	public listing_key: string;
 	public loading: any;
 
@@ -37,17 +36,16 @@ export class ListingUserPage {
     this.getItems();
   }
 
+  /**
+  *
+  */
   private getItems(){
 
-    let query = {
-        orderByKey: true
-    };
-
     this.loading.present();
-    this.listingService.listListing(query).limitToLast(this.list_limit).on('value', (listingSnap) => {
+    this.listingService.listListing().once('value', (listingSnap) => {
 
       let objects = listingSnap.val();
-      if(objects !== undefined){
+      if(objects !== undefined && objects !== null ){
 	      this.listings = Object.keys(objects).map(function (key) {
 	      	objects[key].listing_key = key;
 	      	return objects[key]; 

@@ -30,6 +30,8 @@ export class ListingFormCategoriesPage {
 
   ionViewDidLoad() {
     this.data = this.params.get('data');
+
+    console.log("======",this.data);
     if(this.data.categories !== undefined ){
 
       this.data.categories.forEach(category => {

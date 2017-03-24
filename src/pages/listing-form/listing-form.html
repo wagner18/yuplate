@@ -172,10 +172,12 @@
           <p>Complete your listin to publish it.</p>
         </ion-item-divider>
 
-        <ion-item class="publish-item">
-          <ion-label>Publish this listing?</ion-label>
-          <ion-toggle name="active" [(ngModel)]="listing.active" [disabled]="publish_disabled"></ion-toggle>
-        </ion-item>
+        <section class="form-section">
+          <button ion-button block class="form-action-button create-post-button" (click)="publishListing()" [disabled]="publish_disabled">
+            Publish this item
+          </button>
+        </section>
+
       </ion-list>
 
 <!--       <section class="form-section">

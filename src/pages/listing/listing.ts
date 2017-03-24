@@ -50,7 +50,7 @@ export class ListingPage implements OnDestroy{
   ionViewDidLoad() {
     this.categories = this.listingService.getListingType();
 
-    this.getItems();
+    // this.getItems();
   }
 
   ngOnDestroy() {
@@ -67,39 +67,39 @@ export class ListingPage implements OnDestroy{
         limitToFirst:5,
         orderByKey: true
     };
-    this.loading.present();
+    //this.loading.present();
 
     // Set query configurations
-    let listing_ref = this.listingService.listListing(query)
-    .orderByChild('created_at');
+    // let listing_ref = this.listingService.listListing(query)
+    // .orderByChild('created_at');
     // .equalTo('true', 'active');
     //.limitToLast(this.list_limit);
 
 
-    listing_ref.on('value', (listingSnap) => {
-      let objects = listingSnap.val();
+    // listing_ref.on('value', (listingSnap) => {
+    //   let objects = listingSnap.val();
 
-      this.listings = Object.keys(objects).map(function (key) {
+    //   this.listings = Object.keys(objects).map(function (key) {
 
-        /* get the prorile for each listing */
-        self._profileService.getShortPrifile(objects[key].uid)
-        .once('value', profileSnap => {
-          if(profileSnap.val()){
-            objects[key].profile = profileSnap.val();
-          }
-        },
-        function(error){
-          console.log(error);
-        });
+    //     // get the prorile for each listing */
+    //     self._profileService.getShortPrifile(objects[key].uid)
+    //     .once('value', profileSnap => {
+    //       if(profileSnap.val()){
+    //         objects[key].profile = profileSnap.val();
+    //       }
+    //     },
+    //     function(error){
+    //       console.log(error);
+    //     });
 
-        objects[key].listing_key = key;
-        return objects[key]; 
-      });
+    //     objects[key].listing_key = key;
+    //     return objects[key]; 
+    //   });
 
-      this.listings.reverse();
+    //   this.listings.reverse();
 
-      this.loading.dismiss();
-    });
+    //   //this.loading.dismiss();
+    // });
 
   }
 

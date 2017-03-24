@@ -18,6 +18,19 @@
 	    Listed
 	  </ion-list-header>
 
+    <ion-item>
+      <ion-lable>
+        0 item listed
+      </ion-lable>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      Drafts
+    </ion-list-header>
+
     <button class="list-item" ion-item *ngFor="let listing of listings" (click)="editListing(listing.listing_key)">
       <ion-row no-padding class="content-row">
         <ion-col no-padding width-33 class="item-avatar">
@@ -35,10 +48,4 @@
       </ion-row>
     </button>
   </ion-list>
-
-    <ion-list>
-      <ion-list-header>
-        Drafts
-      </ion-list-header>
-    </ion-list>
 </ion-content>

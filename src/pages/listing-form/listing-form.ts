@@ -129,12 +129,14 @@ export class ListingFormPage {
       this.temp_medias = this.listing.medias;
 
       // setup the radio boxies when the form have been saved
-      Object.keys(this.listing.form_control).map(key => {
-        if(this.listing.form_control[key] === true){
-          this.formControlRadio[key] = "checkmark-circle-outline";
-          this.steps_validation++;
-        }
-      });
+      if(this.listing.form_control !== undefined){
+        Object.keys(this.listing.form_control).map(key => {
+          if(this.listing.form_control[key] === true){
+            this.formControlRadio[key] = "checkmark-circle-outline";
+            this.steps_validation++;
+          }
+        });
+      }
 
       this.checkPublishValidation();
     });
@@ -149,7 +151,6 @@ export class ListingFormPage {
     if(this.listing.medias.length > 1 && this.steps_validation === 6){
       this.publish_disabled = false;
     }else{
-      this.listing.active = false;
       this.publish_disabled = true;
     }
   }
@@ -160,6 +161,17 @@ export class ListingFormPage {
   saveListing(){
       if(this.temp_medias.length > 0){
         this.listing.medias = this.temp_medias;
+      }
+
+      if(this.listing.form_control !== undefined ){
+        this.listing.form_control = { 
+          categories: false,
+          description: false,
+          location: false,
+          price: false,
+          schedule: false,
+          details: false
+        };
       }
 
       if(this.listing_ref){
@@ -175,7 +187,6 @@ export class ListingFormPage {
 
   /**
   * Save each step of the form
-  * @param data = listing object with the update data to be saved
   */
   saveStep(){
     if(this.listing !== undefined && this.listing_ref){
@@ -203,6 +214,13 @@ export class ListingFormPage {
       });
 
     }
+  }
+
+  /**
+  *
+  */
+  publishListing(){
+    console.log("published");
   }
 
   /**

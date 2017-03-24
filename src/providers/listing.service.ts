@@ -28,21 +28,27 @@ export class ListingService {
     private _auth: AuthService,
     public profileService: ProfileService
   ){
-
+    // set the current logged profile
+    this.profile = this.profileService.getCurrentProfile();
   }
 
   /**
   *
   */
   getListing(key){
-  	return this._dataService.database.child(this.LISTING_REF + key);
+    if(this.profile !== undefined ){
+      let ref = this.LISTING_REF + this.profile.uid + "/";
+    	return this._dataService.database.child(ref + key);
+    }
   }
 
   /**
-  *
+  * List the listing draft to the current user profile based on his database UID
   */
-  listListing(query){
-  	return this._dataService.database.child(this.LISTING_REF);//.limitToLast(5);
+  listListing(){
+    if(this.profile !== undefined ){
+      return this._dataService.database.child(this.LISTING_REF + this.profile.uid);
+    }
   }
 
   /**
@@ -50,8 +56,7 @@ export class ListingService {
   */
   saveListing(data){
     return this._auth.getCurrentUser().then((currentUser) => {
-      data.uid = currentUser.uid;
-      return this._dataService.database.child(this.LISTING_REF).push(data);
+      return this._dataService.database.child(this.LISTING_REF + currentUser.uid).push(data);
     });
   }
 
@@ -59,9 +64,10 @@ export class ListingService {
   *
   */
   updateListing(key, data){
+    console.log(key);
     return this._auth.getCurrentUser().then((currentUser) => {
-      data.uid = currentUser.uid;
-      return this._dataService.database.child(this.LISTING_REF + key).update(data);
+      let ref = this.LISTING_REF + currentUser.uid + "/";
+      return this._dataService.database.child(ref + key).update(data);
     });
   }
 
@@ -73,11 +79,9 @@ export class ListingService {
   loadListingData(key){
 
   	return new Promise((resolve, reject) => {
-
-      this.profile = this.profileService.getCurrentProfile();
-
       // If listing has an key, fetch the data
-      if(key){
+      if(key !== null || key !== undefined){
+
         this.getListing(key).once('value', (listingSnap) => {
           this.result = { key: listingSnap.key, listing: listingSnap.val() };
            resolve(this.result);
@@ -85,7 +89,8 @@ export class ListingService {
         .catch((error) => {
           reject(error);
         });
-      }else{
+
+      }else{ // If is a new listing, define the basic listin object
 
         let medias = [];
         let i = this.max_media;
