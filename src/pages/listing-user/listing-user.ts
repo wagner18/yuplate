@@ -5,7 +5,7 @@ import { AuthService } from '../../providers/auth.service';
 import { BaseProvider } from '../../app/base.provider';
 import { ListingService } from '../../providers/listing.service';
 
-import { ItemModel } from '../../models/listing-model';
+import { ListingModel } from '../../models/listing-model';
 import { MediaModel } from '../../models/listing-model';
 
 import { ListingPage } from '../listing/listing';
@@ -17,7 +17,7 @@ import { ListingFormPage } from '../listing-form/listing-form';
 })
 export class ListingUserPage {
 
-	public listings: Array<ItemModel> = [];
+	public listings: Array<ListingModel> = [];
 	public listing_key: string;
 	public loading: any;
 

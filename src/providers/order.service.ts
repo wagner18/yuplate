@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 import { ProfileService } from './profile.service';
 
 import { OrderModel } from '../models/order-model';
-import { ItemModel } from '../models/listing-model';
+import { ItemModel } from '../models/item-model';
 
 import { ScheduleModel } from '../models/listing-model';
 import { LocationModel } from '../models/listing-model';

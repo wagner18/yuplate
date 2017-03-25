@@ -12,7 +12,9 @@ import { BaseProvider } from '../../app/base.provider';
 import { ListingService } from '../../providers/listing.service';
 import { MediaService } from '../../providers/media.service';
 
-import { ItemModel } from '../../models/listing-model';
+import { ListItemService } from '../../providers/list-item.service';
+
+import { ListingModel } from '../../models/listing-model';
 import { MediaModel } from '../../models/listing-model';
 
 /* Pages */
@@ -63,7 +65,8 @@ export class ListingFormPage {
     public BaseApp: BaseProvider,
     public profileService: ProfileService,
     public listingService: ListingService,
-    public mediaService: MediaService
+    public mediaService: MediaService,
+    public itemService: ListItemService
   ){
 
     this.typeForm = new FormGroup({
@@ -124,6 +127,7 @@ export class ListingFormPage {
       if(!this.listing_ref){
         this.listing_ref = result["key"];
       }
+      this.listing['key'] = this.listing_ref;
 
       // Set the UI Form values on into the view
       this.temp_medias = this.listing.medias;
@@ -217,10 +221,23 @@ export class ListingFormPage {
   }
 
   /**
-  *
+  * Set the listing draft as an item to be published
   */
   publishListing(){
-    console.log("published");
+    this.loading.present();
+    if(this.listing.medias.length > 1 && this.steps_validation === 6){
+      this.itemService.publishItem(this.listing).then(result => {
+
+        this.listing['published'] = true;
+        this.saveStep();
+
+        this.loading.dismiss();
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
   }
 
   /**

@@ -3,7 +3,7 @@ import { NavController, ModalController, ViewController, NavParams } from 'ionic
 
 import { ProfileService } from '../../providers/profile.service';
 import { ListingService } from '../../providers/listing.service';
-import { ItemModel } from '../../models/listing-model';
+import { ListingModel } from '../../models/listing-model';
 
 import { GalleryModal } from '../gallery-modal/gallery-modal';
 

@@ -1,32 +1,6 @@
-export class ListingItemModel {
-  title: string;
-  image: string;
-  description: string;
-  category: any;
-  likes: number = 0;
-  comments: number = 0;
-  liked: boolean = false;
-}
 
-export class SimpleItemModel {
-  title: string = "";
-  description: string = "";
-  privacity: string = "public";
-  media: string = "";
-  total_favorites: number = 0;
-  total_reviews: number =  0;
-}
-
-export class ListingModel {
-  items: Array<SimpleItemModel>;
-  populars: Array<SimpleItemModel>;
-  categories: Array<SimpleItemModel>;
-  banner_title: string;
-  banner_image: string;
-}
-
-
-export class ItemModel{
+export class ListingModel{
+  published: boolean = false;
   title: string = "";
   summary: string = "";
   description: string = "";
@@ -41,11 +15,7 @@ export class ItemModel{
   unit_value: number = 1;
   confirmation: boolean = false;
   listing_type: string;
-  active: boolean = false;
 
-  total_favorites: number = 0;
-  total_reviews: number =  0;
-  total_rate: number = 1;
 
   location: LocationModel = {
       address: "",
@@ -56,7 +26,6 @@ export class ItemModel{
   price: PriceModel;
   schedule: Array<ScheduleModel> = [];
   medias: Array<any> = [];
-  reviews: Array<ReviewModel> = [];
 
   created_at: number = Date.now();
   update_at: number = Date.now();
@@ -107,17 +76,4 @@ export class ScheduleModel{
   to_time: string = "";
   status: boolean = true;
   promo_price: boolean = false;
-}
-  
-export class ReviewModel {
-  comment: string = "";
-  user_uid: string = "";
-  user_name: string = "";
-  user_image: string = "";
-  item_uid: string = "";
-  evaluation: Array<any> = [];
-  media: Array<any> = [];
-  active: boolean = true;
-  created_at: number = Date.now();
-  updated_at: number = Date.now();
 }

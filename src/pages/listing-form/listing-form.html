@@ -172,11 +172,30 @@
           <p>Complete your listin to publish it.</p>
         </ion-item-divider>
 
-        <section class="form-section">
+        <section class="form-section" *ngIf="listing?.published">
+          <h2 class="section-title">
+            This item it's published.
+          </h2>
+        </section>
+
+        <section class="form-section" *ngIf="listing?.published == false">
           <button ion-button block class="form-action-button create-post-button" (click)="publishListing()" [disabled]="publish_disabled">
             Publish this item
           </button>
         </section>
+
+        <section class="form-section" *ngIf="listing?.published">
+          <button ion-button block class="form-action-button create-post-button" (click)="publishListing()" [disabled]="publish_disabled">
+            Update item
+          </button>
+        </section>
+
+        <section class="form-section" *ngIf="listing?.published">
+          <button ion-button block class="form-action-button create-post-button" [disabled]="publish_disabled">
+            Unpublish this item
+          </button>
+        </section>
+
 
       </ion-list>
 

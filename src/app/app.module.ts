@@ -81,7 +81,7 @@ import { AuthService } from '../providers/auth.service';
 import { BaseProvider } from './base.provider';
 import { MediaService } from '../providers/media.service';
 import { ListingService } from '../providers/listing.service';
-import { ProductService } from '../providers/product.service';
+import { ListItemService } from '../providers/list-item.service';
 import { OrderService } from '../providers/order.service';
 import { DishService } from '../providers/dish.service';
 import { ProfileService } from '../providers/profile.service';
@@ -196,7 +196,7 @@ declare var cordova: any;
     BaseProvider,
     MediaService,
     ListingService,
-    ProductService
+    ListItemService
     // OrderService,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

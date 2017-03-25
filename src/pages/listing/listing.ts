@@ -5,7 +5,8 @@ import { NavController, ModalController, AlertController, LoadingController, Nav
 
 import { ProfileService } from '../../providers/profile.service';
 import { ListingService } from '../../providers/listing.service';
-import { ItemModel } from '../../models/listing-model';
+import { ListItemService } from '../../providers/list-item.service';
+import { ListingModel } from '../../models/listing-model';
 
 import { LocationModalPage, } from '../location-modal/location-modal';
 import { ListingFilterPage } from '../listing-filter/listing-filter';
@@ -24,7 +25,7 @@ export class ListingPage implements OnDestroy{
 
   public categories: any;
   public list_limit: number = 10;
-  public listings: ItemModel[];
+  public listings: ListingModel[];
 
   public search_query: string;
 
@@ -36,6 +37,7 @@ export class ListingPage implements OnDestroy{
   constructor(
     public nav: NavController,
     public listingService: ListingService,
+    public itemService: ListItemService,
     public params: NavParams,
     private _profileService: ProfileService,
     public alertCtrl: AlertController,
@@ -50,12 +52,12 @@ export class ListingPage implements OnDestroy{
   ionViewDidLoad() {
     this.categories = this.listingService.getListingType();
 
-    // this.getItems();
+    this.getItems();
   }
 
   ngOnDestroy() {
     // the .nativeElement property of the ViewChild is the reference to the <video> 
-    console.log('ON DESTROY LISTING!');
+    // console.log('ON DESTROY LISTING!');
     // this._img.nativeElement.src = '';
     // this._img.nativeElement.load();
   }
@@ -70,36 +72,38 @@ export class ListingPage implements OnDestroy{
     //this.loading.present();
 
     // Set query configurations
-    // let listing_ref = this.listingService.listListing(query)
-    // .orderByChild('created_at');
+    let listings_ref = this.itemService.listItems()
+    .orderByChild('created_at');
     // .equalTo('true', 'active');
     //.limitToLast(this.list_limit);
 
 
-    // listing_ref.on('value', (listingSnap) => {
-    //   let objects = listingSnap.val();
+    listings_ref.on('value', (listingSnap) => {
+      let objects = listingSnap.val();
 
-    //   this.listings = Object.keys(objects).map(function (key) {
+      this.listings = Object.keys(objects).map(function (key) {
 
-    //     // get the prorile for each listing */
-    //     self._profileService.getShortPrifile(objects[key].uid)
-    //     .once('value', profileSnap => {
-    //       if(profileSnap.val()){
-    //         objects[key].profile = profileSnap.val();
-    //       }
-    //     },
-    //     function(error){
-    //       console.log(error);
-    //     });
+        // get the prorile for each listing */
+        self._profileService.getShortPrifile(objects[key].seller_uid)
+        .once('value', profileSnap => {
+          if(profileSnap.val()){
+            objects[key].profile = profileSnap.val();
+          }
+        },
+        function(error){
+          console.log(error);
+        });
 
-    //     objects[key].listing_key = key;
-    //     return objects[key]; 
-    //   });
+        objects[key].listing_key = key;
+        return objects[key]; 
+      });
 
-    //   this.listings.reverse();
+      this.listings.reverse();
 
-    //   //this.loading.dismiss();
-    // });
+      //this.loading.dismiss();
+    }, error =>{
+      console.log("---------",error);
+    });
 
   }
 

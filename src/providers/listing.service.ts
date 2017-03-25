@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { ProfileService } from './profile.service';
 import { DataService } from './data.service';
 
-import { ItemModel } from '../models/listing-model';
+import { ListingModel } from '../models/listing-model';
 import { MediaModel } from '../models/listing-model';
 import { PriceModel } from '../models/listing-model';
 import { ScheduleModel } from '../models/listing-model';
@@ -19,7 +19,7 @@ export class ListingService {
 	private LISTING_REF: string = "listing_draft/";
 	private profile: any;
 
-	public listing: ItemModel;
+	public listing: ListingModel;
 	public max_media: number = 6;
 	public result: { key: string; listing: any; };
 
@@ -99,7 +99,7 @@ export class ListingService {
         }
 
         // Create a craft to the listing
-        var data = new ItemModel();
+        var data = new ListingModel();
         data.medias = medias;
         data.price = new PriceModel();
           data.price.currency = this.profile.currency;
