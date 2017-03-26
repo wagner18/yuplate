@@ -29,24 +29,26 @@ export class ListingModel{
 
   created_at: number = Date.now();
   update_at: number = Date.now();
-  form_control: any = { 
-      categories: false,
-      description: false,
-      location: false,
-      price: false,
-      schedule: false,
-      details: false
-    };
+  form_control: FormControlModel = new FormControlModel();
 
 }
 
-export class ListingType {
+export class ListingTypeModel {
   service: boolean; // Recipes listed as a chef service to preper this recipe.
   dish: boolean; // A dish from a local restaurant or licensed chef.
   pantry: boolean; // to specific craft products such spices. tometoes cans, crafts pesto and so on.
   bakery: boolean; // bakery products such as brads, cakes and so on.
   farm_fresh: boolean; // a service to allow local farms set up an fresh engridients chain in box to delivery or pickup
   event: boolean // A event as dinner, fairs and so on.
+}
+
+export class FormControlModel {
+  categories: boolean =  false;
+  description: boolean = false;
+  location: boolean = false;
+  price: boolean = false;
+  schedule: boolean = false;
+  details: boolean = false
 }
 
 export class LocationModel{

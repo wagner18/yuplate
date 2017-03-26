@@ -15,6 +15,7 @@ import { MediaService } from '../../providers/media.service';
 import { ListItemService } from '../../providers/list-item.service';
 
 import { ListingModel } from '../../models/listing-model';
+import { FormControlModel } from '../../models/listing-model';
 import { MediaModel } from '../../models/listing-model';
 
 /* Pages */
@@ -129,6 +130,14 @@ export class ListingFormPage {
       }
       this.listing['key'] = this.listing_ref;
 
+      // Remove this code
+      // if(this.listing.form_control == undefined){
+      //   this.listing['form_control'] = new FormControlModel();
+      // }
+      // if(this.listing.published == undefined){
+      //   this.listing['published'] = false;
+      // }
+
       // Set the UI Form values on into the view
       this.temp_medias = this.listing.medias;
 
@@ -165,17 +174,6 @@ export class ListingFormPage {
   saveListing(){
       if(this.temp_medias.length > 0){
         this.listing.medias = this.temp_medias;
-      }
-
-      if(this.listing.form_control !== undefined ){
-        this.listing.form_control = { 
-          categories: false,
-          description: false,
-          location: false,
-          price: false,
-          schedule: false,
-          details: false
-        };
       }
 
       if(this.listing_ref){

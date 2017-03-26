@@ -151,14 +151,16 @@ listing-form-page {
 				@inclide basic-list-styles($black-c, $black-d);
 
 				ion-item {
-					margin-left: 15px;
+					margin-left: 10px;
 					background-color: $white;
-
+					
 					.listing-type-info {
 						font-size: 1.0rem;
-						color: $black;
+						color: #ff0033;
 					}
 				}
+
+
 				
 			}
 

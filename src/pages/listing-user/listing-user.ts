@@ -47,20 +47,21 @@ export class ListingUserPage {
       let objects = listingSnap.val();
       if(objects !== undefined && objects !== null ){
 	      this.listings = Object.keys(objects).map(function (key) {
-	      	objects[key].listing_key = key;
+	      	objects[key].key = key;
 	      	return objects[key]; 
 	      });
 	    }else{
 	    	this.listings = [];
 	    }
 
+      console.log(this.listings);
+
       this.listings.reverse();
       this.loading.dismiss();
     });
 
-
-
   }
+
 
   addListing(){
   	this.nav.push(ListingFormPage);

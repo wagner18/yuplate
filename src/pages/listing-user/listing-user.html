@@ -31,7 +31,7 @@
       Drafts
     </ion-list-header>
 
-    <button class="list-item" ion-item *ngFor="let listing of listings" (click)="editListing(listing.listing_key)">
+    <button class="list-item" ion-item *ngFor="let listing of listings" (click)="editListing(listing.key)">
       <ion-row no-padding class="content-row">
         <ion-col no-padding width-33 class="item-avatar">
           <preload-image [ratio]="{w:1, h:1}" [src]="listing?.medias[0].media_path"></preload-image>
