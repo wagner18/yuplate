@@ -5,6 +5,8 @@ import { counterRangeValidator } from '../../components/counter-input/counter-in
 
 import { ListingService } from '../../providers/listing.service';
 
+import { ListingFormSchedulePage } from '../listing-form-schedule/listing-form-schedule';
+
 @Component({
   selector: 'page-listing-form-details',
   templateUrl: 'listing-form-details.html'
@@ -16,7 +18,8 @@ export class ListingFormDetailsPage {
   public measure_units: any;
 
   constructor(
-  	public nav: NavController, 
+  	public nav: NavController,
+    public modalCtrl: ModalController,
   	public viewCtrl: ViewController,
   	public alertCtrl: AlertController,
     public listingService: ListingService,
@@ -73,5 +76,23 @@ export class ListingFormDetailsPage {
 		}
 		this.viewCtrl.dismiss(this.data);
 	}
+
+  /**
+  * Handle the Schedule Modal with the checkbox controle
+  */
+  presentScheduleModal() {
+    let scheduleModal = this.modalCtrl.create(ListingFormSchedulePage, { data: this.listing });
+    scheduleModal.onDidDismiss(data => {
+
+      if(data.form_control.schedule === true){
+        this.formControlRadio.schedule = "checkmark-circle-outline";
+      }else{
+        this.formControlRadio.schedule = "radio-button-off";
+      }
+      this.listing = data;
+      this.saveStep();
+    });
+    scheduleModal.present();
+  }
 
 }

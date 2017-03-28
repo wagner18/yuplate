@@ -101,16 +101,28 @@ export class ListingFormPage {
     if(this.typeForm.valid){      
       this.listingService.loadListingData(null).then((result) => {
 
-        this.listing_ref = result["key"];
-        this.listing = result["listing"];
-        this.listing.listing_type = this.typeForm.value.listing_type;
-        this.temp_medias = this.listing.medias;
+        console.log(result);
+        if(result["listing"] !== null) { 
 
-        this.listingService.updateListing(this.listing_ref, { listing_type: this.typeForm.value.listing_type})
-        .then(()=>{
-          this.new_listing = false;
-        });
+          this.listing_ref = result["key"];
+          this.listing = result["listing"];
+
+          this.listing.listing_type = this.typeForm.value.listing_type;
+          this.temp_medias = this.listing.medias;
+
+          this.listingService.updateListing(this.listing_ref, { listing_type: this.typeForm.value.listing_type})
+          .then(()=>{
+            this.new_listing = false;
+          });
+
+
+        }else{
+          console.log("Listing is null - ", result);
+        }
         
+      })
+      .catch(error => {
+        console.log(error);
       });
       
     }

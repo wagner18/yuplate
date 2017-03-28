@@ -64,7 +64,6 @@ export class ListingService {
   *
   */
   updateListing(key, data){
-    console.log(key);
     return this._auth.getCurrentUser().then((currentUser) => {
       let ref = this.LISTING_REF + currentUser.uid + "/";
       return this._dataService.database.child(ref + key).update(data);
@@ -80,7 +79,7 @@ export class ListingService {
 
   	return new Promise((resolve, reject) => {
       // If listing has an key, fetch the data
-      if(key !== null || key !== undefined){
+      if(key !== null){
 
         this.getListing(key).once('value', (listingSnap) => {
           this.result = { key: listingSnap.key, listing: listingSnap.val() };
@@ -98,13 +97,13 @@ export class ListingService {
           medias.push({media_path: './assets/images/default-placeholder.png'});
         }
 
+
         // Create a craft to the listing
         var data = new ListingModel();
         data.medias = medias;
         data.price = new PriceModel();
-          data.price.currency = this.profile.currency;
-
-          console.log("Currencyyyyyyyyyy",data);
+        data.price.currency = this.profile.currency;
+        console.log("Currencyyyyyyyyyy",data);
 
         this.saveListing(data).then((ref) => {
           this.result = { key: ref.key, listing: data};
@@ -114,6 +113,7 @@ export class ListingService {
           reject(error);
         });
       }
+
     });
 
   }

@@ -39,9 +39,26 @@ export class ListItemService {
   		 //Set the item to be published
   		this.setItem(draft);
   		console.log(draft);
-      return this._dataService.database.child(this.LISTING_REF + draft.key).set(this.item);
+      return this._dataService.database.child(this.LISTING_REF + draft.key).set(this.item)
+      .then( res => {
+
+        console.log(res);
+
+        // Set GeoFire reference to geoQuery
+        if(draft.location !== undefined && draft.location.geolocation !== undefined){ 
+          let location = [draft.location.geolocation.lat, draft.location.geolocation.lng];
+          this._dataService.setGeolocation({key: draft.key, location: location});
+        }
+      });;
     }
 
+  }
+
+  /**
+  *
+  */
+  unpublishItem(){
+    
   }
 
   /**

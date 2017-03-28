@@ -29,8 +29,8 @@ export class ScheduleModalPage {
 
   	this.formScheduleModal = new FormGroup({
       day: new FormControl('', Validators.required),
-      from_time: new FormControl('', Validators.required),
-      to_time: new FormControl('', Validators.required)
+      from_time: new FormControl('08:00', Validators.required),
+      to_time: new FormControl('17:00', Validators.required)
     });
   }
 
