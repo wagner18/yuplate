@@ -16,15 +16,17 @@
 	<form class="form-style" [formGroup]="formDetails">
 	  <section class="form-section">
 	    <h2 class="section-title">
-	      <p>We are almost there, setup some more details about your listing,</p>
-	      <p>like your service options!</p>
+	      <p>We are almost there, just set up the final details about your listing,</p>
+	      <p>like your delivery and shipping options!</p>
 	    </h2>
 	  </section>
 
 	  
 	  <ion-list class="form-list">
 
-	  	<ion-item-divider>Service options</ion-item-divider>
+	  	<ion-item-divider>
+	  		Delivery/Carryout details
+	  	</ion-item-divider>
 	  	<ion-item>
 	      <ion-label>Carryout</ion-label>
 	      <ion-toggle formControlName="carryout" checked="false"></ion-toggle>
@@ -38,38 +40,54 @@
 	    </ion-item>
 
 	    <ion-item *ngIf="formDetails.value.delivery">
-	      <ion-label fixed>Delivery Fee</ion-label>
+	      <ion-label>Delivery Fee</ion-label>
 	      <ion-input class="input-number" text-right type="number" formControlName="delivery_fee"></ion-input>
 	    </ion-item>
 
-	    <ion-item>
+	    <ion-item *ngIf="formDetails.value.delivery || formDetails.value.carryout">
       	<ion-label>Processing time (min)</ion-label>
       	<ion-input class="input-number" text-right type="number" formControlName="processing_time"></ion-input>
     	</ion-item>
 
-    	<button ion-item (click)="presentSchedule()">
-        <ion-icon name="add" item-left ></ion-icon>
-        Schedule a Day
+    	<button ion-item (click)="presentScheduleModal()" 
+    	*ngIf="formDetails.value.delivery || formDetails.value.carryout">
+        Schedule itinerary
       </button>
+      
+      <ion-item *ngIf="formDetails.value.delivery || formDetails.value.carryout">
+	      <ion-label>Note</ion-label>
+	      <ion-input text-right type="text" formControlName="delivery_note"></ion-input>
+      </ion-item>
 
+    </ion-list>
 
-			<ion-item-divider></ion-item-divider>
+    <ion-list>
+
+			<ion-item-divider>
+				Shipping details
+			</ion-item-divider>
     	<ion-item>
 	      <ion-label>Shipping</ion-label>
 	      <ion-toggle formControlName="shipping" checked="false"></ion-toggle>
-	      <!-- <ion-checkbox value="true" formControlName="delivery"></ion-checkbox> -->
 	    </ion-item>
 
-	    <ion-item *ngIf="formDetails.value.delivery">
+	    <ion-item *ngIf="formDetails.value.shipping">
 	      <ion-label>Shipping Fee</ion-label>
 	      <ion-input class="input-number" text-right type="number" formControlName="shipping_fee"></ion-input>
 	    </ion-item>
 
-	    <ion-item>
+	    <ion-item *ngIf="formDetails.value.shipping">
       	<ion-label>Processing time (days)</ion-label>
-      	<ion-input class="input-number" text-right type="number" formControlName="processing_time"></ion-input>
+      	<ion-input class="text" text-right type="text" formControlName="shipping_processing_time"></ion-input>
     	</ion-item>
 
+    	<ion-item *ngIf="formDetails.value.shipping">
+	      <ion-label fixed>Note</ion-label>
+	      <ion-input text-right type="text" formControlName="shipping_note"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
 	  	<ion-item-divider>Servings per portion</ion-item-divider>
 	  	<ion-item>
 	      <ion-label>Measure unit</ion-label>
@@ -90,7 +108,6 @@
 	      <ion-label>Ask Confirmation?</ion-label>
 	      <ion-toggle formControlName="confirmation" checked="false"></ion-toggle>
 		  </ion-item>
-
 	  </ion-list>
 
 	</form>

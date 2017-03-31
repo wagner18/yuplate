@@ -61,8 +61,8 @@ listing-page {
 		.action-bar-button {
 			text-align: center;
 			color: $theme-color-2;
-			font-size: 1.8rem;
-			font-weight: 600;
+			font-size: 1.6rem;
+			font-weight: 400;
 			margin: 0px;
 			padding: 0px;
 		}
@@ -195,7 +195,7 @@ listing-page {
 }
 
 
-ion-alert.category-prompt {
+ion-alert.classification-prompt {
 	.alert-wrapper
 	{
 		width: 80%;

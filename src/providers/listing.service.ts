@@ -198,25 +198,20 @@ export class ListingService {
   }
 
 
-  // Categories - Take it to the right place
-  getCategories(){
-    let categories = [
-      {type: 'select', label: 'Beef', value: 'Beef'},
-      {type: 'select', label: 'Steak', value: 'Steak'},
-      {type: 'select', label: 'Chicken', value: 'Chicken'},
-      {type: 'select', label: 'Fish', value: 'Fish'},
-      {type: 'select', label: 'Seafood', value: 'Seafood'},
-      {type: 'select', label: 'Pasta', value: 'Pasta'},
-      {type: 'select', label: 'Salads', value: 'Salads'},
-      {type: 'select', label: 'Appetizes', value: 'Appetizes'},
-      {type: 'select', label: 'Desserts', value: 'Desserts'}
+  // Classifications - Take it to the right place
+  getClassification(){
+    let Classification = [
+      {label: 'Dish', value: 'Dish'},
+      {label: 'Bakery', value: 'Bakery'},
+      {label: 'Pantry', value: 'Pantry'},
+      {label: 'Farm', value: 'Farm'}
     ];
 
-    return categories;
+    return Classification;
   }
 
 
-  // Categories - Take it to the right place
+  // Weekdays - Take it to the right place
   getWeedDays(){
     let week_days = [
       {type: 'select', label: 'Sunday', value: 0},

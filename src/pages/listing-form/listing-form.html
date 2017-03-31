@@ -4,7 +4,7 @@
     <ion-title>My Listing</ion-title>
     <ion-buttons *ngIf="new_listing == false" end>
       <button ion-button (click)="saveListing()">
-        save
+        Done
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -153,12 +153,12 @@
           <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
         </ion-item>
 
-        <ion-item class="button-item" (click)="presentScheduleModal()">
+<!--         <ion-item class="button-item" (click)="presentScheduleModal()">
           <ion-icon  name="{{formControlRadio.schedule}}" item-left></ion-icon>
           <h2>Schedule</h2>
           <p>Set the schedule to your listing.</p>
           <ion-icon  ios="ios-arrow-forward" md="md-arrow-forward" item-right></ion-icon>
-        </ion-item> 
+        </ion-item>  -->
 
         <ion-item class="button-item" (click)="presentDetailsModal()">
           <ion-icon  name="{{formControlRadio.details}}" item-left></ion-icon>

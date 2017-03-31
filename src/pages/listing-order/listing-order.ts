@@ -85,8 +85,6 @@ export class ListingOrderPage {
 
       this.profile = this.profileService.getCurrentProfile();
 
-      console.log('prof=====', this.profile);
-
       if(this.profile.addresses !== undefined ){
         this.primaryAddress = this.profile.addresses.find(function(address){
           return address.primary == true;
@@ -124,7 +122,7 @@ export class ListingOrderPage {
   *
   */
   ionViewDidLoad() {
-    this.subtotal = this.listing.price.main_price;
+    this.subtotal = this.listing.main_price;
     this.formOrder.patchValue({total_price: this.setDeliveryFee(this.subtotal)});
   }
 
@@ -152,7 +150,7 @@ export class ListingOrderPage {
   * @param event - the value form the event emiter
   */
   setTotalPrice(quantity){
-    this.subtotal = (this.listing.price.main_price * quantity);
+    this.subtotal = (this.listing.main_price * quantity);
     // Add delivery fee if there is a delivery fee
     let total_price = this.setDeliveryFee(this.subtotal);
     this.formOrder.patchValue({total_price: total_price});

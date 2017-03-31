@@ -15,8 +15,8 @@
     </ion-title>
 
     <ion-buttons end>
-      <button ion-button icon-only color="royal">
-        <ion-icon name="md-chatboxes"></ion-icon>
+      <button ion-button icon-only color="royal" (click)="filterModalPage()">
+        <ion-icon name="ios-funnel-outline"></ion-icon>
       </button>
     </ion-buttons>
 
@@ -58,44 +58,48 @@
     </ion-col>
   </ion-row> -->
 
+  <!-- (ionInput)="updateSearch($event)" -->
   <ion-searchbar
     (ngModel)="search_query"
     [showCancelButton]="false"
-    (ionInput)="updateSearch($event)"
+    (change)="updateSearch($event)"
     placeholder="Search"
-    autocomplete="true"
+    autocomplete="on"
     spellcheck="true"
     debounce="2000"
     color="light">
   </ion-searchbar>
 
   <ion-row>
-    <ion-col width-25 text-center>
+    <ion-col width-33 text-center>
         <button ion-button small icon-only clear no-padding class="action-bar-button" (click)="listingType(0)">
           <ion-icon name="ios-heart-outline"></ion-icon>
+          Favorites
         </button>
     </ion-col>
-    <ion-col width-25 text-center>
-        <button ion-button small icon-only clear no-padding class="action-bar-button" (click)="setCategoryFilter()">
-          <ion-icon name="ios-browsers-outline"></ion-icon>
+    <ion-col width-33 text-center>
+        <button ion-button small icon-only clear no-padding class="action-bar-button" (click)="setClassificationFilter()">
+          <ion-icon name="ios-pin-outline"></ion-icon>
+          Local
         </button>
     </ion-col>
-    <ion-col width-25 text-center>
+<!--     <ion-col width-25 text-center>
         <button ion-button small icon-only clear no-padding class="action-bar-button" (click)="listingType(0)" (click)="locationModalPage()">
           <ion-icon name="ios-navigate-outline"></ion-icon>
         </button>
-    </ion-col>
-    <ion-col width-25 text-center>
+    </ion-col> -->
+    <ion-col width-33 text-center>
         <button ion-button small icon-only clear no-padding class="action-bar-button"
         (click)="filterModalPage()" >
         <!-- (click)="toggleActionBar('searchbar')" -->
           <!-- <ion-icon name="ios-search-outline"></ion-icon> -->
           <ion-icon name="ios-funnel-outline"></ion-icon>
+          Activity
         </button>
     </ion-col>
   </ion-row>
 
-  <h4 class="categories-title">Most popular</h4>
+  <h4 class="categories-title">Most Popular</h4>
 
   <!-- <ion-row class="feed-item"> -->
 

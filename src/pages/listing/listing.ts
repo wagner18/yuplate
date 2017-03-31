@@ -23,14 +23,13 @@ export class ListingPage implements OnDestroy{
   public loading: any;
   public current_time = new Date();
 
-  public categories: any;
   public list_limit: number = 10;
   public listings: ListingModel[];
 
   public search_query: string;
 
-  public categories_checkbox_open: boolean;
-  public categories_checkbox_result;
+  public classification_checkbox_open: boolean;
+  public classification_checkbox_result;
 
   public active_button: Array<any> = ["head-active-button", "", "", "", ""];
 
@@ -50,8 +49,6 @@ export class ListingPage implements OnDestroy{
   }
 
   ionViewDidLoad() {
-    this.categories = this.listingService.getListingType();
-
     this.getItems();
   }
 
@@ -180,20 +177,27 @@ export class ListingPage implements OnDestroy{
   }
 
   /**
-  * Applay Category filter
+  * Applay classification filter
   */
-  setCategoryFilter(){
+  setClassificationFilter(){
     let alert = this.alertCtrl.create({
-      cssClass: 'category-prompt'
+      cssClass: 'classification-prompt'
     });
-    alert.setTitle('Categories');
+    alert.setTitle('Listing Type');
 
-    let categories = this.listingService.getListingCategories();
-    categories.map((category)=>{
+    alert.addInput({
+      type: 'checkbox',
+      label: 'All',
+      value: 'All',
+      checked: true
+    });
+
+    let classifications = this.listingService.getClassification();
+    classifications.map((classification)=>{
       alert.addInput({
         type: 'checkbox',
-        label: category.label,
-        value: category.value
+        label: classification.label,
+        value: classification.value
       });
     });
 
@@ -203,12 +207,12 @@ export class ListingPage implements OnDestroy{
       text: 'Confirm',
       handler: data => {
         console.log('Checkbox data:', data);
-        this.categories_checkbox_open = false;
-        this.categories_checkbox_result = data;
+        this.classification_checkbox_open = false;
+        this.classification_checkbox_result = data;
       }
     });
     alert.present().then(() => {
-      this.categories_checkbox_open = true;
+      this.classification_checkbox_open = true;
     });
   }
 

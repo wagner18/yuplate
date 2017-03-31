@@ -19,10 +19,13 @@ export class ItemModel {
   promotion_price: number = 0.00;
   currency: string = "USD";
 
+  schedule: Array<any> = [];
+
   total_favorites: number = 0;
   total_reviews: number =  0;
   total_rate: number = 4.5;
 
+  location: any = {};
   medias: Array<any> = [];
   reviews: Array<ReviewModel> = [];
 

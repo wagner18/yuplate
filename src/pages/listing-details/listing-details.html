@@ -156,17 +156,30 @@
   	</ion-item>	 -->
     </ion-list>
 
-
     <ion-list>
-      <ion-list-header>Payment</ion-list-header>
       <ion-item no-lines>
-        <h2>Methods</h2>
-        <span>Paypal, Visa, MasterCard, American Express, Discover</span>
+        <h2>Payment Methods</h2>
+        <img src="./assets/images/cards.jpeg" height="30px">
+        <!-- <span>Paypal, Visa, MasterCard, American Express, Discover</span> -->
       </ion-item>
     </ion-list>
 
-    <ion-list>
-		<ion-list-header>Schedule</ion-list-header>
+    <ion-list *ngIf="listing.shipping">
+      <ion-item-divider>
+        Shipping informations
+      </ion-item-divider>
+      <ion-item no-lines>
+        <h2>Shipping fee</h2>
+        {{listing.shepping_fee}}
+      </ion-item>
+      <ion-item no-lines>
+        <h2>Informations</h2>
+        {{listing.shepping_note}}
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="listing.delivery || listing.carryout">
+		<ion-list-header>Local Schedule</ion-list-header>
   	<ion-item *ngFor="let schedule of listing.schedule">
   		<ion-row>
 		    <ion-col width-100 class="schedule-data">

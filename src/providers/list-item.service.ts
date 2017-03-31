@@ -58,7 +58,7 @@ export class ListItemService {
   *
   */
   unpublishItem(){
-    
+
   }
 
   /**
@@ -88,10 +88,16 @@ export class ListItemService {
 	    this.item.promotion_price = draft.price.long_term_price;
 	    this.item.currency = draft.price.currency;
 
+      //set flat schedule for local services
+      if(draft.schedule !== undefined){
+          this.item.schedule = draft.schedule;
+      }
+
 	    this.item.total_favorites = 0;
 	    this.item.total_reviews =  0;
 	    this.item.total_rate = 1;
 
+      this.item.location = draft.location;
 	    this.item.medias = draft.medias;
 	    this.item.reviews = [];
 

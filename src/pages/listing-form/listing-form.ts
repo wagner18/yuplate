@@ -37,7 +37,6 @@ export class ListingFormPage {
   public listing: any;
   public typeForm: FormGroup;
   public new_listing: boolean = true;
-  public categories: Array<any> = [];
 
   public steps_validation: number = 0;
   public publish_disabled: boolean = true;
@@ -47,7 +46,6 @@ export class ListingFormPage {
     description_label: "Set a title and summary",
     location: "radio-button-off",
     price: "radio-button-off",
-    schedule: "radio-button-off",
     details: "radio-button-off"
   }
 
@@ -81,9 +79,6 @@ export class ListingFormPage {
 
     // Get the Listing Key Reference form the nav params
     this.listing_ref = this.params.get('key');
-
-    // Categories - Take it to the right place
-    this.categories = this.listingService.getCategories();
 
     // test if the form is an new entry
     if(this.listing_ref !== undefined){
@@ -144,7 +139,7 @@ export class ListingFormPage {
 
       // Remove this code
       // if(this.listing.form_control == undefined){
-      //   this.listing['form_control'] = new FormControlModel();
+        // this.listing['form_control'] = new FormControlModel();
       // }
       // if(this.listing.published == undefined){
       //   this.listing['published'] = false;
@@ -173,7 +168,7 @@ export class ListingFormPage {
   * publishing toggle
   */
   checkPublishValidation(){
-    if(this.listing.medias.length > 1 && this.steps_validation === 6){
+    if(this.listing.medias.length > 1 && this.steps_validation === 5){
       this.publish_disabled = false;
     }else{
       this.publish_disabled = true;
@@ -205,7 +200,7 @@ export class ListingFormPage {
   saveStep(){
     if(this.listing !== undefined && this.listing_ref){
 
-      let check = 6;
+      let check = 5;
       Object.keys(this.listing.form_control).map( ctrl_key => {
         if(this.listing.form_control[ctrl_key] === true){
           if(this.steps_validation < check){
@@ -235,7 +230,7 @@ export class ListingFormPage {
   */
   publishListing(){
     this.loading.present();
-    if(this.listing.medias.length > 1 && this.steps_validation === 6){
+    if(this.listing.medias.length > 1 && this.steps_validation === 5){
       this.itemService.publishItem(this.listing).then(result => {
 
         this.listing['published'] = true;
@@ -433,20 +428,20 @@ export class ListingFormPage {
   /**
   * Handle the Schedule Modal with the checkbox controle
   */
-  presentScheduleModal() {
-    let scheduleModal = this.modalCtrl.create(ListingFormSchedulePage, { data: this.listing });
-    scheduleModal.onDidDismiss(data => {
+  // presentScheduleModal() {
+  //   let scheduleModal = this.modalCtrl.create(ListingFormSchedulePage, { data: this.listing });
+  //   scheduleModal.onDidDismiss(data => {
 
-      if(data.form_control.schedule === true){
-        this.formControlRadio.schedule = "checkmark-circle-outline";
-      }else{
-        this.formControlRadio.schedule = "radio-button-off";
-      }
-      this.listing = data;
-      this.saveStep();
-    });
-    scheduleModal.present();
-  }
+  //     if(data.form_control.schedule === true){
+  //       this.formControlRadio.schedule = "checkmark-circle-outline";
+  //     }else{
+  //       this.formControlRadio.schedule = "radio-button-off";
+  //     }
+  //     this.listing = data;
+  //     this.saveStep();
+  //   });
+  //   scheduleModal.present();
+  // }
 
   /**
   * Handle the Details Modal with the checkbox controle

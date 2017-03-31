@@ -4,7 +4,6 @@ import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { counterRangeValidator } from '../../components/counter-input/counter-input';
 
 import { ListingService } from '../../providers/listing.service';
-
 import { ListingFormSchedulePage } from '../listing-form-schedule/listing-form-schedule';
 
 @Component({
@@ -30,9 +29,15 @@ export class ListingFormDetailsPage {
       carryout: new FormControl(false),
   		delivery: new FormControl(false),
       delivery_fee: new FormControl(0.00),
+      processing_time: new FormControl('0'),
+      delivery_note: new FormControl(""),
+
       shipping: new FormControl(false),
       shipping_fee: new FormControl(0.00),
-      processing_time: new FormControl('0', Validators.required),
+      shipping_processing_time: new FormControl('0'),
+      shipping_note: new FormControl(""),
+
+
       measure_unit: new FormControl('', Validators.required),
       unit_value: new FormControl(1, Validators.required),
       confirmation: new FormControl(false)
@@ -49,9 +54,14 @@ export class ListingFormDetailsPage {
       carryout: this.data.carryout,
     	delivery: this.data.delivery,
       delivery_fee: this.data.delivery_fee,
+      processing_time: this.data.processing_time,
+      delivery_note: this.data.delivery_note,
+
       shipping: this.data.shipping,
       shipping_fee: this.data.shipping_fee,
-      processing_time: this.data.processing_time,
+      shipping_processing_time: this.data.shipping_processing_time,
+      shipping_note: this.data.shipping_note,
+
       measure_unit: this.data.measure_unit,
     	unit_value: this.data.unit_value,
       confirmation: this.data.confirmation
@@ -62,9 +72,14 @@ export class ListingFormDetailsPage {
     this.data.carryout = this.formDetails.value.carryout;
 		this.data.delivery = this.formDetails.value.delivery;
     this.data.delivery_fee = this.formDetails.value.delivery_fee;
+    this.data.processing_time = this.formDetails.value.processing_time,
+    this.data.delivery_note = this.formDetails.value.delivery_note,
+
     this.data.shipping = this.formDetails.value.shipping;
     this.data.shipping_fee = this.formDetails.value.shipping_fee;
-    this.data.processing_time = this.formDetails.value.processing_time;
+    this.data.shipping_processing_time = this.formDetails.value.shipping_processing_time;
+    this.data.shipping_note = this.formDetails.value.shipping_note,
+
     this.data.measure_unit = this.formDetails.value.measure_unit;
     this.data.unit_value = this.formDetails.value.unit_value;
     this.data.confirmation = this.formDetails.value.confirmation;
@@ -81,16 +96,9 @@ export class ListingFormDetailsPage {
   * Handle the Schedule Modal with the checkbox controle
   */
   presentScheduleModal() {
-    let scheduleModal = this.modalCtrl.create(ListingFormSchedulePage, { data: this.listing });
+    let scheduleModal = this.modalCtrl.create(ListingFormSchedulePage, { data: this.data });
     scheduleModal.onDidDismiss(data => {
-
-      if(data.form_control.schedule === true){
-        this.formControlRadio.schedule = "checkmark-circle-outline";
-      }else{
-        this.formControlRadio.schedule = "radio-button-off";
-      }
-      this.listing = data;
-      this.saveStep();
+      this.data = data;
     });
     scheduleModal.present();
   }

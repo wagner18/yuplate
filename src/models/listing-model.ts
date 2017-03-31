@@ -8,9 +8,11 @@ export class ListingModel{
   carryout: boolean = true;
   delivery: boolean = false;
   delivery_fee: number = 0.00;
+  processing_time: string = "";
   shipping: boolean = false;
   shipping_fee: number = 0.00;
-  processing_time: string = "";
+  shipping_processing_time: string = "";
+  shipping_note: string = "";
   measure_unit: string = "";
   unit_value: number = 1;
   confirmation: boolean = false;
@@ -47,8 +49,7 @@ export class FormControlModel {
   description: boolean = false;
   location: boolean = false;
   price: boolean = false;
-  schedule: boolean = false;
-  details: boolean = false
+  details: boolean = false;
 }
 
 export class LocationModel{
