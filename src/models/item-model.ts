@@ -15,6 +15,8 @@ export class ItemModel {
   confirmation: boolean = false;
   listing_type: string;
 
+  search_tags: string = "";
+
   main_price: number = 14.00;
   promotion_price: number = 0.00;
   currency: string = "USD";
@@ -30,6 +32,7 @@ export class ItemModel {
   reviews: Array<ReviewModel> = [];
 
   seller_uid: string = "";
+  short_profile: any = {};
 }
 
 

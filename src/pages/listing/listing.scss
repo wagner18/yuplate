@@ -30,42 +30,20 @@ listing-page {
 			background-color: $white-b;
 		}
 
-		.head_toolbar {
-			height: 50px;
-			padding: 0px;
-			border: none;
+		.segment-bar {
+			@include segment-button-styles($theme-color-4);
+			padding: 10px;
 
-			.head-row {
+			.segment-button {
+				text-align: center;
+				color: $theme-color-2;
+				font-size: 1.6rem;
+				font-weight: 400;
 				margin: 0px;
 				padding: 0px;
-				border: 0px;
-				background: $theme-color-1;
-				text-align: center;
-
-				.head-button{
-					color: $theme-color-3;
-					font-size: 4vw;
-				}
-
-				.head-active-button{
-					/*background-color: $theme-color-4;*/
-					
-					.head-button{
-						color: $theme-color-2;
-						font-weight: 600;
-					}
-				}
 			}
 		}
 
-		.action-bar-button {
-			text-align: center;
-			color: $theme-color-2;
-			font-size: 1.6rem;
-			font-weight: 400;
-			margin: 0px;
-			padding: 0px;
-		}
 
 		.item-card-content {
 			position: relative;

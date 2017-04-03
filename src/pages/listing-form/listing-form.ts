@@ -231,7 +231,7 @@ export class ListingFormPage {
   publishListing(){
     this.loading.present();
     if(this.listing.medias.length > 1 && this.steps_validation === 5){
-      this.itemService.publishItem(this.listing).then(result => {
+      this.itemService.publishItem(this.listing).then( response => {
 
         this.listing['published'] = true;
         this.saveStep();

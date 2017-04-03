@@ -19,6 +19,7 @@ export class ListItemService {
 	private LISTING_REF: string = "listings/";
 	public item: ItemModel;
 	public profile: any;
+  public listings: Array<any> = [];
 
   constructor(
     private _dataService: DataService,
@@ -35,23 +36,38 @@ export class ListItemService {
   */
   publishItem(draft){
 
-  	if(this.profile !== undefined ){
-  		 //Set the item to be published
-  		this.setItem(draft);
-  		console.log(draft);
-      return this._dataService.database.child(this.LISTING_REF + draft.key).set(this.item)
-      .then( res => {
+    return new Promise((resolve, reject) => {
 
-        console.log(res);
+    	if(this.profile !== undefined ){
+    		 //Set the item to be published
+    		this.item = this.setItem(draft);
 
-        // Set GeoFire reference to geoQuery
-        if(draft.location !== undefined && draft.location.geolocation !== undefined){ 
-          let location = [draft.location.geolocation.lat, draft.location.geolocation.lng];
-          this._dataService.setGeolocation({key: draft.key, location: location});
-        }
-      });;
-    }
+        //Set the short seller profile
+        this.profileService.getShortPrifile(this.profile.uid).once('value', profileSnap => {
 
+          this.item.short_profile = profileSnap.val();
+
+          // Publish the item
+          this._dataService.database.child(this.LISTING_REF + draft.key).set(this.item).then( response => {
+
+            // Set GeoFire intance
+            if(draft.location !== undefined && draft.location.geolocation !== undefined){ 
+              let location = [draft.location.geolocation.lat, draft.location.geolocation.lng];
+              this._dataService.setGeolocation({key: draft.key, location: location});
+            }
+
+            resolve(response);
+
+          }, (error) => {
+            reject(error);
+          });
+
+        }, (error) => {
+          reject(error);
+        });
+      }
+
+    });
   }
 
   /**
@@ -62,50 +78,83 @@ export class ListItemService {
   }
 
   /**
-  * Set t
+  * Set the item to be published
   */
   setItem(draft){
   	if(draft !== undefined && draft !== null ){
 
-  		this.item = new ItemModel();
+  		let item = new ItemModel();
 
-  		this.item.title = draft.title;
-	    this.item.summary = draft.summary;
-	    this.item.description = draft.description;
-	    this.item.privacity = draft.privacity;
-	    this.item.carryout = draft.carryout;
-	    this.item.delivery  = draft.delivery;
-	    this.item.delivery_fee = draft.delivery_fee;
-	    this.item.shipping = draft.shipping;
-	    this.item.shipping_fee = draft.shipping_fee;
-	    this.item.processing_time = draft.processing_time;
-	    this.item.measure_unit = draft.measure_unit;
-	    this.item.unit_value = draft.unit_value;
-	    this.item.confirmation = draft.confirmation;
-	    this.item.listing_type = draft.listing_type;
+  		item.title = draft.title;
+	    item.summary = draft.summary;
+	    item.description = draft.description;
+	    item.privacity = draft.privacity;
+	    item.carryout = draft.carryout;
+	    item.delivery  = draft.delivery;
+	    item.delivery_fee = draft.delivery_fee;
+	    item.shipping = draft.shipping;
+	    item.shipping_fee = draft.shipping_fee;
+	    item.processing_time = draft.processing_time;
+	    item.measure_unit = draft.measure_unit;
+	    item.unit_value = draft.unit_value;
+	    item.confirmation = draft.confirmation;
+	    item.listing_type = draft.listing_type;
 
-	    this.item.main_price = draft.price.main_price;
-	    this.item.promotion_price = draft.price.long_term_price;
-	    this.item.currency = draft.price.currency;
+	    item.main_price = draft.price.main_price;
+	    item.promotion_price = draft.price.long_term_price;
+	    item.currency = draft.price.currency;
 
       //set flat schedule for local services
       if(draft.schedule !== undefined){
-          this.item.schedule = draft.schedule;
+        item.schedule = draft.schedule;
       }
 
-	    this.item.total_favorites = 0;
-	    this.item.total_reviews =  0;
-	    this.item.total_rate = 1;
+	    item.total_favorites = 0;
+	    item.total_reviews =  0;
+	    item.total_rate = 1;
 
-      this.item.location = draft.location;
-	    this.item.medias = draft.medias;
-	    this.item.reviews = [];
+      item.location = draft.location;
+	    item.medias = draft.medias;
+	    item.reviews = [];
 
-	    this.item[draft.key] = true;
-	    this.item.seller_uid = this.profile.uid;
+	    item[draft.key] = true;
+	    item.seller_uid = this.profile.uid;
 
-	    return this.item;
+      //Set the search tags property for data filtering
+      item = this.setSearchTags(item, draft);
+
+      return item;
   	}
+  }
+
+  /**
+  *  Set the search tags to be indexed in the database
+  * @param item = listing item
+  * @param draft = listing draft
+  */
+  setSearchTags(item, draft){
+    item['search_tags'] = draft.listing_type;
+    item.search_tags = item.search_tags.concat(" "+draft.title);
+
+    // Set categories tags
+    if(draft.categories !== undefined){
+      draft.categories.forEach((category) => {
+        item.search_tags = item.search_tags.concat(" "+category.value);
+      });
+    }
+
+    //Delivery service tags
+    if(draft.delivery == true){
+      item.search_tags = item.search_tags.concat(" delivery");
+    }
+    if(draft.carryout == true){
+      item.search_tags = item.search_tags.concat(" carryout");
+    }
+    if(draft.shipping == true){
+      item.search_tags = item.search_tags.concat(" shipping");
+    }
+
+    return item;
   }
 
 
@@ -116,14 +165,43 @@ export class ListItemService {
     return this._dataService.database.child(this.LISTING_REF);
   }
 
-
   /**
-  *
+  * @param radius = radius in miles
   */
-  saveListing(data){
-    if(this.profile !== undefined ){
-      return this._dataService.database.child(this.LISTING_REF).push(data);
-    }
-  }
+  getLocalItems(radius = 10){
+    return new Promise((resolve, reject) => {
 
+      //convert radius from Miles to Kilomaters
+      radius = radius * 1.6;
+
+      this.listings = [];
+      this.profileService.setCurrentLocation().then(position => {
+        this.profile = this.profileService.getCurrentProfile();
+        if(this.profile.location !== undefined){
+
+          var geoQuery = this._dataService.geoFire.query({
+            center: [this.profile.location.lat, this.profile.location.lng],
+            radius: radius
+          });
+
+          geoQuery.on("key_entered", (key, location, distance) => {
+            // console.log(key + " entered query at " + location + " (" + distance + " km from center)");
+
+            this._dataService.database.child(this.LISTING_REF + key).once('value', listingSnap => {
+
+              this.listings.push(listingSnap.val());
+              resolve(this.listings);
+
+            }, (error) => {
+              console.log(error);
+              reject(error);
+            });
+
+          });
+
+        }
+      });
+
+    });
+  }
 }

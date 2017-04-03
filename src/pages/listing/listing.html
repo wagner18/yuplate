@@ -16,7 +16,7 @@
 
     <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="filterModalPage()">
-        <ion-icon name="ios-funnel-outline"></ion-icon>
+        <ion-icon name="ios-options-outline"></ion-icon>
       </button>
     </ion-buttons>
 
@@ -29,8 +29,53 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <!-- (ionInput)="updateSearch($event)" -->
+  <form action=".">
+    <ion-searchbar
+      (ngModel)="search_query"
+      [showCancelButton]="false"
+      (search)="onSearch($event)"
+      placeholder="Search"
+      autocomplete="on"
+      spellcheck="true"
+      debounce="2000"
+      color="light">
+    </ion-searchbar>
+  </form>
 
-  <!--     <ion-col col-center width-100>
+  <ion-segment class="segment-bar">
+    <ion-segment-button class="segment-button" value="Favorites" (click)="listingType(0)">
+      Favorites
+    </ion-segment-button>
+    <ion-segment-button class="segment-button" value="Activity">
+      Activity
+    </ion-segment-button>
+    <ion-segment-button class="segment-button" value="Nearby" (click)="getLocalItems()">
+      Local
+    </ion-segment-button>
+  </ion-segment>
+
+<!--   <ion-row>
+    <ion-col width-33 text-center>
+        <button ion-button small icon-only clear no-padding class="action-bar-button" (click)="listingType(0)">
+          Favorites
+        </button>
+    </ion-col>
+    <ion-col width-33 text-center>
+        <button ion-button small icon-only clear no-padding class="action-bar-button"
+        (click)="filterModalPage()" >
+          Activity
+        </button>
+    </ion-col>
+    <ion-col width-33 text-center>
+        <button ion-button small icon-only clear no-padding class="action-bar-button" [class]="active_button[2]" (click)="getLocalItems()">
+          Local
+        </button>
+    </ion-col>
+  </ion-row> -->
+
+
+  <!--<ion-col col-center width-100>
       <h2 class="main-title">{{listing.banner_title}}</h2>
     </ion-col> -->
 
@@ -43,9 +88,6 @@
 <!--     </ion-row>
   </ion-scroll> -->
 
-<!--   <ion-searchbar>
-  </ion-searchbar> -->
-
 <!--   <ion-row class="grid-categories">
     <ion-col width-50 class="category-item" *ngFor="let category of categories">
       <background-image class="category-heading" [src]="category.image" (click)="goToFeed(category)">
@@ -57,47 +99,6 @@
       </background-image>
     </ion-col>
   </ion-row> -->
-
-  <!-- (ionInput)="updateSearch($event)" -->
-  <ion-searchbar
-    (ngModel)="search_query"
-    [showCancelButton]="false"
-    (change)="updateSearch($event)"
-    placeholder="Search"
-    autocomplete="on"
-    spellcheck="true"
-    debounce="2000"
-    color="light">
-  </ion-searchbar>
-
-  <ion-row>
-    <ion-col width-33 text-center>
-        <button ion-button small icon-only clear no-padding class="action-bar-button" (click)="listingType(0)">
-          <ion-icon name="ios-heart-outline"></ion-icon>
-          Favorites
-        </button>
-    </ion-col>
-    <ion-col width-33 text-center>
-        <button ion-button small icon-only clear no-padding class="action-bar-button" (click)="setClassificationFilter()">
-          <ion-icon name="ios-pin-outline"></ion-icon>
-          Local
-        </button>
-    </ion-col>
-<!--     <ion-col width-25 text-center>
-        <button ion-button small icon-only clear no-padding class="action-bar-button" (click)="listingType(0)" (click)="locationModalPage()">
-          <ion-icon name="ios-navigate-outline"></ion-icon>
-        </button>
-    </ion-col> -->
-    <ion-col width-33 text-center>
-        <button ion-button small icon-only clear no-padding class="action-bar-button"
-        (click)="filterModalPage()" >
-        <!-- (click)="toggleActionBar('searchbar')" -->
-          <!-- <ion-icon name="ios-search-outline"></ion-icon> -->
-          <ion-icon name="ios-funnel-outline"></ion-icon>
-          Activity
-        </button>
-    </ion-col>
-  </ion-row>
 
   <h4 class="categories-title">Most Popular</h4>
 
@@ -170,10 +171,9 @@
 
         <ion-item item-right class="item-profile">
           <ion-avatar item-left>
-            <img src="{{listing.profile?.image}}">
+            <img src="{{listing.short_profile?.image}}">
           </ion-avatar>
-          <h2>{{ listing.profile?.fullName }}</h2>
-          <p>{{ listing.profile?.location }}</p>
+          <h2>{{ listing.short_profile?.fullName }}</h2>
         </ion-item>
 
       </ion-card>

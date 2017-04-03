@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { Geolocation } from 'ionic-native';
 import 'rxjs/add/operator/map';
 
 import { AuthService } from './auth.service';
@@ -78,16 +79,16 @@ export class ProfileService {
     }
   }
 
-
+  /**
+  *
+  */
   getShortPrifile(uid){
     let refShortProfile = this.SHORT_PROFILE_REF + uid;
     return this._dataService.database.child(refShortProfile);
   }
-
   saveShortProfile(uid, data){
     return this._dataService.database.child(this.SHORT_PROFILE_REF + uid).update(data);
   }
-
 
 
   /**
@@ -156,7 +157,26 @@ export class ProfileService {
     });
   }
 
+  /**
+  * Set the profile current location
+  */
+  setCurrentLocation(){
+    return Geolocation.getCurrentPosition({ maximumAge: 5000, timeout: 15000, enableHighAccuracy: true }).then((position) => {
 
+      let current_location = { lat: position.coords.latitude, lng: position.coords.longitude };
+      this.profile.location = current_location;
+
+      console.log("MY LOCATIONNNN",current_location);
+
+    }, (error) => {
+      console.log(error);
+      alert("We couldn't get your location, please check your internet.");
+    });
+  }
+
+  /**
+  *
+  */
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);

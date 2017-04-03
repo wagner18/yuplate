@@ -63,13 +63,15 @@ export class DataService {
   */
   setGeolocation(geoData){
     this.geoFire.set(geoData.key, geoData.location)
-    .then((geoResult)=>{
-      console.log("GEOOO",geoResult);
-    })
     .catch(error => {
       console.log(error);
     });
   }
+
+  /**
+  *
+  */
+  
 
 
   /**

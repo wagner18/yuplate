@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NavController, ModalController, AlertController, LoadingController, NavParams, Slides} from 'ionic-angular';
+import { Keyboard, NavController, ModalController, AlertController, LoadingController, NavParams, Slides} from 'ionic-angular';
 
 //import 'rxjs/Rx';
 
@@ -24,16 +24,17 @@ export class ListingPage implements OnDestroy{
   public current_time = new Date();
 
   public list_limit: number = 10;
-  public listings: ListingModel[];
+  public listings: any;
 
   public search_query: string;
 
   public classification_checkbox_open: boolean;
   public classification_checkbox_result;
 
-  public active_button: Array<any> = ["head-active-button", "", "", "", ""];
+  public active_button: Array<any> = ["", "", ""];
 
   constructor(
+    public keyboard: Keyboard,
     public nav: NavController,
     public listingService: ListingService,
     public itemService: ListItemService,
@@ -49,7 +50,7 @@ export class ListingPage implements OnDestroy{
   }
 
   ionViewDidLoad() {
-    this.getItems();
+   this.getItems();
   }
 
   ngOnDestroy() {
@@ -59,49 +60,45 @@ export class ListingPage implements OnDestroy{
     // this._img.nativeElement.load();
   }
 
-  private getItems(){
-    var self = this;
-
-    let query = {
-        limitToFirst:5,
-        orderByKey: true
-    };
-    //this.loading.present();
+  /**
+  * @param = limit - define the listing limit
+  */
+  private getItems(limit = 10){
 
     // Set query configurations
+    this.listings = [];
     let listings_ref = this.itemService.listItems()
-    .orderByChild('created_at');
+    .orderByChild('search_tags')
+    .limitToLast(limit);
     // .equalTo('true', 'active');
-    //.limitToLast(this.list_limit);
-
 
     listings_ref.on('value', (listingSnap) => {
-      let objects = listingSnap.val();
 
-      this.listings = Object.keys(objects).map(function (key) {
+      let data = listingSnap.val();
 
-        // get the prorile for each listing */
-        self._profileService.getShortPrifile(objects[key].seller_uid)
-        .once('value', profileSnap => {
-          if(profileSnap.val()){
-            objects[key].profile = profileSnap.val();
-          }
-        },
-        function(error){
-          console.log(error);
-        });
-
-        objects[key].listing_key = key;
-        return objects[key]; 
-      });
-
-      this.listings.reverse();
-
+      Object.keys(data).map(key => {
+        this.listings.push(data[key]);
+      })
       //this.loading.dismiss();
     }, error =>{
-      console.log("---------",error);
+      console.log(error);
     });
 
+  }
+
+  /**
+  *
+  */
+  getLocalItems(){
+    this.loading.present();
+    this.listings = [];
+    this.itemService.getLocalItems(25).then( listings => {
+
+      console.log(listings);
+      this.listings = listings;
+
+      this.loading.dismiss();
+    });
   }
 
   /**
@@ -121,12 +118,10 @@ export class ListingPage implements OnDestroy{
   */
   listingDetails(index){
     console.log(this.listings[index]);
-
     this.nav.push(ListingDetailsPage, { listing: this.listings[index]});
   }
 
   listingType(item){
-    console.log(item);
 
     this.active_button = this.active_button.map(function(value, index) {
       return null;
@@ -172,8 +167,15 @@ export class ListingPage implements OnDestroy{
   /**
   * @param event - The input event from the search bar
   */
-  updateSearch($event) {
+  onSearch($event) {
     console.log("search query = ",this.search_query);
+
+      let load = this.loadingCtrl.create();
+      load.present();
+        this.listings.sort(function(){return 0.5 - Math.random()});
+      load.dismiss();
+
+    this.keyboard.close();
   }
 
   /**

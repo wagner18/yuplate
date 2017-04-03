@@ -8,7 +8,7 @@ export class ProfileModel {
   image: string  = "./assets/images/profile/default-avatar.png";
   email: string  = "";
   phone: string  = "";
-  location: string  = "";
+  location: any  = {};
   addresses: Array<ProfileAddressModel> = [];
   shortProfile: ShortProfileModel;
   languages: Array<any> = [];
@@ -27,7 +27,7 @@ export class ProfileModel {
 export class ShortProfileModel{
   fullName: string = "";
   image: string = "./assets/images/profile/default-avatar.png";
-  location: string= "";
+  location: any = {};
   email: string = "";
 }
 
