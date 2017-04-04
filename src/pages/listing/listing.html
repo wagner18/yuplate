@@ -16,7 +16,7 @@
 
     <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="filterModalPage()">
-        <ion-icon name="ios-options-outline"></ion-icon>
+        <ion-icon small name="ios-funnel-outline"></ion-icon>
       </button>
     </ion-buttons>
 
@@ -44,13 +44,13 @@
   </form>
 
   <ion-segment class="segment-bar">
-    <ion-segment-button class="segment-button" value="Favorites" (click)="listingType(0)">
+    <ion-segment-button class="segment-button" value="Favorites">
       Favorites
     </ion-segment-button>
     <ion-segment-button class="segment-button" value="Activity">
       Activity
     </ion-segment-button>
-    <ion-segment-button class="segment-button" value="Nearby" (click)="getLocalItems()">
+    <ion-segment-button class="segment-button" value="Local" (click)="getLocalItems()">
       Local
     </ion-segment-button>
   </ion-segment>
@@ -100,7 +100,9 @@
     </ion-col>
   </ion-row> -->
 
-  <h4 class="categories-title">Most Popular</h4>
+  <h4 class="categories-title">
+    {{section_title}}
+  </h4>
 
   <!-- <ion-row class="feed-item"> -->
 
@@ -129,11 +131,10 @@
           <ion-card-title class="item-title">
             {{ listing.title }}
           </ion-card-title>
-<!--           <p class="item-text">
-            {{ listing.summary }}
-          </p> -->
+
           <p class="item-text">
-            <ion-badge item-right *ngIf="listing.delivery">
+            {{ listing.measure_unit }}: {{ listing.unit_value }} 
+<!--             <ion-badge item-right *ngIf="listing.delivery">
               Delivery
             </ion-badge>
             <ion-badge item-right *ngIf="listing.carryout">
@@ -141,13 +142,7 @@
             </ion-badge>
             <ion-badge item-right *ngIf="listing.shipping">
               Shipping
-            </ion-badge>
-<!--             <ion-badge item-right>
-              {{ listing.listing_type }}
-            </ion-badge>
-            <ion-badge item-right>
-             {{ listing.unit_value }} {{ listing.measure_unit }} 
-            </ion-badge>    -->   
+            </ion-badge> --> 
           </p>
         <!-- </ion-card-content> -->
 

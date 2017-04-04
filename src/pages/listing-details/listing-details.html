@@ -35,74 +35,50 @@
       <ion-card-title class="item-title">
         {{listing.title}}
       </ion-card-title>
-      <p class="item-text">
+<!--       <p class="item-text">
         {{listing.summary}}
-      </p>
+      </p> -->
+      <ion-badge item-center class="delivery_options" *ngIf="listing.delivery">
+        Delivery
+      </ion-badge>
+      <ion-badge item-center class="delivery_options" *ngIf="listing.carryout">
+        Carryout
+      </ion-badge>
+      <ion-badge item-center class="delivery_options" *ngIf="listing.shipping">
+        Shipping
+      </ion-badge>
     </ion-card-content>
 
-<!-- 		<ion-chip class="chip-content" *ngIf="listing.delivery" text-center>
-		   <ion-icon ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon>
-		  <ion-label>Delivery</ion-label>
-		</ion-chip>
-		<ion-chip class="chip-content"  *ngIf="listing.carryout" text-center>
-		  <ion-icon ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon>
-		  <ion-label>Carryout</ion-label>
-		</ion-chip>
-    <ion-chip class="chip-content"  *ngIf="listing.shipping" text-center>
-      <ion-icon ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon>
-      <ion-label>Shipping</ion-label>
-    </ion-chip> -->
-<!--     <ion-row class="delivery_options">
-      <ion-col  widht-33> -->
-        <ion-badge item-center class="delivery_options" *ngIf="listing.delivery">
-          Delivery
-        </ion-badge>
-<!--       </ion-col>
-      <ion-col  widht-33> -->
-        <ion-badge item-center class="delivery_options" *ngIf="listing.carryout">
-          Carryout
-        </ion-badge>
-<!--       </ion-col>
-      <ion-col  widht-33> -->
-        <ion-badge item-center class="delivery_options" *ngIf="listing.shipping">
-          Shipping
-        </ion-badge>
-<!--       </ion-col>
-    </ion-row> -->
-
     <ion-row no-padding class="social-row">
-      <ion-col no-padding width-100>
+      <ion-col no-padding text-center width-100>
         <!-- <rating [ngModel]="listing.total_rate" max="5" read-only="true"></rating> -->
-        <button ion-button clear small icon-left>
-          <ion-icon name='chatbubbles'></ion-icon>
-          {{listing.total_reviews}} Reviews
-        </button>
         <button ion-button clear small icon-left (click)="setAsFavorite()">
           <ion-icon isActive="1" name='heart'></ion-icon>
           Favorite
         </button>
+        <button ion-button clear small icon-left (click)="setAsFavorite()">
+          <ion-icon isActive="1" name='ios-chatbubbles-outline'></ion-icon>
+          Ask a question
+        </button>
+        <button ion-button clear small icon-left>
+          <ion-icon name='share-alt'></ion-icon>
+          Share
+        </button>
       </ion-col>
     </ion-row>
 
-<!--     <ion-card-content>
-      <ion-card-title class="item-title">
-        About this Dish
-      </ion-card-title>
-      <p class="item-text">
-        {{listing.description}}
-      </p>
-    </ion-card-content> -->
-
-<!--     <ion-item item-right class="item-profile">
-      <ion-avatar item-left>
-        <img src="{{listing.profile?.image}}">
-      </ion-avatar>
-      <h2>{{listing.profile?.fullName}}</h2>
-      <p>{{listing.profile?.location}}</p>
-    </ion-item> -->
   </ion-card>
 
   <ion-list>
+    <ion-list-header>Overview</ion-list-header>
+    <ion-row class="listing-description">
+      <ion-col width-100>
+        <p class="item-text">
+          {{listing.summary}}
+        </p>
+      </ion-col>
+    </ion-row>
+
     <ion-list-header>Description</ion-list-header>
     <ion-row class="listing-description">
       <ion-col width-100>
@@ -160,6 +136,8 @@
         <h2>Payment Methods</h2>
         <img src="./assets/images/cards.jpeg" height="30px">
         <!-- <span>Paypal, Visa, MasterCard, American Express, Discover</span> -->
+        <p>Yuplate keep your payment informations secure.</p>
+        <p>Sellers don't receive your credit card information.</p>
       </ion-item>
     </ion-list>
 
@@ -214,12 +192,12 @@
 		<ion-row class="footer-row">
 			<ion-col width-60>
 				<div class="footer-text">
-					{{ listing.price?.currency }}
-     			{{ listing.price?.main_price }}
+					{{ listing.currency }}
+     			{{ listing.main_price }}
    			</div>
-        <div class="footer-rate">
+<!--         <div class="footer-rate">
           <rating  [ngModel]="listing.total_rate" max="5" read-only="true"></rating>
-        </div>
+        </div> -->
 			</ion-col>
 			<ion-col width-40>
 				<button class="button-order" ion-button small icon-left (click)="presentOrderModal()">

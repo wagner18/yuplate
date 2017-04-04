@@ -20,6 +20,7 @@ import { ListingDetailsPage } from '../listing-details/listing-details';
 export class ListingPage implements OnDestroy{
   
   public slideOptions = {pager: true};
+
   public loading: any;
   public current_time = new Date();
 
@@ -27,11 +28,7 @@ export class ListingPage implements OnDestroy{
   public listings: any;
 
   public search_query: string;
-
-  public classification_checkbox_open: boolean;
-  public classification_checkbox_result;
-
-  public active_button: Array<any> = ["", "", ""];
+  public section_title: string = "";
 
   constructor(
     public keyboard: Keyboard,
@@ -65,8 +62,12 @@ export class ListingPage implements OnDestroy{
   */
   private getItems(limit = 10){
 
+    // Set the section title
+    this.section_title = "Most Popular";
+
     // Set query configurations
     this.listings = [];
+
     let listings_ref = this.itemService.listItems()
     .orderByChild('search_tags')
     .limitToLast(limit);
@@ -90,6 +91,10 @@ export class ListingPage implements OnDestroy{
   *
   */
   getLocalItems(){
+
+    // Set the section title
+    this.section_title = "Yuplate Local";
+
     this.loading.present();
     this.listings = [];
     this.itemService.getLocalItems(25).then( listings => {
@@ -114,20 +119,12 @@ export class ListingPage implements OnDestroy{
   }
 
   /**
-  *
+  * Show the details of a item
+  * @param = key - Item key
   */
-  listingDetails(index){
-    console.log(this.listings[index]);
-    this.nav.push(ListingDetailsPage, { listing: this.listings[index]});
-  }
-
-  listingType(item){
-
-    this.active_button = this.active_button.map(function(value, index) {
-      return null;
-    });
-
-    this.active_button[item] = "head-active-button";
+  listingDetails(key){
+    console.log(this.listings[key]);
+    this.nav.push(ListingDetailsPage, { listing: this.listings[key]});
   }
 
   /**
@@ -179,46 +176,8 @@ export class ListingPage implements OnDestroy{
   }
 
   /**
-  * Applay classification filter
+  *
   */
-  setClassificationFilter(){
-    let alert = this.alertCtrl.create({
-      cssClass: 'classification-prompt'
-    });
-    alert.setTitle('Listing Type');
-
-    alert.addInput({
-      type: 'checkbox',
-      label: 'All',
-      value: 'All',
-      checked: true
-    });
-
-    let classifications = this.listingService.getClassification();
-    classifications.map((classification)=>{
-      alert.addInput({
-        type: 'checkbox',
-        label: classification.label,
-        value: classification.value
-      });
-    });
-
-
-    alert.addButton('Cancel');
-    alert.addButton({
-      text: 'Confirm',
-      handler: data => {
-        console.log('Checkbox data:', data);
-        this.classification_checkbox_open = false;
-        this.classification_checkbox_result = data;
-      }
-    });
-    alert.present().then(() => {
-      this.classification_checkbox_open = true;
-    });
-  }
-
-
   doInfinite(infiniteScroll) {
     console.log('Begin async operation', infiniteScroll);
 

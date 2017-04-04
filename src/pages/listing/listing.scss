@@ -32,15 +32,16 @@ listing-page {
 
 		.segment-bar {
 			@include segment-button-styles($theme-color-4);
-			padding: 10px;
+			padding: 5px;
 
 			.segment-button {
-				text-align: center;
 				color: $theme-color-2;
 				font-size: 1.6rem;
 				font-weight: 400;
-				margin: 0px;
-				padding: 0px;
+
+				&.segment-activated	{
+					border-bottom: solid 2px rgba($theme-color-4, .3);
+				}
 			}
 		}
 
