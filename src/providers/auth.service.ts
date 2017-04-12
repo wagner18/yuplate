@@ -15,7 +15,6 @@ export class AuthService {
   public fireAuth: any;
   private PROFILE_REF: string = "profiles/";
   private CURRENT_USER = "current_user";
-  private userProfile: any;
   private user: any;
 
   // Current user property

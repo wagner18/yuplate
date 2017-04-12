@@ -3,14 +3,12 @@ import { NavController, ModalController, ActionSheetController, LoadingControlle
 import { FormGroup, FormControl } from '@angular/forms';
 import 'rxjs/Rx';
 
-import { AuthService } from '../../providers/auth.service';
 import { ProfileService } from '../../providers/profile.service';
 import { BaseProvider } from '../../app/base.provider';
 import { MediaService } from '../../providers/media.service';
 
 import { ProfileModel } from '../../models/profile-model';
 
-import { ProfileFormAddressPage } from '../profile-form-address/profile-form-address';
 import { TermsOfServicePage } from '../terms-of-service/terms-of-service';
 import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
 import { WalkthroughPage } from '../walkthrough/walkthrough';

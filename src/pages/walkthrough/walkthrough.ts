@@ -4,7 +4,6 @@ import 'rxjs/Rx';
 
 import { LoginPage } from '../login/login';
 import { SignupPage } from '../signup/signup';
-import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
 
 
 @Component({
@@ -15,14 +14,13 @@ export class WalkthroughPage {
 
   // Properties
   public current_user: any;
-  public slide_options = { pager: true };
   public main_page: { component: any };
   public lastSlide = false;
   
   @ViewChild('slider') slider: Slides;
 
   constructor(public nav: NavController) {
-    this.main_page = { component: TabsNavigationPage };
+    this.main_page = { component: LoginPage };
   }
 
   ionViewDidLoad() {

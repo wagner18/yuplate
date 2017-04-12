@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 
-import { AuthService } from '../../providers/auth.service';
 import { BaseProvider } from '../../app/base.provider';
 import { ListingService } from '../../providers/listing.service';
 
 import { ListingModel } from '../../models/listing-model';
-import { MediaModel } from '../../models/listing-model';
 
-import { ListingPage } from '../listing/listing';
 import { ListingFormPage } from '../listing-form/listing-form';
 
 @Component({
@@ -17,6 +14,7 @@ import { ListingFormPage } from '../listing-form/listing-form';
 })
 export class ListingUserPage {
 
+  public drafts: Array<ListingModel> = [];
 	public listings: Array<ListingModel> = [];
 	public listing_key: string;
 	public loading: any;
@@ -46,17 +44,21 @@ export class ListingUserPage {
 
       let objects = listingSnap.val();
       if(objects !== undefined && objects !== null ){
-	      this.listings = Object.keys(objects).map(function (key) {
+
+	      Object.keys(objects).map((key)=>{
 	      	objects[key].key = key;
-	      	return objects[key]; 
+
+          if(objects[key].published == true){
+            this.listings.push(objects[key]);
+          }else{
+            this.drafts.push(objects[key]);
+          }
 	      });
-	    }else{
-	    	this.listings = [];
+
+        this.listings.reverse();
+
 	    }
 
-      console.log(this.listings);
-
-      this.listings.reverse();
       this.loading.dismiss();
     });
 

@@ -6,7 +6,7 @@
 * Create data: 12/06/2016
 */
 
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import GeoFire from 'geofire/dist/geofire';
 

@@ -9,11 +9,11 @@ import { DataService } from '../../providers/data.service';
 })
 export class ListingImagesPage {
 
-	@Input() reorder: boolean = this.orderState;
-
 	public medias: Array<any> = [];
 	public orderState: boolean = false;
 	public orderActionLabel: string = "Reorder";
+
+  @Input() reorder: boolean = this.orderState;
 
   constructor(
   	public navCtrl: NavController, 

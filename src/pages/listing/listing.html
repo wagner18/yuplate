@@ -43,7 +43,10 @@
     </ion-searchbar>
   </form>
 
-  <ion-segment class="segment-bar">
+  <ion-segment class="segment-bar" [(ngModel)]="segment_topbar">
+    <ion-segment-button class="segment-button" value="Explore" (click)="getItems()">
+      Explore
+    </ion-segment-button>
     <ion-segment-button class="segment-button" value="Favorites">
       Favorites
     </ion-segment-button>
@@ -126,25 +129,13 @@
           {{ listing.main_price }}
         </ion-badge>
 
-      
-        <!-- <ion-card-content> -->
-          <ion-card-title class="item-title">
-            {{ listing.title }}
-          </ion-card-title>
+        <ion-card-title class="item-title">
+          {{ listing.title }}
+        </ion-card-title>
 
-          <p class="item-text">
-            {{ listing.measure_unit }}: {{ listing.unit_value }} 
-<!--             <ion-badge item-right *ngIf="listing.delivery">
-              Delivery
-            </ion-badge>
-            <ion-badge item-right *ngIf="listing.carryout">
-              Carryout
-            </ion-badge>
-            <ion-badge item-right *ngIf="listing.shipping">
-              Shipping
-            </ion-badge> --> 
-          </p>
-        <!-- </ion-card-content> -->
+        <p class="item-text">
+          {{ listing.measure_unit }}: {{ listing.unit_value }} 
+        </p>
 
         <ion-row class="status-row">
           <ion-col no-padding width-35 text-center>
@@ -158,7 +149,7 @@
           </ion-col>
           <ion-col no-padding width-25 text-right>
             <button class="action-button" ion-button clear small icon-left>
-              <ion-icon name='share-alt'></ion-icon>
+              <ion-icon name='md-share'></ion-icon>
               Share
             </button>
           </ion-col>
@@ -175,10 +166,10 @@
 
     </ion-list>
 
-   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+<!--    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
      <ion-infinite-scroll-content loadingSpinner="dots"
       loadingText="Loading more data..."></ion-infinite-scroll-content>
-   </ion-infinite-scroll>
+   </ion-infinite-scroll> -->
 
 
   <!-- </ion-row> -->

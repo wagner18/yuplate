@@ -6,9 +6,9 @@
 * Create data: 11/13/2016
 */
 
-import { Component, OnInit, ViewChild, Input} from '@angular/core';
+import { Component, ViewChild, Input} from '@angular/core';
 import { Platform, Events, MenuController, Nav, App } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+import { Keyboard, StatusBar, Splashscreen } from 'ionic-native';
 
 import { DataService } from '../providers/data.service';
 import { AuthService } from '../providers/auth.service';
@@ -20,10 +20,8 @@ import { ListingPage } from '../pages/listing/listing';
 import { ProfilePage } from '../pages/profile/profile';
 import { ProfileOrdersPage } from '../pages/profile-orders/profile-orders';
 import { ListingUserPage } from '../pages/listing-user/listing-user';
-import { ListingFormPage } from '../pages/listing-form/listing-form';
-import { SettingsPage } from '../pages/settings/settings';
-import { LoginPage } from '../pages/login/login';
 
+import { LoginPage } from '../pages/login/login';
 
 //import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
 import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
@@ -79,7 +77,6 @@ export class MyApp {
       { title: 'My Orders', icon: 'ios-bookmarks', component: ProfileOrdersPage },
       { title: 'Subscription', icon: 'create', component: ListingUserPage },
       { title: 'Drivers Pool', icon: 'ios-car-outline', component: ListingUserPage },
-      { title: 'Settings', icon: 'settings', component: SettingsPage }
     ];
   }
 
@@ -89,6 +86,12 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       Splashscreen.hide();
       StatusBar.styleDefault();
+
+      // no need anymore
+      if (this.platform.is('ios')) {
+        Keyboard.hideKeyboardAccessoryBar(false);
+        //Keyboard.disableScroll(true); 
+      } 
 
     });
   }

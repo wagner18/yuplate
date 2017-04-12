@@ -1,14 +1,12 @@
 import { Component, ViewChild, ElementRef} from '@angular/core';
-import { NavController, ModalController, ViewController, NavParams } from 'ionic-angular';
+import { NavController, ModalController, NavParams, AlertController } from 'ionic-angular';
 
 import { ProfileService } from '../../providers/profile.service';
 import { ListingService } from '../../providers/listing.service';
-import { ListingModel } from '../../models/listing-model';
 
 import { GalleryModal } from '../gallery-modal/gallery-modal';
 
 import { ListingOrderPage } from '../listing-order/listing-order';
-import { ImageViewModalPage } from '../image-view-modal/image-view-modal';
 
 declare var google;
 
@@ -28,6 +26,7 @@ export class ListingDetailsPage {
   	public nav: NavController,
     public modalCtrl: ModalController,
   	public params: NavParams,
+    public alertCtrl: AlertController,
   	public listingService: ListingService,
   	private _profileService: ProfileService,
   ) {}
@@ -48,28 +47,6 @@ export class ListingDetailsPage {
     if(this.listing.location.geolocation !== undefined ){
       this.createMap(this.listing.location.geolocation);
     }
-  }
-
-  private getItem(){
-    var self = this;
-    this.listingService.getListing(this.listing_ref)
-    .once('value', (listingSnap) => {
-   
-      this.listing = listingSnap.val();
-
-      /* get the prorile for each listing */
-      self._profileService.getShortPrifile(this.listing.uid)
-      .once('value', profileSnap => {
-        if(profileSnap.val()){
-          this.listing.profile = profileSnap.val();
-        }
-      },
-      function(error){
-        console.log(error);
-      });
-
-    });
-
   }
 
   // Create an new google maps
@@ -109,24 +86,39 @@ export class ListingDetailsPage {
   }
 
   shareListing(){
-    console.log("share it!");
+    if(!this.isPreview()){
+      console.log("share it!");
+    }
   }
 
   setAsFavorite(){
-    console.log("Set as a favorite");
+    if(!this.isPreview()){
+      console.log("Set as a favorite");
+    }
   }
 
   showReviews(){
-    console.log("Show Reviews");
+    if(!this.isPreview()){
+      console.log("Show Reviews");
+    }
   }
 
   /**
   * Handle the Image Modal
   */
   presentOrderModal() {
-    // this.nav.push(ListingOrderPage, { listing: this.listing });
-    let orderModal = this.modalCtrl.create(ListingOrderPage, { listing: this.listing });
-    orderModal.present();
+    if(!this.isPreview()){
+      // this.nav.push(ListingOrderPage, { listing: this.listing });
+      let orderModal = this.modalCtrl.create(ListingOrderPage, { listing: this.listing });
+      orderModal.present();
+    }else{
+      let alert = this.alertCtrl.create({
+        title: 'Listing preview',
+        subTitle: 'This is how customers will see your listing',
+        buttons: ['OK']
+      });
+      alert.present();
+    }
   }
 
   /**
@@ -145,6 +137,17 @@ export class ListingDetailsPage {
       initialSlide: 0
     });
     imageModal.present();
+  }
+
+  /** 
+  * Check if the current listing object is a preview or production listing
+  */
+  isPreview(): boolean{
+    if(this.listing.preview === true){
+      return true;
+    }else{
+      return false;
+    }
   }
 
 

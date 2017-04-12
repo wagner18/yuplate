@@ -30,13 +30,13 @@ page-listing-order {
 			}
 
 
-			@include basic-input-style($white, $input-color-1, $white-d);
+			@include basic-input-style($white, $input-color, $white-d);
 			.text-input {
 				padding-right: 5px;
 				text-align: right;
 			}
 
-			@include counter-item-styles($black-c, $input-color-1, $white);
+			@include counter-item-styles($black-c, $input-color, $white);
 			.checkout-button {
 				background-color: $theme-color-2;
 				/*@include call-to-action-button-styles($theme-color-2, $white);*/

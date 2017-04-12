@@ -5,7 +5,7 @@ page-listing-details {
 
 		.item-card-content {
 			@include basic-card-styles($black-d);
-			position: relative;
+			/*position: relative;*/
 			margin-bottom: 20px;
 
 			.item-profile {
@@ -18,51 +18,38 @@ page-listing-details {
 				padding: 0px;
 			}
 
-			.item-text {
-				font-size: 1.4rem;
-				color: $black-c;
+			.delivery_options {
+				background-color: transparent;
+				color: $black-b;
+				text-align: center;
+				margin-top: 10px;
 				padding: 0px;
 			}
 
-			.price-badge {
-				background: $theme-color-2;
-				z-index: 10;
-			  position: absolute;
-			  top: 10px;
-			 	left: 70%;
+			.item-price {
+				/*background-color: red;*/
 			  font-size: 1.6rem;
-			  font-weight: 400;
-			  opacity: 0.8;
-			  padding: 6px;
+			  font-weight: 500;
+			  margin: 0px;
+			  padding: 10px 0px 0px 0px;
 			}
 
-			.favorite-button {
-				position: relative;
-			  top: 290px;
-			  right: 25%;
-			  z-index: 20;
+			.question-button {
+				/*background-color: red;*/
+				font-size: 1.6rem;
+				color: $theme-color-2;
+				padding: 5px 1px 0px 1px;
+				margin: 0px;
+			}
+
+			.slide-action-button {
 			  background: transparent;
-			  padding: 6px;
-			  font-weight: 800;
+			  opacity: 0.8;
+		  	color: $theme-color-2;
 
 			  ion-icon {
-			  	font-size: 3.2rem;
-			  	font-weight: 800;
+			  	font-size: 3.0rem;
 			  }
-			}
-
-			.chip-content{
-				margin: 0px 0px 10px 10px;
-			}
-
-			.social-row {
-				text-align: left;
-			}
-
-			.delivery_options {
-				text-align: center;
-				margin-top: 8px;
-				padding: 5px;
 			}
 
 		}
@@ -70,11 +57,20 @@ page-listing-details {
 		ion-list {
 			@include basic-list-styles($black-d, $black-a);
 
-
 			.listing-description {
-				@include element-shadow();
 				background-color: $white;
 				padding: 5px 10px 5px 10px;
+			}
+
+			.content-title {
+				color: $black-b;
+				padding-top: 10px;
+			}
+
+			.content-text {
+				padding-left: 10px;
+				/*display: flex;*/
+				overflow: visible;
 			}
 
 			.map-location {

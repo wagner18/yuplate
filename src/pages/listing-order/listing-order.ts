@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { App, NavController, ModalController, ViewController, NavParams } from 'ionic-angular';
+import { App, NavController, ViewController, NavParams } from 'ionic-angular';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
-import { counterRangeValidator } from '../../components/counter-input/counter-input';
-import { Observable } from 'rxjs/Observable';
+// import { counterRangeValidator } from '../../components/counter-input/counter-input';
+// import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from '../../providers/auth.service';
 import { ProfileService } from '../../providers/profile.service';
@@ -222,7 +222,6 @@ export class ListingOrderPage {
   * the listing schedule with the next 30 days
   */
   setSchedule() {
-    let weekdays = this.listingService.getWeedDays();
     // Process the Schedule object to define the business rules
     this.scheduleDays = this.listing.schedule.map((day, index) => {
       let time_range = [];

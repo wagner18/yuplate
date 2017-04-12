@@ -1,6 +1,6 @@
-import { Component, ViewChild, ElementRef} from '@angular/core';
-import { NavController, ModalController, ViewController, NavParams } from 'ionic-angular';
-import { Validators, FormGroup, FormControl } from '@angular/forms';
+import { Component} from '@angular/core';
+import { NavController, ViewController, NavParams } from 'ionic-angular';
+import { FormGroup, FormControl } from '@angular/forms';
 
 import { ListingService } from '../../providers/listing.service';
 

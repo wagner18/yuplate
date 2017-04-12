@@ -5,7 +5,8 @@ page-listing-form-details {
 		background-color: $white-a;
 
 		.form-style {
-
+			/*@include basic-list-styles($black-d, $black-a);*/
+			
 			.form-section	{
 				padding: 0px 14px;
 				padding-bottom: 10px;
@@ -16,59 +17,17 @@ page-listing-form-details {
 
 			}
 
-			ion-label {
-				margin: 0px;
-				font-size: 1.6rem;
-				letter-spacing: 0.9px;
-				color: $black-d;
-			}
-
 			.section-title {
 				@include segment-introduction($theme-color-2);
 			}
 
-			@include basic-list-styles($black-d, $black-a);
-			.form-list {
-				/*background-color: $white;*/
-				@include element-shadow();
-				@include checkbox-item-styles($black-d, $white, color($colors, button, base));
-
-				.button-item {
-					height: 70px;
-					padding-left: 10px;
-				}
-
-				ion-icon{
-					color: $theme-color-2;
-				}
-
-				.checkbox-item {
-					padding-left: 15px;
-				}
-
-				@include counter-item-styles($white-d, $theme-color-2, $white);
-				.counter-item	{
-					margin: 0px;
-
-					.item-inner	{
-						.counter-label	{
-							margin-left: 30px;
-						}
-
-						counter-input {
-							padding-right: 30px;
-						}
-					}
-				}
+			ion-item {
+				background-color: $white;
+				/*@include element-shadow();*/
+				@include basic-input-style($white, $black-a, $white-d);
+				@include switcher-item-styles($black-b, $theme-color-2);
 			}
 
-
-			.form-action-button	{
-				margin: 0px;
-				margin-top: 10px;
-
-				@include call-to-action-button-styles(color($colors, button, base), color($colors, button, contrast));
-			}
 
 			.category-select	{
 				padding: 5px 10px 5px 15px;
@@ -95,6 +54,8 @@ page-listing-form-details {
 					}
 				}
 			}
+
+
 
 		}
 

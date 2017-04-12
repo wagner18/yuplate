@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController, NavParams } from 'ionic-angular';
-import { AlertController, ActionSheetController, LoadingController } from 'ionic-angular';
+import { ActionSheetController, LoadingController } from 'ionic-angular';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
-import { counterRangeValidator } from '../../components/counter-input/counter-input';
 
 import { ListingPage } from '../listing/listing';
 
@@ -14,18 +13,15 @@ import { MediaService } from '../../providers/media.service';
 
 import { ListItemService } from '../../providers/list-item.service';
 
-import { ListingModel } from '../../models/listing-model';
-import { FormControlModel } from '../../models/listing-model';
-import { MediaModel } from '../../models/listing-model';
-
 /* Pages */
 import { ListingFormCategoriesPage } from '../listing-form-categories/listing-form-categories';
 import { ListingFormDescPage } from '../listing-form-desc/listing-form-desc';
 import { ListingFormPricePage } from '../listing-form-price/listing-form-price';
-import { ListingFormSchedulePage } from '../listing-form-schedule/listing-form-schedule';
 import { ListingFormDetailsPage } from '../listing-form-details/listing-form-details';
 import { LocationModalPage, } from '../location-modal/location-modal';
 import { ListingImagesPage } from '../listing-images/listing-images';
+
+import { ListingDetailsPage } from '../listing-details/listing-details';
 
 @Component({
   selector: 'listing-form-page',
@@ -57,7 +53,6 @@ export class ListingFormPage {
   constructor(
     public nav: NavController,
     public modalCtrl: ModalController,
-    public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     public actionSheetCtrl: ActionSheetController,
     public params: NavParams,
@@ -178,27 +173,31 @@ export class ListingFormPage {
   /**
   * Save the listing data
   */ 
-  saveListing(){
-      if(this.temp_medias.length > 0){
-        this.listing.medias = this.temp_medias;
-      }
+  // saveListing(){
+  //     if(this.temp_medias.length > 0){
+  //       this.listing.medias = this.temp_medias;
+  //     }
 
-      if(this.listing_ref){
-        this.listingService.updateListing(this.listing_ref, this.listing).catch((error) => {
-          console.log(error);
-          let title = "Ops! Sorry about that";
-          this.BaseApp.showAlert(title, error.message);
-        });
-      }
+  //     if(this.listing_ref){
+  //       this.listingService.updateListing(this.listing_ref, this.listing).catch((error) => {
+  //         console.log(error);
+  //         let title = "Ops! Sorry about that";
+  //         this.BaseApp.showAlert(title, error.message);
+  //       });
+  //     }
 
-      this.checkPublishValidation();
-  }
+  //     this.checkPublishValidation();
+  // }
 
   /**
   * Save each step of the form
   */
   saveStep(){
     if(this.listing !== undefined && this.listing_ref){
+
+      if(this.temp_medias.length > 0){
+        this.listing.medias = this.temp_medias;
+      }
 
       let check = 5;
       Object.keys(this.listing.form_control).map( ctrl_key => {
@@ -356,7 +355,8 @@ export class ListingFormPage {
   presentCategoriesModal() {
     let catModal = this.modalCtrl.create(ListingFormCategoriesPage, { data: this.listing });
     catModal.onDidDismiss(data => {
-      if(data !== undefined) {
+      // Check if data return valid Listing Object
+      if(data !== null){
         if(data.form_control.categories === true){
           this.formControlRadio.categories = "checkmark-circle-outline";
         }else{
@@ -376,13 +376,16 @@ export class ListingFormPage {
   presentDescriptionModal() {
     let descModal = this.modalCtrl.create(ListingFormDescPage, { data: this.listing });
     descModal.onDidDismiss(data => {
-      if(data.form_control.description === true){
-        this.formControlRadio.description = "checkmark-circle-outline";
-      }else{
-        this.formControlRadio.description = "radio-button-off";
+      // Check if data return valid Listing Object
+      if(data !== null){
+        if(data.form_control.description === true){
+          this.formControlRadio.description = "checkmark-circle-outline";
+        }else{
+          this.formControlRadio.description = "radio-button-off";
+        }
+        this.listing = data;
+        this.saveStep();
       }
-      this.listing = data;
-      this.saveStep();
     });
     descModal.present();
   }
@@ -413,14 +416,16 @@ export class ListingFormPage {
   presentPriceModal() {
     let priceModal = this.modalCtrl.create(ListingFormPricePage, { data: this.listing });
     priceModal.onDidDismiss(data => {
-
-      if(data.form_control.price === true){
-        this.formControlRadio.price = "checkmark-circle-outline";
-      }else{
-        this.formControlRadio.price = "radio-button-off";
+      // Check if data return valid Listing Object
+      if(data !== null){
+        if(data.form_control.price === true){
+          this.formControlRadio.price = "checkmark-circle-outline";
+        }else{
+          this.formControlRadio.price = "radio-button-off";
+        }
+        this.listing = data;
+        this.saveStep();
       }
-      this.listing = data;
-      this.saveStep();
     });
     priceModal.present();
   }
@@ -449,13 +454,16 @@ export class ListingFormPage {
   presentDetailsModal() {
     let detailsModal = this.modalCtrl.create(ListingFormDetailsPage, { data: this.listing });
     detailsModal.onDidDismiss(data => {
-      if(data.form_control.details === true){
-        this.formControlRadio.details = "checkmark-circle-outline";
-      }else{
-        this.formControlRadio.details = "radio-button-off";
+      // Check if data return valid Listing Object
+      if(data !== null){
+        if(data.form_control.details === true){
+          this.formControlRadio.details = "checkmark-circle-outline";
+        }else{
+          this.formControlRadio.details = "radio-button-off";
+        }
+        this.listing = data;
+        this.saveStep();
       }
-      this.listing = data;
-      this.saveStep();
     });
     detailsModal.present();
   }
@@ -473,6 +481,15 @@ export class ListingFormPage {
 
   closeForm(){
     this.nav.setRoot(ListingPage);
+  }
+
+  /**
+  * Show the listing preview details of a item
+  */
+  listingPreview(): void{
+    let preview_listing = this.itemService.setItem(this.listing);
+    preview_listing['preview'] = true;
+    this.nav.push(ListingDetailsPage, { listing: preview_listing});
   }
 
 

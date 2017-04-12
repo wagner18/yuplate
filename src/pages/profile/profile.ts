@@ -7,7 +7,6 @@ import { ProfileFormAddressPage } from '../profile-form-address/profile-form-add
 
 import { ListingUserPage } from '../listing-user/listing-user';
 import { FollowersPage } from '../followers/followers';
-import { SettingsPage } from '../settings/settings';
 
 import 'rxjs/Rx';
 
@@ -51,7 +50,7 @@ export class ProfilePage {
     this.profileService.fetchProfile().on("value", (profileSnap) =>{
 
       if(profileSnap.val()){
-        console.log('PPPP LOADAD!!!!!!!!!!', profileSnap.val());
+        console.log('PPPP LOADED!!!!!!!!!!', profileSnap.val());
         this.profile = profileSnap.val();
 
         if(this.profile.addresses !== undefined ){

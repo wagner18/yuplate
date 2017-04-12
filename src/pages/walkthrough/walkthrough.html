@@ -8,7 +8,7 @@
 
 <ion-content class="walkthrough-content">
 
-  <ion-slides #slider (ionDidChange)="onSlideChanged()" [options]="slide_options">
+  <ion-slides #slider (ionSlideDidChange)="onSlideChanged()" pager="true">
     <ion-slide class="slide-1">
 
       <ion-row class="intro-image-row">

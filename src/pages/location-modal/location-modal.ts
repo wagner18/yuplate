@@ -1,10 +1,6 @@
 import { Component, ViewChild, ElementRef} from '@angular/core';
-import { NavController, ModalController, ViewController, NavParams } from 'ionic-angular';
-import { Validators, FormGroup, FormControl } from '@angular/forms';
+import { NavController, ViewController, NavParams } from 'ionic-angular';
 import { Geolocation } from 'ionic-native';
-
-import { LocationModel } from '../../models/listing-model';
-import { MapOptions } from './map-options';
 
 declare var google;
 

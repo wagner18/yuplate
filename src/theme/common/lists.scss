@@ -2,14 +2,15 @@
 @mixin basic-list-styles($text-color, $icon-color){
 
 	ion-item-divider {
-		padding: 15px 0px 0px 25px !important;
+		padding: 15px 0px 0px 15px !important;
 		margin: 0px;
 		background-color: transparent !important;
 
 		ion-label {
-			color: $black-d;
-			font-size: 1.4rem;
-			text-transform: uppercase;
+			color: $black;
+			font-size: 1.5rem;
+			font-weight: 500;
+			/*text-transform: uppercase;*/
 		}
 	}
 
@@ -17,15 +18,8 @@
 		font-size: 1.6rem;
 	}
 
-/*	button	{
-		color: $theme-color-2;
-		@include justify-content(space-between);
-	}*/
-
 	.list-item {
 		background-color: $white;
-		/*padding: 20px;*/
-		/*border: none;*/
 		@include element-shadow();
 		
 

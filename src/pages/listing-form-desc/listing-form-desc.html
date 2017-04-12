@@ -1,12 +1,17 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-buttons end>
-      <button ion-button (click)="dismiss()">
-        Done
+    <ion-buttons start>
+      <button ion-button (click)="cancel()">
+        Cancel
       </button>
     </ion-buttons>
     <ion-title>Describe your listing</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="save()">
+        Save
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -23,16 +28,17 @@
       </h2>
 
       <ion-item>
-        <ion-label floating>Title</ion-label>
+        <!-- floating -->
+        <ion-label stacked >Title</ion-label>
         <ion-input type="text" autocomplete="true" maxlength="32" formControlName="title"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Summary</ion-label>
-        <ion-textarea rows="3" formControlName="summary" maxlength="200"></ion-textarea>
+        <ion-label stacked >Summary</ion-label>
+        <ion-textarea rows="4" formControlName="summary" maxlength="300"></ion-textarea>
       </ion-item>
       <ion-item>
-        <ion-label floating>Description</ion-label>
-        <ion-textarea rows="10" formControlName="description" maxlength="600"></ion-textarea>
+        <ion-label stacked >Description</ion-label>
+        <ion-textarea rows="14" formControlName="description" maxlength="800"></ion-textarea>
       </ion-item>
 
     </section>

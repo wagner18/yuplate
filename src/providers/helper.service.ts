@@ -6,7 +6,7 @@
 * Create data: 01/15/2017
 */
 
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 
 @Injectable()

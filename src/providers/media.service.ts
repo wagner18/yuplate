@@ -3,7 +3,7 @@ import { Platform, LoadingController } from 'ionic-angular';
 
 import {  } from 'ionic-native';
 
-import { Camera, CameraPreview, CameraPreviewRect, File } from 'ionic-native';
+import { Camera, CameraPreview, CameraPreviewRect } from 'ionic-native';
 declare var cordova: any;
 declare var window;
 

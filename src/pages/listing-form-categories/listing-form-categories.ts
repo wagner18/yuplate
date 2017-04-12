@@ -66,8 +66,8 @@ export class ListingFormCategoriesPage {
 		this.viewCtrl.dismiss(this.data);
 	}
 
-  dismiss() {
-    this.viewCtrl.dismiss();
+  cancel() {
+    this.viewCtrl.dismiss(null);
   }
 
 }

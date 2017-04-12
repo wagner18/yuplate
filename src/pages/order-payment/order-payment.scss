@@ -3,7 +3,7 @@ page-order-payment {
 	.order-content{
 		background-color: color($colors, background, base);
 
-		@include basic-input-style($white, $input-color-1, $white-d);
+		@include basic-input-style($white, $input-color, $white-d);
 		.text-input {
 			padding-right: 5px;
 			text-align: right;

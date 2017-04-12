@@ -46,7 +46,7 @@ form-schedule-modal {
 
 
 			ion-item {
-				@include basic-input-style(color($colors, background, base), $input-color-1, $white-d);
+				@include basic-input-style(color($colors, background, base), $input-color, $white-d);
 
 				&.item {
 					background-color: $white;

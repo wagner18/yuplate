@@ -16,6 +16,13 @@ export class ListingFormDetailsPage {
 	public data: any;
   public measure_units: any;
 
+  public default_shipping_policies: any = {
+    shipping_processing_time: "1 - 2 days",
+    refund_policies: "No refunds, all sales are final.",
+    cancellation_policies: "You can cancel your order within 12 hours from the time your order was placed.",
+    additional_policies: "If you need to know anything else, feel free to ask, thank you for your business."
+  }
+
   constructor(
   	public nav: NavController,
     public modalCtrl: ModalController,
@@ -29,14 +36,15 @@ export class ListingFormDetailsPage {
       carryout: new FormControl(false),
   		delivery: new FormControl(false),
       delivery_fee: new FormControl(0.00),
-      processing_time: new FormControl('0'),
-      delivery_note: new FormControl(""),
+      delivery_processing_time: new FormControl(""),
+      delivery_policies: new FormControl(""),
 
       shipping: new FormControl(false),
       shipping_fee: new FormControl(0.00),
-      shipping_processing_time: new FormControl('0'),
-      shipping_note: new FormControl(""),
-
+      shipping_processing_time: new FormControl(this.default_shipping_policies.shipping_processing_time),
+      refund_policies: new FormControl(this.default_shipping_policies.refund_policies),
+      cancellation_policies: new FormControl(this.default_shipping_policies.cancellation_policies),
+      additional_policies: new FormControl(this.default_shipping_policies.additional_policies),
 
       measure_unit: new FormControl('', Validators.required),
       unit_value: new FormControl(1, Validators.required),
@@ -54,13 +62,15 @@ export class ListingFormDetailsPage {
       carryout: this.data.carryout,
     	delivery: this.data.delivery,
       delivery_fee: this.data.delivery_fee,
-      processing_time: this.data.processing_time,
-      delivery_note: this.data.delivery_note,
+      delivery_processing_time: this.data.delivery_processing_time,
+      delivery_policies: this.data.delivery_policies,
 
       shipping: this.data.shipping,
       shipping_fee: this.data.shipping_fee,
       shipping_processing_time: this.data.shipping_processing_time,
-      shipping_note: this.data.shipping_note,
+      refund_policies: this.data.refund_policies,
+      cancellation_policies: this.data.cancellation_policies,
+      additional_policies: this.data.additional_policies,
 
       measure_unit: this.data.measure_unit,
     	unit_value: this.data.unit_value,
@@ -68,17 +78,22 @@ export class ListingFormDetailsPage {
     });
   }
 
-  dismiss() {
+  save() {
+    // Set delivery and carryout data
     this.data.carryout = this.formDetails.value.carryout;
 		this.data.delivery = this.formDetails.value.delivery;
     this.data.delivery_fee = this.formDetails.value.delivery_fee;
-    this.data.processing_time = this.formDetails.value.processing_time,
-    this.data.delivery_note = this.formDetails.value.delivery_note,
+    this.data.delivery_processing_time = this.formDetails.value.delivery_processing_time;
+    this.data.delivery_policies = this.formDetails.value.delivery_policies;
 
+    //Set shipping data
     this.data.shipping = this.formDetails.value.shipping;
     this.data.shipping_fee = this.formDetails.value.shipping_fee;
     this.data.shipping_processing_time = this.formDetails.value.shipping_processing_time;
-    this.data.shipping_note = this.formDetails.value.shipping_note,
+    this.data.refund_policies = this.formDetails.value.refund_policies;
+    this.data.cancellation_policies = this.formDetails.value.cancellation_policies;
+    this.data.additional_policies = this.formDetails.value.additional_policies;
+
 
     this.data.measure_unit = this.formDetails.value.measure_unit;
     this.data.unit_value = this.formDetails.value.unit_value;
@@ -91,6 +106,13 @@ export class ListingFormDetailsPage {
 		}
 		this.viewCtrl.dismiss(this.data);
 	}
+
+  /**
+  *
+  */
+  cancel(){
+    this.viewCtrl.dismiss(null);
+  }
 
   /**
   * Handle the Schedule Modal with the checkbox controle

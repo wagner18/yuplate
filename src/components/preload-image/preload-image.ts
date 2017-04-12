@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, Renderer, OnChanges, OnDestroy, SimpleChange } from '@angular/core';
+import { Component, Input, ElementRef, Renderer, OnChanges, SimpleChange } from '@angular/core';
 
 import { isPresent } from 'ionic-angular/util/util';
 
@@ -37,12 +37,12 @@ export class PreloadImage implements OnChanges {
     // console.log(changes['src'].isFirstChange());
   }
 
-  ngOnDestroy() {
-    // the .nativeElement property of the ViewChild is the reference to the <video> 
-    console.log('ON DESTROY IMAGE PRELOAD!');
-    // this._img.nativeElement.src = '';
-    // this._img.nativeElement.load();
-  }
+  // ngOnDestroy() {
+  //   // the .nativeElement property of the ViewChild is the reference to the <video> 
+  //   console.log('ON DESTROY IMAGE PRELOAD!');
+  //   // this._img.nativeElement.src = '';
+  //   // this._img.nativeElement.load();
+  // }
 
 	_update() {
 	  if (isPresent(this.alt)) {

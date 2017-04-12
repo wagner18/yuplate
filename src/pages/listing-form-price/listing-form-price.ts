@@ -44,7 +44,7 @@ export class ListingFormPricePage {
   /*
   *
   */
-  dismiss() {
+  save() {
 
   	if(this.formPrice.valid){
 			this.data.price.main_price = this.formPrice.value.main_price;
@@ -57,6 +57,10 @@ export class ListingFormPricePage {
 		}
 
 		this.viewCtrl.dismiss(this.data);
+	}
+
+	cancel() {
+		this.viewCtrl.dismiss(null);
 	}
 
 

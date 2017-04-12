@@ -4,7 +4,7 @@ address-form-modal {
 
 		@include basic-list-styles($black-d, $black-a);
 
-		@include basic-input-style($white, $input-color-1, $white-d);
+		@include basic-input-style($white, $input-color, $white-d);
 		.text-input {
 			padding-right: 5px;
 			text-align: right;

@@ -1,16 +1,13 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController, ViewController, NavParams } from 'ionic-angular';
-import { Validators, FormGroup, FormControl } from '@angular/forms';
-import { FullDateFormat } from '../../app/pipes/full-date-format';
+import { NavController, AlertController, ViewController, NavParams } from 'ionic-angular';
+// import { FullDateFormat } from '../../app/pipes/full-date-format';
 
 import { AuthService } from '../../providers/auth.service';
 import { ProfileService } from '../../providers/profile.service';
 import { ListingService } from '../../providers/listing.service';
 import { OrderService } from '../../providers/order.service';
 
-import { ListingDetailsPage } from '../listing-details/listing-details';
-import { ListingOrderPage } from '../listing-order/listing-order';
-import { ProfilePaymentMethodPage } from '../profile-payment-method/profile-payment-method';
+// import { ProfilePaymentMethodPage } from '../profile-payment-method/profile-payment-method';
 
 import { OrderPaymentPage } from '../order-payment/order-payment';
 

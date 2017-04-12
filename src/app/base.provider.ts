@@ -1,7 +1,5 @@
-import { Injectable, OnInit } from '@angular/core';
-import { Platform, MenuController, NavController, ModalController, AlertController} from 'ionic-angular';
-
-import { Storage } from '@ionic/storage';
+import { Injectable } from '@angular/core';
+import { AlertController} from 'ionic-angular';
 
 @Injectable()
 export class BaseProvider {

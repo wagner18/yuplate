@@ -16,7 +16,6 @@ export class ProfileService {
 
   private PROFILE_REF: string = "profiles/";
   private SHORT_PROFILE_REF: string = "short_profiles/";
-  private LOCAL_PROFILE = "local_profile";
 
 
   constructor(

@@ -1,17 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+// import { Http } from '@angular/http';
+// import 'rxjs/add/operator/map';
 
 import { ProfileService } from './profile.service';
 import { DataService } from './data.service';
 
 import { ItemModel } from '../models/item-model';
-
-import { MediaModel } from '../models/listing-model';
-import { PriceModel } from '../models/listing-model';
-import { ScheduleModel } from '../models/listing-model';
-import { LocationModel } from '../models/listing-model';
-
 
 @Injectable()
 export class ListItemService {
@@ -48,19 +42,22 @@ export class ListItemService {
           this.item.short_profile = profileSnap.val();
 
           // Publish the item
-          this._dataService.database.child(this.LISTING_REF + draft.key).set(this.item).then( response => {
+          if(draft.key == undefined){
+            reject("Listing Draft key undefined");
+          }else{
+            this._dataService.database.child(this.LISTING_REF + draft.key).set(this.item).then( response => {
 
-            // Set GeoFire intance
-            if(draft.location !== undefined && draft.location.geolocation !== undefined){ 
-              let location = [draft.location.geolocation.lat, draft.location.geolocation.lng];
-              this._dataService.setGeolocation({key: draft.key, location: location});
-            }
+              // Set GeoFire intance
+              if(draft.location !== undefined && draft.location.geolocation !== undefined){ 
+                let location = [draft.location.geolocation.lat, draft.location.geolocation.lng];
+                this._dataService.setGeolocation({key: draft.key, location: location});
+              }
+              resolve(response);
 
-            resolve(response);
-
-          }, (error) => {
-            reject(error);
-          });
+            }, (error) => {
+              reject(error);
+            });
+          }
 
         }, (error) => {
           reject(error);
@@ -79,8 +76,9 @@ export class ListItemService {
 
   /**
   * Set the item to be published
+  * @param draft = object from the listing drafts
   */
-  setItem(draft){
+  setItem(draft): ItemModel{
   	if(draft !== undefined && draft !== null ){
 
   		let item = new ItemModel();
@@ -89,12 +87,21 @@ export class ListItemService {
 	    item.summary = draft.summary;
 	    item.description = draft.description;
 	    item.privacity = draft.privacity;
+
 	    item.carryout = draft.carryout;
 	    item.delivery  = draft.delivery;
 	    item.delivery_fee = draft.delivery_fee;
+      item.delivery_processing_time = draft.delivery_processing_time;
+      item.delivery_policies = draft.delivery_policies
+
 	    item.shipping = draft.shipping;
 	    item.shipping_fee = draft.shipping_fee;
-	    item.processing_time = draft.processing_time;
+      item.shipping_processing_time = draft.shipping_processing_time;
+      item.refund_policies = draft.refund_policies;
+      item.cancellation_policies = draft.cancellation_policies;
+      item.additional_policies = draft.additional_policies;
+
+
 	    item.measure_unit = draft.measure_unit;
 	    item.unit_value = draft.unit_value;
 	    item.confirmation = draft.confirmation;
@@ -111,7 +118,7 @@ export class ListItemService {
 
 	    item.total_favorites = 0;
 	    item.total_reviews =  0;
-	    item.total_rate = 1;
+	    item.total_rate = 4;
 
       item.location = draft.location;
 	    item.medias = draft.medias;

@@ -23,7 +23,7 @@ $black-c: lighten($black, 40%);
 $black-d: lighten($black, 60%);
 
 $theme-color-1: $white-a; /* primer color 500  bar color */
-$theme-color-2: #EF5350; /* Bold color 700  Hiligh icons and hedears */
+$theme-color-2: #ff3366;/*#EF5350; /* Bold color 700  Hiligh icons and hedears */
 $theme-color-3: #E57373; /* light color 300 */
 $theme-color-4: #EF5350; /* Accent color A400  Buttons and actions */
 
@@ -39,8 +39,8 @@ $theme-color-6: #666666; /* Secundary texts */
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
 
-$text-color: $black-c;
-$input-color-1: $black-d;
+$text-color: $black-b;
+$input-color: $black-c;
 $positive-text: #339933; /* Set color for positive text and confirmations*/
 
 $colors: (
@@ -53,7 +53,8 @@ $colors: (
   review:     #cc9900,
 
   walkthrough:(
-    base: #009966,
+    base: #7f007f,
+    /*#009966,*/
     contrast: $white
   ),
   walkthrough-alt:(
@@ -65,7 +66,7 @@ $colors: (
     contrast: $white
   ),
   sidemenu:(
-    base: $theme-color-3,
+    base: $theme-color-2,
     contrast: $theme-color-4
   ),
   header:(

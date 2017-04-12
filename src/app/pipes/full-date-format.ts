@@ -1,12 +1,12 @@
-import {Pipe} from '@angular/core';
+// import {Pipe} from '@angular/core';
 
-@Pipe({
-	name: 'fullDateFormat'
-})
-export class FullDateFormat{
+// @Pipe({
+// 	name: 'fullDateFormat'
+// })
+// export class FullDateFormat{
 
-	transform(value, args){
-		value = value + "PIPE";
-		return value;
-	}
-}
+// 	transform(value, args){
+// 		value = value + "PIPE";
+// 		return value;
+// 	}
+// }

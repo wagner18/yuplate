@@ -32,12 +32,7 @@ export class ListingFormSchedulePage {
   }
 
   dismiss() {
-		if(this.schedules.length > 0){
-			this.data.form_control.schedule = true;
-      this.data.schedule = this.schedules;
-		}else{
-			this.data.form_control.schedule = false;
-		}
+    this.data.schedule = this.schedules;
 		this.viewCtrl.dismiss(this.data);
 	}
 

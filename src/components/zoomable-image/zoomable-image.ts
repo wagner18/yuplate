@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input, Output, ViewChild, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { ViewController, Gesture, Scroll } from 'ionic-angular';
+import { Gesture, Scroll } from 'ionic-angular';
 import { Subject }    from 'rxjs/Subject';
 
 // declare var window;

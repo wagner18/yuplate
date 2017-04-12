@@ -1,16 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
 
 import { AuthService } from './auth.service';
 import { ProfileService } from './profile.service';
 import { DataService } from './data.service';
 
 import { ListingModel } from '../models/listing-model';
-import { MediaModel } from '../models/listing-model';
+
 import { PriceModel } from '../models/listing-model';
-import { ScheduleModel } from '../models/listing-model';
-import { LocationModel } from '../models/listing-model';
 
 
 @Injectable()
@@ -96,7 +92,6 @@ export class ListingService {
         while(i--) {
           medias.push({media_path: './assets/images/default-placeholder.png'});
         }
-
 
         // Create a craft to the listing
         var data = new ListingModel();

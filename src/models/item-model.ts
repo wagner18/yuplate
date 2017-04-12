@@ -4,12 +4,22 @@ export class ItemModel {
   summary: string = "";
   description: string = "";
   privacity: string = "public";
+
+  // delivery & carryout data
   carryout: boolean = true;
   delivery: boolean = false;
   delivery_fee: number = 0.00;
+  delivery_policies: string = "";
+  delivery_processing_time: string = "";
+
+  // Shipping data
   shipping: boolean = false;
   shipping_fee: number = 0.00;
-  processing_time: string = "";
+  shipping_processing_time: string = "";
+  refund_policies: string = "";
+  cancellation_policies: string = "";
+  additional_policies: string = "";
+
   measure_unit: string = "";
   unit_value: number = 1;
   confirmation: boolean = false;

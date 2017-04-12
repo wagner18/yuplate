@@ -1,22 +1,65 @@
-@mixin basic-input-style($background, $input-color-1, $placeholder-color){
+@mixin basic-input-style($background, $color, $placeholder-color){
 	&.item {
 		padding: 0px;
 		background-color: $background;
 
+		ion-icon{
+			color: $theme-color-2;
+		}
+
 		.item-inner	{
-			padding: 0px 0.6rem;
+			/*padding: 0px 0.6rem;*/
+			padding-left: 14px;
+			color: $color;
 		}
 
 		.text-input	{
+			font-size: 1.6rem;
 			margin-right: 0px;
 			margin-left: 0px;
 			width: 100%;
 			padding: 0px;
-			color: $input-color-1;
+			color: $black-c;
 			@include placeholder {
 				color: $placeholder-color;
 			}
 		}
+		
+		input[type="number"] {
+			padding-right: 10px;
+		}
+
+		.item-textarea	{
+			font-size: 1.6rem;
+			color: $color;
+
+			@include placeholder {
+				color: $placeholder-color;
+			}
+		}
+
+		&.item-label {
+			margin: 0px;
+			font-size: 1.6rem;
+			color: $color;
+			margin: 0px;
+		}
+
+		&.item-label-floating{
+			margin-top: 0px;
+			ion-label {
+				color: $color;
+			}
+		}
+
+		&.item-label-stacked {
+			margin-top: 0px;
+			ion-label {
+				font-size: 1.6rem;
+				color: $color;
+			}
+		}
+
 	}
 }
 

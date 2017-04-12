@@ -1,12 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Keyboard, NavController, ModalController, AlertController, LoadingController, NavParams, Slides} from 'ionic-angular';
-
-//import 'rxjs/Rx';
+import { Component, OnDestroy } from '@angular/core';
+import { Keyboard, NavController, ModalController, AlertController, LoadingController, NavParams} from 'ionic-angular';
 
 import { ProfileService } from '../../providers/profile.service';
 import { ListingService } from '../../providers/listing.service';
 import { ListItemService } from '../../providers/list-item.service';
-import { ListingModel } from '../../models/listing-model';
 
 import { LocationModalPage, } from '../location-modal/location-modal';
 import { ListingFilterPage } from '../listing-filter/listing-filter';
@@ -21,13 +18,13 @@ export class ListingPage implements OnDestroy{
   
   public slideOptions = {pager: true};
 
-  public loading: any;
   public current_time = new Date();
 
   public list_limit: number = 10;
   public listings: any;
 
   public search_query: string;
+  public segment_topbar: string = "Explore";
   public section_title: string = "";
 
   constructor(
@@ -42,8 +39,7 @@ export class ListingPage implements OnDestroy{
     public loadingCtrl: LoadingController
   ){
 
-    console.log("View Controller in Stake >>> ", this.nav.length());
-    this.loading = this.loadingCtrl.create();
+    console.log("View Controller stack >>> ", this.nav.length());
   }
 
   ionViewDidLoad() {
@@ -55,18 +51,20 @@ export class ListingPage implements OnDestroy{
     // console.log('ON DESTROY LISTING!');
     // this._img.nativeElement.src = '';
     // this._img.nativeElement.load();
+    console.log(" --- clean the list! --- ");
+    this.listings = [];
   }
 
   /**
   * @param = limit - define the listing limit
   */
-  private getItems(limit = 10){
+  getItems(limit = 10): void{
 
+    let loading = this.loadingCtrl.create();
     // Set the section title
     this.section_title = "Most Popular";
-
-    // Set query configurations
     this.listings = [];
+    loading.present();
 
     let listings_ref = this.itemService.listItems()
     .orderByChild('search_tags')
@@ -80,7 +78,7 @@ export class ListingPage implements OnDestroy{
       Object.keys(data).map(key => {
         this.listings.push(data[key]);
       })
-      //this.loading.dismiss();
+      loading.dismiss();
     }, error =>{
       console.log(error);
     });
@@ -90,26 +88,27 @@ export class ListingPage implements OnDestroy{
   /**
   *
   */
-  getLocalItems(){
+  getLocalItems(): void{
 
+    let loading = this.loadingCtrl.create();
     // Set the section title
     this.section_title = "Yuplate Local";
 
-    this.loading.present();
     this.listings = [];
+    loading.present();
+
     this.itemService.getLocalItems(25).then( listings => {
-
       console.log(listings);
-      this.listings = listings;
 
-      this.loading.dismiss();
+      this.listings = listings;
+      loading.dismiss();
     });
   }
 
   /**
   *
   */
-  doRefresh(refresher) {
+  doRefresh(refresher): void{
     console.log('Begin async operation', refresher);
 
     setTimeout(() => {
@@ -122,7 +121,7 @@ export class ListingPage implements OnDestroy{
   * Show the details of a item
   * @param = key - Item key
   */
-  listingDetails(key){
+  listingDetails(key): void{
     console.log(this.listings[key]);
     this.nav.push(ListingDetailsPage, { listing: this.listings[key]});
   }

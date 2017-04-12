@@ -5,81 +5,67 @@ page-listing-user {
 
 	.list-content {
 		background-color: color($colors, background, base);
-		@include layout-list-styles($theme-color-2, $white-d);
 
 		ion-list {
-			.list-item {
 				
-/*				.content-row {
-					@include align-items(center);
-				}*/
+			.item-content {
 
-				.item-content {
-					/*@include align-content(stretch);*/
-				  @include display(flex);
-				  @include flex-wrap(wrap);
-				  @include align-self(stretch);
-
-					.item-title	{
-						font-size: 1.4rem;
-						margin-bottom: 8px;
-						overflow: hidden;
-						text-overflow: ellipsis;
-						white-space: nowrap;
-					}
-
-					.item-description	{
-						margin: 0px;
-						padding-bottom: 15px;
-						/*@include multi-line-ellipsis($list-big-description-font-size);*/
-					}
-
-					.item-price {
-						font-size: 1.4rem;
-						color: $black-d;
-					}
-
+				.item-title	{
+					font-size: 1.6rem;
+					color: $black-b;
+					margin-bottom: 8px;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 
-			}
-		}
-
-		preload-image {
-			border-radius: 4%;
-
-			img	{
-				border-radius: 4%;
-			}
-		}
-
-		.add-button {
-			border-radius: 2px;
-			background-color: $white;
-			color: $white-d;
-			height: 80px;
-			margin-right: 20px;
-			padding: 10px;
-			padding-bottom: 32px;
-			@include element-shadow();
-
-			.button-inner	{
-				@include flex-wrap(wrap);
-
-				ion-icon {
-					flex: 0 0 100%;
-			    max-width: 100%;
-					font-size: 2.2em;
-				}
-
-				.button-title	{
-					flex: 0 0 100%;
-			    max-width: 100%;
+				.item-price {
 					font-size: 1.4rem;
-					color: $white-d;
-					font-weight: 600;
-					margin: 0px;
+					color: $black-c;
+				}
+
+			}
+
+			preload-image {
+				border-radius: 4%;
+				img	{
+					border-radius: 4%;
 				}
 			}
+
+		}
+
+		.add-button-section {
+			padding: 10px;
+
+			.add-button {
+				border-radius: 4px;
+				background-color: $white;
+				height: 80px;
+				color: $black-c;
+				@include element-shadow();
+
+				.button-inner	{
+					@include flex-wrap(wrap);
+
+					ion-icon {
+						flex: 0 0 100%;
+				    max-width: 100%;
+						font-size: 2.0em;
+					}
+
+					.button-title	{
+						flex: 0 0 100%;
+				    max-width: 100%;
+						font-size: 1.4rem;
+						color: $black-c;
+						font-weight: 600;
+						margin: 0px;
+					}
+
+				}
+			}
+
 		}
 
 	}

@@ -6,9 +6,9 @@
 
 <ion-content class="list-content" scroll="false">
 
-  <section>
-    <button ion-button block large class="add-button" (click)="addListing()">
-      <ion-icon name="add"></ion-icon>
+  <section class="add-button-section">
+    <button ion-button class="add-button" block large (click)="addListing()">
+      <ion-icon name="md-add" large></ion-icon>
       <h3 class="button-title">List a product</h3>
     </button>
   </section>
@@ -18,11 +18,13 @@
 	    Listed
 	  </ion-list-header>
 
-    <ion-item>
-      <ion-lable>
-        0 item listed
-      </ion-lable>
-    </ion-item>
+    <button ion-item class="item-content" *ngFor="let listing of listings" (click)="editListing(listing.key)">
+      <ion-thumbnail item-left large>
+        <preload-image [ratio]="{w:1, h:1}" [src]="listing?.medias[0].media_path"></preload-image>
+      </ion-thumbnail>
+      <h3 class="item-title">{{listing.title}}</h3>
+      <p class="item-price"> {{listing.price.currency}} {{listing.price.main_price}}</p>
+    </button>
 
   </ion-list>
 
@@ -31,21 +33,26 @@
       Drafts
     </ion-list-header>
 
-    <button class="list-item" ion-item *ngFor="let listing of listings" (click)="editListing(listing.key)">
+    <button ion-item class="item-content" *ngFor="let draft of drafts" (click)="editListing(draft.key)">
+      <ion-thumbnail item-left large>
+        <preload-image [ratio]="{w:1, h:1}" [src]="draft?.medias[0].media_path"></preload-image>
+      </ion-thumbnail>
+      <h3 class="item-title">{{draft.title}}</h3>
+      <p class="item-price"> {{draft.price.currency}} {{draft.price.main_price}}</p>
+    </button>  
+
+
+<!--     <button class="list-item" ion-item  (click)="editListing(listing.key)">
       <ion-row no-padding class="content-row">
         <ion-col no-padding width-33 class="item-avatar">
           <preload-image [ratio]="{w:1, h:1}" [src]="listing?.medias[0].media_path"></preload-image>
         </ion-col>
-        <ion-col no-padding width-57 class="item-content">
+        <ion-col no-padding width-77 class="item-content">
           <h3 class="item-title">{{listing.title}}</h3>
           <p class="item-description" rows="3">{{listing.summary}}</p>
           <p class="item-price"> {{listing.price.currency}} {{listing.price.main_price}}</p>
-          <!-- You can change the rows quantity by using rows="X", where X can be any number for example: rows="4" -->
-        </ion-col>
-        <ion-col no-padding width-10 class="item-icon">
-          <ion-icon name="arrow-forward"></ion-icon>
         </ion-col>
       </ion-row>
-    </button>
+    </button> -->
   </ion-list>
 </ion-content>

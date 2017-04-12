@@ -34,7 +34,7 @@ export class ListingFormDescPage {
     });
   }
 
-  dismiss() {
+  save() {
 		this.data.title = this.formDescription.value.title;
     this.data.summary = this.formDescription.value.summary;
     this.data.description = this.formDescription.value.description;
@@ -46,5 +46,10 @@ export class ListingFormDescPage {
 		}
 		this.viewCtrl.dismiss(this.data);
 	}
+
+  cancel() {
+    this.viewCtrl.dismiss(null);
+  }
+  
 
 }

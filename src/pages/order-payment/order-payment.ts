@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { App, NavController, ModalController, AlertController, ViewController, NavParams } from 'ionic-angular';
+import { App, NavController, ViewController, NavParams } from 'ionic-angular';
 
 import { ListingPage } from '../listing/listing';
 

@@ -19,8 +19,6 @@ import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
 export class SignupPage {
 
   // Properties
-  private user: any;
-
   public signup: FormGroup;
   public main_page: { component: any };
   public section: string;

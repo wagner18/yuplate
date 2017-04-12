@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, SegmentButton, AlertController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { counterRangeValidator } from '../../components/counter-input/counter-input';
 

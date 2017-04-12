@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController, AlertController, NavParams } from 'ionic-angular';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { ProfileService } from '../../providers/profile.service';
 import { AddressFormModal } from './address-form-modal';

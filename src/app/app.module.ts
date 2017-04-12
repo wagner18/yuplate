@@ -12,12 +12,11 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 
 /*
     Import Pages
 */
-// import { HomeAppPage } from '../pages/home-app/home-app';
 import { ListingPage } from '../pages/listing/listing';
 import { ListingFilterPage } from '../pages/listing-filter/listing-filter';
 import { ListingDetailsPage } from '../pages/listing-details/listing-details';
@@ -41,6 +40,7 @@ import { ProfileFormPage } from '../pages/profile-form/profile-form';
 import { ProfileFormAddressPage } from '../pages/profile-form-address/profile-form-address';
 import { ProfilePaymentMethodPage } from '../pages/profile-payment-method/profile-payment-method';
 import { ProfileOrdersPage } from '../pages/profile-orders/profile-orders';
+import { ProfileFavoritesPage } from '../pages/profile-favorites/profile-favorites';
 
 import { AddressFormModal } from '../pages/profile-form-address/address-form-modal';
 import { LoginPage } from '../pages/login/login';
@@ -52,10 +52,6 @@ import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
 
 
 import { CardFormPage } from '../pages/card-form/card-form';
-
-import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
-
-import { SettingsPage } from '../pages/settings/settings';
 
 
 import { TermsOfServicePage } from '../pages/terms-of-service/terms-of-service';
@@ -83,7 +79,6 @@ import { MediaService } from '../providers/media.service';
 import { ListingService } from '../providers/listing.service';
 import { ListItemService } from '../providers/list-item.service';
 import { OrderService } from '../providers/order.service';
-import { DishService } from '../providers/dish.service';
 import { ProfileService } from '../providers/profile.service';
 
 
@@ -109,19 +104,18 @@ declare var cordova: any;
     LocationModalPage,
     LoginPage,
 
-
     ProfilePage,
     ProfileFormPage,
     ProfileFormAddressPage,
     ProfilePaymentMethodPage,
     ProfileOrdersPage,
+    ProfileFavoritesPage,
     AddressFormModal,
     OrderCheckoutPage,
     OrderPaymentPage,
     CardFormPage,
-    TabsNavigationPage,
+
     WalkthroughPage,
-    SettingsPage,
     SignupPage,
     ForgotPasswordPage,
 
@@ -144,10 +138,13 @@ declare var cordova: any;
         tabsPlacement: 'bottom',
         platforms: {
             ios: {
-              statusbarPadding: true
+              statusbarPadding: true,
+              scrollAssist: false, 
+              autoFocusAssist: false 
             }
         }
-    })
+    }),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -173,13 +170,14 @@ declare var cordova: any;
     ProfileFormAddressPage,
     ProfilePaymentMethodPage,
     ProfileOrdersPage,
+    ProfileFavoritesPage,
     AddressFormModal,
     OrderCheckoutPage,
     OrderPaymentPage,
     CardFormPage,
-    TabsNavigationPage,
+
     WalkthroughPage,
-    SettingsPage,
+
     ForgotPasswordPage,
     SignupPage,
 
@@ -189,7 +187,6 @@ declare var cordova: any;
     GalleryModal
   ],
   providers: [
-    Storage,
     DataService,
     AuthService,
     ProfileService,

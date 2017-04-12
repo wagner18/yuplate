@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+// import { Http } from '@angular/http';
+// import 'rxjs/add/operator/map';
 
 import { DataService } from './data.service';
 import { AuthService } from './auth.service';
 import { ProfileService } from './profile.service';
 
-import { OrderModel } from '../models/order-model';
-import { ItemModel } from '../models/item-model';
-
-import { ScheduleModel } from '../models/listing-model';
-import { LocationModel } from '../models/listing-model';
+// import { OrderModel } from '../models/order-model';
+// import { ItemModel } from '../models/item-model';
 
 @Injectable()
 export class OrderService {
