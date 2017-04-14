@@ -86,8 +86,8 @@
     <form class="form-style">
       <section class="form-section">
         <h2 class="section-title">
-          <p>Hi! Good pictures of your listing play a vary importante rule.</p>
-          Choose the category and take some beautiful pictures, so then your custumer can see how delicious it is!
+          <p>Good pictures of your product play a vary importante rule.</p>
+          Choose some beautiful pictures to show your customers the quality of your product!
         </h2>
 
         <button ion-button block large class="upload-image-button" (click)="cameraActionSheet()">
@@ -109,19 +109,9 @@
 
       <section class="form-section">
         <ion-item no-lines class="listing-type">
-          <ion-label class="label-type">Listing type</ion-label>
-          <h2 item-right>{{listing?.listing_type}}</h2>
+          <h2 item-left>Listing type</h2>
+          <p item-right>{{listing?.listing_type}}</p>
         </ion-item>
-
-<!--         <ion-item no-lines class="category-select">
-          <ion-label>Category</ion-label>
-          <ion-select formControlName="category" multiple="false">
-            <ion-option *ngFor="let option of categories" value="{{option.value}}">
-              {{option.label}}
-            </ion-option>
-          </ion-select>
-        </ion-item> -->
-
       </section>
 
       <ion-list class="form-list">

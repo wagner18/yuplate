@@ -1,31 +1,31 @@
 page-listing-form-desc {
 
 	.form-content {
-		background-color: $white-a;
+		background-color: color($colors, background, base);
 
-		.form-style {
-
-			.form-section	{
-				padding: 0px 5px;
-				padding-bottom: 10px;
-
-				.item:first-child	{
-					margin-top: 10px;
-				}
-			}
-
-			ion-item {
-				@include basic-input-style(color($colors, background, base), $black-b, $white-d);
-
-				&:first-of-type {
-					margin-top: 0px;
-				}
-			}
+		.form-section	{
+			padding: 0px 5px;
+			padding-bottom: 10px;
 
 			.section-title {
 				@include segment-introduction($theme-color-2);
 			}
 
+			.item:first-child	{
+				margin-top: 10px;
+			}
+		}
+
+		.form-style {
+			margin-bottom: 20px;
+			ion-item {
+				@include basic-input-style($white, $black-b, $white-d);
+				background-color: $white;
+
+				&:first-of-type {
+					margin-top: 0px;
+				}
+			}
 		}
 
 	}

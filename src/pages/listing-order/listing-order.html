@@ -17,25 +17,13 @@
     	</ion-list-header>
 
     	<ion-item item-left>
-<!-- 		    <ion-thumbnail large item-left>
-            <preload-image [ratio]="{w:1, h:1}" [src]="listing.medias[0].media_path">
-            </preload-image>
-		    </ion-thumbnail>
-		    <p text-left>{{ listing.title }}</p>
-		    <p text-left>Servings: {{ listing.unit_value }}</p>
-		    <p><ion-badge item-left>{{ listing.listing_type }}</ion-badge></p>
-		    <div class="price-label" item-right item-top>
-		    	{{ listing.price.currency }}
-		    	{{ listing.price.main_price }}
-		    </div> -->
-
         <ion-row>
           <ion-col width-30>
             <preload-image [ratio]="{w:1, h:1}" [src]="listing.medias[0].media_path">
             </preload-image>
           </ion-col>
           <ion-col widht-70>
-            <p text-left>{{ listing.title }}</p>
+            <p class="text-title" text-left>{{ listing.title }}</p>
             <p text-left>{{ listing.measure_unit }}: {{ listing.unit_value }}</p>
 <!--             <p text-left>{{ listing.listing_type }}</p> -->
             <div class="price-label" item-right>
@@ -48,73 +36,108 @@
 		  </ion-item>
 		</ion-list>
 
-		<ion-list>
-			<ion-list-header>Set the Quantity</ion-list-header>
-      <ion-item class="counter-item">
-	      <h2 class="counter-label">Quantity</h2>
-	      <counter-input formControlName="quantity" (ngModelChange)="setTotalPrice($event)" [min]="1" [max]="8"></counter-input>
-	    </ion-item>
-      <ion-item>
-        <h2>Order Subtotal:</h2>
-        <h2 item-right>${{subtotal}}</h2>
-	    </ion-item>
-      <ion-item *ngIf="shipping_address">
-        <h2>Delivery Fee:</h2>
-        <h2 item-right>${{listing.delivery_fee}}</h2>
-      </ion-item>
-      <ion-item>
-        <ion-label>Total:</ion-label>
-        <ion-input class="number-input" readonly formControlName="total_price" ></ion-input>
-      </ion-item>
-	  </ion-list>
-			
-		<ion-list-header no-lines> Delivery Options </ion-list-header>
-	  <ion-list no-lines class="radio-tags" radio-group formControlName="delivery_option">
-      <ion-item class="radio-tag" *ngIf="listing.delivery">
-        <ion-label>Delivery</ion-label>
-        <ion-radio value="Delivery" (click)="setDeliveryAddress()" checked></ion-radio>
-      </ion-item>
-      <ion-item class="radio-tag" *ngIf="listing.carryout">
-        <ion-label>Carryout</ion-label>
-        <ion-radio value="Carryout" (click)="setCarryoutAddress()" ></ion-radio>
-      </ion-item>
-      <ion-item class="radio-tag" *ngIf="listing.shipping">
-        <ion-label>Shipping</ion-label>
-        <ion-radio value="Shipping" (click)="setDeliveryAddress()" ></ion-radio>
-      </ion-item>
+    <ion-list class="delivery-options">
+      <ion-list-header no-lines> Delivery Options </ion-list-header>
+      <ion-segment color="dark" formControlName="delivery_option">
+        <ion-segment-button value="Delivery" *ngIf="listing.delivery">
+          Delivery
+        </ion-segment-button>
+        <ion-segment-button value="Carryout" *ngIf="listing.carryout">
+          Carryout
+        </ion-segment-button>
+        <ion-segment-button value="Shipping" *ngIf="listing.shipping">
+          Shipping
+        </ion-segment-button>
+      </ion-segment>
     </ion-list>
 
-	  <ion-list *ngIf="shipping_address">
-	    <ion-list-header>
-	    	Shipping Address
-	    	<div class="list-sub-header">
-	    		Your address will be shown only after confirmed
-	    	</div>
-	    </ion-list-header>
-	    <ion-item *ngIf="primaryAddress?.primary" class="address-primary">
-	      <h2 class="address-title">{{ primaryAddress?.full_name }}</h2>
-	      <p>{{ primaryAddress?.street_1 }}</p>
-	      <p>{{ primaryAddress?.city }}, {{ primaryAddress?.state }} {{ primaryAddress?.zip_code }}</p>
-	      <p>{{ primaryAddress?.country }}</p>
-	      <h2 item-right *ngIf="primaryAddress?.primary">Primary</h2>
-	    </ion-item>
-	    <button ion-item (click)="setAddress()">
-	      Add a new Address
-	    </button>
-	  </ion-list>
+    <div [ngSwitch]="formOrder.value.delivery_option">
+  		<ion-list>
+  			<!-- <ion-list-header>Set the Quantity</ion-list-header> -->
+        <ion-item class="counter-item">
+  	      <h2 class="counter-label">Quantity</h2>
+  	      <counter-input formControlName="quantity" (ngModelChange)="setTotalPrice($event)" [min]="1" [max]="8"></counter-input>
+  	    </ion-item>
+        <ion-item>
+          <h2>Order Subtotal:</h2>
+          <h2 item-right>${{subtotal}}</h2>
+  	    </ion-item>
+        <ion-item *ngSwitchCase="'Delivery'">
+          <h2>Delivery Fee:</h2>
+          <h2 item-right>${{listing.delivery_fee}}</h2>
+        </ion-item>
+        <ion-item *ngSwitchCase="'Shipping'">
+          <h2>Shipping Fee:</h2>
+          <h2 item-right>${{listing.shipping_fee}}</h2>
+        </ion-item>
+        <ion-item>
+          <h2>Estimated Tax:</h2>
+          <h2 item-right>$ 0.00</h2>
+        </ion-item>
+        <ion-item>
+          <ion-label>Total:</ion-label>
+          <ion-input class="number-input" readonly formControlName="total_price" ></ion-input>
+        </ion-item>
+  	  </ion-list>
 
-	  <ion-list *ngIf="pickup_address">
-	  	<ion-item>
-      	<h2>Pickup location will be shown after confimed</h2>
-      </ion-item>
-	  </ion-list>
+      <ion-list *ngIf="formOrder.value.delivery_option == 'Delivery' || formOrder.value.delivery_option == 'Shipping'">
+        <ion-list-header>
+          <p *ngSwitchCase="'Delivery'">Delivery Address</p>
+          <p *ngSwitchCase="'Shipping'">Shipping Address</p>
+          <div class="list-sub-header">
+            Your address will be shown only after confirmed
+          </div>
+        </ion-list-header>
+
+        <ion-item *ngSwitchCase="'Shipping'">
+          <h2 class="content-title" ion-text>
+            Ready to ship in
+          </h2>
+          <p class="content-text">{{listing.shipping_processing_time}}</p>
+        </ion-item>
+
+        <ion-item *ngSwitchCase="'Delivery'">
+          <h2 class="content-title" ion-text>
+            Processing time
+          </h2>
+          <p class="content-text">{{listing.delivery_processing_time}}</p>
+        </ion-item>
+
+        <ion-item *ngIf="primaryAddress?.primary" class="address-primary">
+          <h2 class="address-title">{{ primaryAddress?.full_name }}</h2>
+          <p>{{ primaryAddress?.street_1 }}</p>
+          <p>{{ primaryAddress?.city }}, {{ primaryAddress?.state }} {{ primaryAddress?.zip_code }}</p>
+          <p>{{ primaryAddress?.country }}</p>
+          <h2 item-right *ngIf="primaryAddress?.primary">Primary</h2>
+        </ion-item>
+        <button ion-item (click)="setAddress()">
+          Add a new Address
+        </button>
+      </ion-list>
+
+      <ion-list *ngSwitchCase="'Carryout'">
+        <ion-list-header>
+          Carryout Address
+        </ion-list-header>
+        <ion-item>
+          <h2 class="content-title" ion-text>
+            Processing time
+          </h2>
+          <p class="content-text">{{listing.delivery_processing_time}}</p>
+        </ion-item>
+        <ion-item>
+          <h2>Pickup location will be shown after confimed</h2>
+        </ion-item>
+      </ion-list>
+    </div>
+
   </form>
 
-  <form class="form-style" [formGroup]="formSchedule">
+  <form class="form-style" [formGroup]="formSchedule" *ngIf="formOrder.value.delivery_option == 'Delivery' || formOrder.value.delivery_option == 'Carryout'">
     <ion-list radio-group>
       <ion-item>
-        <ion-label>Take it today</ion-label>
-        <ion-radio value="schuedule_today" (click)="setScheduleIntime()"></ion-radio>
+        <ion-label>Take it ASAP</ion-label>
+        <ion-radio value="schuedule_asap" (click)="setScheduleIntime()"></ion-radio>
       </ion-item>
 
       <ion-item>
@@ -123,9 +146,9 @@
       </ion-item>
     </ion-list>
 
-    <ion-list *ngIf="take_today">
+<!--     <ion-list *ngIf="take_today">
       <ion-list-header>
-        Take it today
+        Estimated Delivery Time
         <div class="list-sub-header">
           Availability for the current day
         </div>
@@ -145,7 +168,7 @@
       <ion-item *ngIf="!intime_schedule" danger>
         <h2>Not available for today</h2>
       </ion-item>
-    </ion-list>
+    </ion-list> -->
 
     <ion-list *ngIf="schedule_delivery">
     	<ion-list-header>
@@ -178,6 +201,7 @@
 
 <ion-footer>
 	<ion-toolbar class="checkout-footer">
+    <p ion-text>Total: {{listing.currency}} {{formOrder.value.total_price}}</p>
     <ion-buttons end>
   		<button ion-button class="checkout-button" (click)="checkoutOrder()" item-right  icon-left>
         <ion-icon item-left ios="ios-cart" md="md-cart"></ion-icon>

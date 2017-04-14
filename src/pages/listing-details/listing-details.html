@@ -66,24 +66,20 @@
 
   <ion-list>
     <ion-item-divider>Overview</ion-item-divider>
-    <ion-row class="listing-description">
-      <ion-col width-100>
-        <p class="item-text">
-          {{listing.summary}}
-        </p>
-      </ion-col>
-    </ion-row>
+    <ion-item>
+      <p class="content-text">
+        {{listing.summary}}
+      </p>
+    </ion-item>
+
 
     <ion-item-divider>Description</ion-item-divider>
-    <ion-row class="listing-description">
-      <ion-col width-100>
-        <p class="item-text">
-          {{listing.description}}
-        </p>
-      </ion-col>
-    </ion-row>
-
-    <ion-item-divider></ion-item-divider>
+    <ion-item>
+      <p class="content-text">
+        {{listing.description}}
+      </p>
+    </ion-item>
+    
     <ion-item>
       <ion-icon item-left class="description-icon" name="restaurant"></ion-icon>
       <ion-label>{{ listing.measure_unit }} </ion-label>
@@ -101,8 +97,8 @@
   </ion-list>
 
   <ion-list>
-
-    <button ion-item (click)="showReviews()" no-lines>
+    <ion-item-divider></ion-item-divider>
+    <button ion-item (click)="showReviews()">
     <ion-icon item-left name='chatbubbles'></ion-icon>
       <ion-label>Reviews ({{listing.total_reviews}})</ion-label>
       <h1 item-right>
@@ -111,7 +107,7 @@
     </button> 
 
     <ion-item-divider>Seller information</ion-item-divider>
-    <ion-item no-lines item-left class="item-profile">
+    <ion-item item-left class="item-profile">
       <ion-avatar item-left>
         <img src="{{ listing.short_profile?.image }}">
       </ion-avatar>
@@ -121,6 +117,7 @@
   </ion-list>
 
   <ion-list>
+    <ion-item-divider></ion-item-divider>
     <ion-item>
       <h2 class="content-title" ion-text>Payment Methods</h2>
       <img src="./assets/images/cards.jpeg" height="30px">
@@ -130,6 +127,49 @@
         <p>Sellers don't receive your credit card information.</p>
       </sub>
     </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="listing.delivery || listing.carryout">
+
+    <ion-item-divider>Delivery / Carryout Policies & FAQs</ion-item-divider>
+    <ion-item>
+      <h2 class="content-title">Ready to be delivered in:</h2>
+        <p class="content-text">
+          {{listing.delivery_processing_time}}
+        </p>
+      <h2 class="content-title">Delivery Policies & FAQs</h2>
+        <p class="content-text">
+          {{listing.delivery_policies}}
+        </p>
+    </ion-item>
+
+    <ion-item-divider>Local Schedule</ion-item-divider>
+    <ion-item *ngFor="let schedule of listing.schedule">
+      <ion-row>
+        <ion-col width-100 class="schedule-data">
+          <div class="data-item">
+            <div class="item-content">
+
+              <h2 class="item-title ">
+                <ion-icon class="title-icon" ios="ios-calendar" md="md-calendar">
+                </ion-icon>
+                {{ schedule?.day }}
+              </h2>
+
+              <div class="item-description">
+                <h2 class="description-text">
+                  <ion-icon class="description-icon" name="clock"></ion-icon>
+                  <span class="description-label">From: </span>{{ schedule?.from_time }} -
+                  <span class="description-label">To: </span>{{ schedule?.to_time }}
+                </h2>
+              </div>
+
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+
   </ion-list>
 
   <ion-list  *ngIf="listing.shipping">
@@ -160,46 +200,6 @@
       </h2>
       <p class="content-text">{{listing.additional_policies}}</p>
     </ion-item>
-  </ion-list>
-
-
-  <ion-list *ngIf="listing.delivery || listing.carryout">
-
-    <ion-item-divider>Delivery / Carryout Policies & FAQs</ion-item-divider>
-    <ion-item>
-      <h2 class="content-title">Ready to be delivered in:</h2>
-        {{listing.delivery_processing_time}}
-      <h2 class="content-title">Delivery Policies & FAQs</h2>
-        {{listing.delivery_policies}}
-    </ion-item>
-
-    <ion-item-divider>Local Schedule</ion-item-divider>
-  	<ion-item *ngFor="let schedule of listing.schedule">
-  		<ion-row>
-  	    <ion-col width-100 class="schedule-data">
-  	      <div class="data-item">
-  	        <div class="item-content">
-
-  	          <h2 class="item-title ">
-  	            <ion-icon class="title-icon" ios="ios-calendar" md="md-calendar">
-  	            </ion-icon>
-  	            {{ schedule?.day }}
-  	          </h2>
-
-  	          <div class="item-description">
-  	            <h2 class="description-text">
-  	              <ion-icon class="description-icon" name="clock"></ion-icon>
-  	              <span class="description-label">From: </span>{{ schedule?.from_time }} -
-  	              <span class="description-label">To: </span>{{ schedule?.to_time }}
-  	            </h2>
-  	          </div>
-
-  	        </div>
-  	      </div>
-  	    </ion-col>
-  	  </ion-row>
-  	</ion-item>
-
   </ion-list>
 
 </ion-content>

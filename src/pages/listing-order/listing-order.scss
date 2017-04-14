@@ -9,11 +9,26 @@ page-listing-order {
 			ion-item {
 				font-size: 1.6rem;
 
+				.text-title {
+					font-weight: 500px;
+				}
+
 				.price-label {
 					text-align: right;
 					color: $theme-color-2;
 					font-weight: 600;
 					content: " USD";
+				}
+			}
+
+
+			.delivery-options {
+				padding: 10px;
+
+				.segment-button {
+					&.segment-activated	{
+						font-weight: 600;
+					}
 				}
 			}
 
@@ -42,26 +57,10 @@ page-listing-order {
 				/*@include call-to-action-button-styles($theme-color-2, $white);*/
 			}
 
-			@include radio-tags-styles($white, $theme-color-2, $white);
-			.radio-tags	{
-				@include flex-wrap(nowrap);
-				padding: 0px 10px 0px 10px;
-
-				.radio-tag {
-					border-radius: 6px;
-
-					.item-inner	{
-						padding: 0px 8px 0px 0px;
-
-						ion-label {
-							margin: 8px 0px;
-						}
-					}
-				}
-			}
-
-			.button-select {
-
+			.content-text {
+				margin: 0px;
+				padding-left: 5px;
+				white-space: pre-line;
 			}
 
 			.list-sub-header {

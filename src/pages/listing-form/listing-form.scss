@@ -9,12 +9,8 @@ listing-form-page {
 		background-color: $white-a;
 
 		.form-style {
+			@include basic-list-styles($black-d, $black-a);
 			padding-bottom: 20px;
-
-			.publish-item {
-				background-color: #99cccc;
-				padding-left: 40px;
-			}
 
 			.form-section	{
 				padding: 0px 14px;
@@ -22,6 +18,10 @@ listing-form-page {
 
 				.item:first-child	{
 					margin-top: 10px;
+				}
+
+				.section-title {
+					@include segment-introduction($theme-color-2);
 				}
 
 				.horizontal-photos {
@@ -48,37 +48,16 @@ listing-form-page {
 				}
 
 				.listing-type {
+					@include element-shadow();
 					padding: 5px 10px 5px 15px;
 					border-radius: 6px;
 					margin-bottom: 20px;
 					background-color: $theme-color-2;
 					color: $white;
-					@include element-shadow();
-
-					.label-type {
+					p {
+						font-size: 1.6rem;
+						margin-bottom: 8px;
 						color: $white;
-					}
-				}
-
-				.category-select	{
-					padding: 5px 10px 5px 15px;
-					border-radius: 6px;
-					margin-bottom: 20px;
-					background-color: $white;
-					color: $black-c;
-					@include element-shadow();
-				}
-
-				.section-title {
-					@include segment-introduction($theme-color-2);
-				}
-
-				ion-item-divider {
-					padding: 5px 0px 10px 15px !important;
-					background-color: transparent !important;
-
-					&.item-label {
-						text-transform: uppercase;
 					}
 				}
 
@@ -88,34 +67,11 @@ listing-form-page {
 				margin: 0px;
 				font-size: 1.6rem;
 				letter-spacing: 0.9px;
-				color: $black-d;
+				color: $black-b;
 			}
 
 			ion-item {
 				@include basic-input-style(color($colors, background, base), $theme-color-3, $white-d);
-
-				&.item {
-
-					&.item-label-floating{
-						margin-top: 0px;
-						ion-label {
-							color: $black-d;
-						}
-					}
-
-					&.item-label-stacked {
-						margin-top: 0px;
-						ion-label {
-							color: $black-d;
-						}
-					}
-
-					.item-inner	{
-						ion-icon {
-							color: $theme-color-2;
-						}
-					}
-				}
 
 				&:first-of-type {
 					margin-top: 0px;
@@ -148,7 +104,6 @@ listing-form-page {
 				background-color: $white;
 				@include element-shadow();
 				@include radio-item-styles($black-c, $white-a, $theme-color-2);
-				@inclide basic-list-styles($black-c, $black-d);
 
 				ion-item {
 					margin-left: 10px;
@@ -159,9 +114,6 @@ listing-form-page {
 						color: #ff0033;
 					}
 				}
-
-
-				
 			}
 
 

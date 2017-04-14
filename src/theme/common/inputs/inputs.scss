@@ -9,12 +9,12 @@
 
 		.item-inner	{
 			/*padding: 0px 0.6rem;*/
-			padding-left: 14px;
+			padding-left: 16px;
 			color: $color;
 		}
 
 		.text-input	{
-			font-size: 1.6rem;
+			font-size: 1.5rem;
 			margin-right: 0px;
 			margin-left: 0px;
 			width: 100%;
@@ -24,7 +24,7 @@
 				color: $placeholder-color;
 			}
 		}
-		
+
 		input[type="number"] {
 			padding-right: 10px;
 		}

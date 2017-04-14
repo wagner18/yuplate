@@ -57,20 +57,15 @@ page-listing-details {
 		ion-list {
 			@include basic-list-styles($black-d, $black-a);
 
-			.listing-description {
-				background-color: $white;
-				padding: 5px 10px 5px 10px;
-			}
-
 			.content-title {
 				color: $black-b;
 				padding-top: 10px;
 			}
 
 			.content-text {
+				margin: 0px;
 				padding-left: 10px;
-				/*display: flex;*/
-				overflow: visible;
+				white-space: pre-line;
 			}
 
 			.map-location {

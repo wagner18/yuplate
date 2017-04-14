@@ -23,10 +23,9 @@ page-listing-form-details {
 
 			ion-item {
 				background-color: $white;
-				/*@include element-shadow();*/
 				@include basic-input-style($white, $black-a, $white-d);
-				@include switcher-item-styles($black-b, $theme-color-2);
 			}
+			@include switcher-item-styles($black-b, $theme-color-2);
 
 
 			.category-select	{

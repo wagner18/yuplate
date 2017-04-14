@@ -29,8 +29,6 @@ export class ListingOrderPage {
 
   public profile: any;
   public primaryAddress: any;
-  public shipping_address: boolean = true;
-  public pickup_address: boolean = false;
   public order: OrderModel;
   public order_key: string;
 
@@ -108,12 +106,7 @@ export class ListingOrderPage {
       // });
 
     }else{
-
       this.formOrder.patchValue({delivery_option: "Carryout"});
-      this.shipping_address = false;
-      this.pickup_address = true;
-
-      console.log("JUST Carryout",this.listing);
     }
 
   }
@@ -127,7 +120,7 @@ export class ListingOrderPage {
   }
 
   /**
-  * Dismiss the Location Modal and retrive the data to the caller
+  *
   */
   dismiss() {
     // If order has been created, in case of cancel, set the order as canceled
@@ -166,18 +159,6 @@ export class ListingOrderPage {
        total_price = parseFloat(subtotal) + parseFloat(this.listing.delivery_fee);
     }
     return total_price;//.toFixed(2);
-  }
-
-  /**
-  *
-  */
-  setDeliveryAddress(){
-    this.shipping_address = true;
-    this.pickup_address = false;
-  }
-  setCarryoutAddress(){
-    this.shipping_address = false;
-    this.pickup_address = true;
   }
 
   /**

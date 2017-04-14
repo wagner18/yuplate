@@ -17,7 +17,7 @@ export class ListingFormDetailsPage {
   public measure_units: any;
 
   public default_shipping_policies: any = {
-    shipping_processing_time: "1 - 2 days",
+    shipping_processing_time: "1 to 3 days",
     refund_policies: "No refunds, all sales are final.",
     cancellation_policies: "You can cancel your order within 12 hours from the time your order was placed.",
     additional_policies: "If you need to know anything else, feel free to ask, thank you for your business."

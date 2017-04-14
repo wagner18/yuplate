@@ -36,12 +36,34 @@
 	  	</button>
 	  </ion-list>
 
+
+	  <ion-list>
+	  	<ion-item-divider>Servings per portion</ion-item-divider>
+	  	<ion-item>
+	      <ion-label>Measure unit</ion-label>
+        <ion-select formControlName="measure_unit" multiple="false">
+          <ion-option *ngFor="let unit of measure_units" value="{{unit.value}}">
+            {{unit.label}}
+          </ion-option>
+        </ion-select>
+	    </ion-item>
+	    <ion-item>
+	    	<ion-label>Unit Volume</ion-label>
+	      <ion-input formControlName="unit_value" type="number" text-right>
+	      </ion-input>
+	    </ion-item>
+
+			<ion-item-divider></ion-item-divider>
+	    <ion-item class="switcher-item">
+	      <ion-label>Ask Confirmation?</ion-label>
+	      <ion-toggle formControlName="confirmation" checked="false"></ion-toggle>
+		  </ion-item>
+	  </ion-list>
+
 	  
 	  <ion-list>
 
-	  	<ion-item-divider>
-	  		Delivery & Carryout
-	  	</ion-item-divider>
+
 	  	<ion-item class="switcher-item">
 	      <ion-label>Available for Carryout</ion-label>
 	      <ion-toggle formControlName="carryout" checked="false"></ion-toggle>
@@ -51,23 +73,28 @@
 	      <ion-label>Available for Delivery</ion-label>
 	      <ion-toggle formControlName="delivery" checked="false"></ion-toggle>
 	    </ion-item>
+	  </ion-list>
 
+	  <ion-list *ngIf="formDetails.value.delivery || formDetails.value.carryout">
+	   	<ion-list-header>
+	  		Delivery & Carryout information
+			</ion-list-header>
+
+			<button ion-item (click)="presentScheduleModal()" type="button">
+        Schedule itinerary
+      </button>
+      
 	    <ion-item *ngIf="formDetails.value.delivery">
 	      <ion-label fixed>Delivery Fee</ion-label>
 	      <ion-input text-right type="number" formControlName="delivery_fee"></ion-input>
 	    </ion-item>
 
-	    <ion-item *ngIf="formDetails.value.delivery || formDetails.value.carryout">
+	    <ion-item>
       	<ion-label>Processing time</ion-label>
       	<ion-input text-right type="text" formControlName="delivery_processing_time"></ion-input>
     	</ion-item>
-
-    	<button ion-item (click)="presentScheduleModal()" type="button"
-    	*ngIf="formDetails.value.delivery || formDetails.value.carryout">
-        Schedule itinerary
-      </button>
       
-      <ion-item *ngIf="formDetails.value.delivery || formDetails.value.carryout">
+      <ion-item>
 	      <ion-label stacked>Policies & FAQs</ion-label>
 	     	<ion-textarea rows="8" formControlName="delivery_policies" maxlength="800"></ion-textarea>
       </ion-item>
@@ -111,29 +138,6 @@
 	      <ion-textarea rows="8" formControlName="additional_policies" maxlength="800"></ion-textarea>
       </ion-item>
     </ion-list>
-
-    <ion-list>
-	  	<ion-item-divider>Servings per portion</ion-item-divider>
-	  	<ion-item>
-	      <ion-label>Measure unit</ion-label>
-        <ion-select formControlName="measure_unit" multiple="false">
-          <ion-option *ngFor="let unit of measure_units" value="{{unit.value}}">
-            {{unit.label}}
-          </ion-option>
-        </ion-select>
-	    </ion-item>
-	    <ion-item>
-	    	<ion-label>Unit Volume</ion-label>
-	      <ion-input formControlName="unit_value" type="number" text-right>
-	      </ion-input>
-	    </ion-item>
-
-			<ion-item-divider></ion-item-divider>
-	    <ion-item class="switcher-item">
-	      <ion-label>Ask Confirmation?</ion-label>
-	      <ion-toggle formControlName="confirmation" checked="false"></ion-toggle>
-		  </ion-item>
-	  </ion-list>
 
 	</form>
 </ion-content>

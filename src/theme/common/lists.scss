@@ -1,10 +1,12 @@
 // These are the forms and layout lists
 @mixin basic-list-styles($text-color, $icon-color){
+	margin-bottom: 8px;
 
 	ion-item-divider {
-		padding: 15px 0px 0px 15px !important;
+		background-color: color($colors, background, base);
+		/*transparent !important;*/
+		padding: 8px 0px 2px 10px !important;
 		margin: 0px;
-		background-color: transparent !important;
 
 		ion-label {
 			color: $black;
@@ -19,7 +21,7 @@
 	}
 
 	.list-item {
-		background-color: $white;
+		/*background-color: $white;*/
 		@include element-shadow();
 		
 
