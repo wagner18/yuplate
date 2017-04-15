@@ -178,7 +178,33 @@
 	    	</div>
     	</ion-list-header>
 
-  	  <ion-item class="button-select">
+      <ion-item *ngFor="let schedule of listing.schedule">
+      <ion-row>
+        <ion-col width-100 class="schedule-data">
+          <div class="data-item">
+            <div class="item-content">
+
+              <h2 class="item-title ">
+                <ion-icon class="title-icon" ios="ios-calendar" md="md-calendar">
+                </ion-icon>
+                {{ schedule?.day }}
+              </h2>
+
+              <div class="item-description">
+                <h2 class="description-text">
+                  <ion-icon class="description-icon" name="clock"></ion-icon>
+                  <span class="description-label">From: </span>{{ schedule?.from_time }} -
+                  <span class="description-label">To: </span>{{ schedule?.to_time }}
+                </h2>
+              </div>
+
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+
+<!--   	  <ion-item class="button-select">
   	  	<ion-icon icon-left name="calendar"></ion-icon>
         <ion-label>Delivery Date</ion-label>
         <ion-select formControlName="schedule_day" (ngModelChange)="setTimeRange($event)"
@@ -193,7 +219,8 @@
     		<ion-label>Set the time</ion-label>
     		<ion-datetime formControlName="schedule_time" displayFormat="HH:mm"hourValues="{{schedule_time_range?.time_range}}" minuteValues="0,15,30,45">
     		</ion-datetime>
-    	</ion-item>
+    	</ion-item> -->
+      
     </ion-list>
   </form>
 

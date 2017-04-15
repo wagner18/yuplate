@@ -153,29 +153,6 @@ export class ListingService {
     });
   }
 
-
-  /**
-  * Return a list of dates that machs the giben weekdays within 30 days
-  * @param {day, time_range} - availableDays - list of Objects with week days available to the specific listing
-  */
-  getAvailableDays(availableDays){
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = today.getMonth();
-    let date = today.getDate();
-    let days = [];
-
-    for(let i = 0; i < 15; i++){
-      let day = new Date(year, month, date + i);
-      availableDays.find(function(weekday) {
-        if(day.getDay() == weekday.day){
-          days.push(day);
-        }
-      });
-    }
-    return days;
-  }
-
   /**
   *
   */

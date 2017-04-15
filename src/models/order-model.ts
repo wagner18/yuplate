@@ -1,6 +1,6 @@
 
 export class OrderModel{
-  listing: any;
+  listing_snapshot: any;
 
   delivery_option: string = "";
   delivery_address: any;

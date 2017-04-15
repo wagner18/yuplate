@@ -36,7 +36,6 @@ export class ListingOrderPage {
   public formSchedule: FormGroup;
   public current_time: any = new Date();
   public availableDays: Array<any> = [];
-  public scheduleDays: Array<any> = [];
 
   public delivery_time_range: Array<any> = [];
   public schedule_time_range: any;
@@ -45,8 +44,6 @@ export class ListingOrderPage {
 
   public take_today: boolean = false;
   public schedule_delivery: boolean = false;
-  public intime_schedule: boolean = false;
-  
 
   constructor(
     public appCtrl: App,
@@ -79,7 +76,7 @@ export class ListingOrderPage {
     this.listing = this.params.get('listing');
     this.order_key = this.params.get('order');
 
-    if(this.listing.delivery){
+    if(this.listing.delivery || this.listing.shipping){
 
       this.profile = this.profileService.getCurrentProfile();
 
@@ -88,22 +85,6 @@ export class ListingOrderPage {
           return address.primary == true;
         });
       }
-
-      // Set the primary user address
-      // this.profileService.getProfile().then((fatchProfile) => {
-      //   fatchProfile.on("value", (profileSnap) =>{
-      //     if(profileSnap.val()){
-      //       this.userProfile = profileSnap.val();
-      //       if(this.userProfile.addresses !== undefined ){
-      //         this.primaryAddress = this.userProfile.addresses.find(function(address){
-      //           return address.primary == true;
-      //         });
-      //       }
-      //     }
-      //   });
-      // },(error) => {
-      //   console.log(error.message);
-      // });
 
     }else{
       this.formOrder.patchValue({delivery_option: "Carryout"});
@@ -150,7 +131,7 @@ export class ListingOrderPage {
   }
 
   /**
-  * Verify is there is a delivery fee and aplay the fee to the total price is true
+  * Verify if there is a delivery fee and apply the fee to the total price
   * @param subtotal - the quantite multiplied by the main listing price
   */
   setDeliveryFee(subtotal){
@@ -163,15 +144,15 @@ export class ListingOrderPage {
 
   /**
   * Show the profile shipping address screen
-  * Send the user profile data as a parammeter to the target page
+  * Send the user profile object as a parammeter to the target page
   */
   setAddress() {
     this.nav.push(ProfileFormAddressPage, { profile: this.profile });
   }
 
   /**
-  * Show the profile shipping address screen
-  * Send the user profile data as a parammeter to the target page
+  * Show the payment method screen
+  * Send the user profile object as a parammeter to the target page
   */
   setPaymentMethod() {
     this.nav.push(ProfilePaymentMethodPage, { profile: this.profile });
@@ -198,46 +179,16 @@ export class ListingOrderPage {
   }
 
 
-  /** SEND TO THE LISTING SERVICE PROVIDER!!!
+  /** 
   * Set the available dates and range of time from 
   * the listing schedule with the next 30 days
   */
   setSchedule() {
-    // Process the Schedule object to define the business rules
-    this.scheduleDays = this.listing.schedule.map((day, index) => {
-      let time_range = [];
-      let from = parseInt(day.from_time.split(':')[0]);
-      let to   = parseInt(day.to_time.split(':')[0]);
-      let time = from;
-
-      // Set the time range availability
-      while(time <= to){
-        time_range.push(time);
-
-        // Define if the intime schedule are available and
-        // check if the start time is greater than current time
-        if(this.current_time.getDay() == day.day_number){
-          console.log(time,this.current_time.getHours());
-          if(time > this.current_time.getHours()) {
-            this.intime_schedule = true;
-            this.delivery_time_range.push(time);
-            // check if the current time is greater than the start time
-            // if() {}
-          }
-        }
-        time += 1;
-      }
-
-      return {day: day.day_number, time_range: time_range.toString()};
-    });
-
     // User a service method to return the available days within the next 30 days.
-    this.listingService.getAvailableDays(this.scheduleDays).map((day) => {
-      if(day.getDay() != this.current_time.getDay()){
-        this.availableDays.push(day);
-      }
-      //return weekdays[day.getDay()].label +" "+ (day.getMonth()+1) +"/"+ day.getDate();// +"/"+ day.getFullYear();
-    });
+    this.availableDays = this.orderService.setSchedule(this.listing.schedule);
+
+    console.log(this.availableDays);
+  
   }
 
   /**
@@ -246,7 +197,7 @@ export class ListingOrderPage {
   */
   setTimeRange(selectDate) {
     let date = new Date(selectDate);
-    this.schedule_time_range = this.scheduleDays.find((obj) => {
+    this.schedule_time_range = this.availableDays.find((obj) => {
       return obj.day == date.getDay();
     });
   }
@@ -255,7 +206,8 @@ export class ListingOrderPage {
   *
   */
   validOrder(){
-    return (this.formOrder.valid) &&  (this.formSchedule.value.delivery_time != '' ||   this.formSchedule.value.schedule_day != '');
+    return (this.formOrder.valid);
+     // &&  (this.formSchedule.value.delivery_time != '' ||   this.formSchedule.value.schedule_day != '');
   }
 
   /** - MOVE THE ORDER OBJECT THE THE ORDER SERVICE PROVIDER!!!!!
@@ -281,12 +233,10 @@ export class ListingOrderPage {
         this.order_schedule.setMinutes(schedule_time[1]);
         this.order_schedule.setSeconds(0);;
       }
-
-
       console.log(this.order_schedule);
-      // Base listing data
-      let summarized_listing = this.listingService.summarizeListing(this.listing);
-      this.order.listing = summarized_listing;
+
+      // Set a Listing snapshot to the order object
+      this.order.listing_snapshot = this.listing;
 
       // Form data
       this.order.quantity = this.formOrder.value.quantity;
@@ -307,6 +257,7 @@ export class ListingOrderPage {
       // Set the order status history
       this.order.status_history.push(order_labels.open);
 
+      // Update the order with the given key
       if(this.order_key){
         this.orderService.updateOrder(this.order_key, this.order).then(()=>{
           console.log(this.order);
@@ -318,7 +269,9 @@ export class ListingOrderPage {
         .catch((error)=>{
           console.log(error.message);
         });
-      }else{
+      }
+      // Create a new order
+      else{ 
         // Save the data to the database
         this.orderService.createOrder(this.order).then((result)=>{
           this.order_key = result.key;

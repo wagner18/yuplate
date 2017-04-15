@@ -6,7 +6,7 @@ page-listing-details {
 		.item-card-content {
 			@include basic-card-styles($black-d);
 			/*position: relative;*/
-			margin-bottom: 20px;
+			margin-bottom: 5px;
 
 			.item-profile {
 				background: $white-a;
