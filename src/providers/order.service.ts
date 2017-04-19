@@ -65,45 +65,20 @@ export class OrderService {
   * the listing schedule with the next 30 days
   * @param schedulesDays = List with the schedule objects
   */
-  setSchedule(schedules: Array<any>) {
-    let availableDays: Array<any> = [];
+  setItinerary(schedules: Array<any>) {
     // Process the Schedule object to define the business rules
     schedules = schedules.map((day, index) => {
       let time_range = [];
       let from = parseInt(day.from_time.split(':')[0]);
       let to   = parseInt(day.to_time.split(':')[0]);
-      let time = from;
-
-      // Set the time range availability
-      while(time <= to){
-        time_range.push(time);
-
-        // Define if the intime schedule are available and
-        // check if the start time is greater than current time
-        if(this.current_time.getDay() == day.day_number){
-
-          if(time > this.current_time.getHours()) {
-            // let intime_schedule = true;
-            // this.delivery_time_range.push(time);
-
-            console.log("Processing Time!",time);
-            // check if the current time is greater than the start time
-            // if() {}
-          }
-        }
-        time += 1;
-      }
-
-      return {day: day.day_number, time_range: time_range.toString()};
+      return {day: day.day_number, from: from, to: to};
     });
 
+    let availableDays: Array<any> = [];
     // User a service method to return the available days within the next 30 days.
     this.getAvailableDays(schedules).map((day) => {
-      if(day.getDay() != this.current_time.getDay()){
         availableDays.push(day);
-      }
     });
-
     return availableDays;
   }
 
@@ -120,9 +95,24 @@ export class OrderService {
 
     for(let i = 0; i < 15; i++){
       let day = new Date(year, month, date + i);
-      availableDays.find(function(weekday) {
+      availableDays.find((weekday) => {
         if(day.getDay() == weekday.day){
-          days.push(day);
+
+          let time_range = [];
+          let time = weekday.from;
+          // Set the time range availability
+          while(time <= weekday.to){
+            // check time availability to the current day
+            if(this.current_time.getDate() == day.getDate()){
+              if(time > this.current_time.getHours()) {
+                time_range.push(time);
+              }
+            }else{
+              time_range.push(time);
+            }
+            time += 1;
+          }
+          days.push({day:day, time_range: time_range.toString()});
         }
       });
     }

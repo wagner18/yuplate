@@ -23,7 +23,7 @@ page-listing-order {
 
 
 			.delivery-options {
-				padding: 10px;
+				padding: 0px 10px 0px 10px;
 
 				.segment-button {
 					&.segment-activated	{
@@ -68,6 +68,35 @@ page-listing-order {
 				font-weight: 400;
 				color: $text-color;
 				text-transform: none;
+			}
+
+
+			.multi-input-row {
+				background-color: $white;
+				@include align-items(flex-end);
+
+				ion-col {
+					padding: 0px;
+
+					&:first-child{
+						padding-left: 0px;
+					}
+
+					&:last-child{
+						padding-right: 0px;
+					}
+				}
+
+				.multi-input	{
+					margin: 0px;
+
+					ion-datetime {
+						padding-left: 0px;
+						.datetime-text	{
+							color: $theme-color-2;
+						}
+					}
+				}
 			}
 
 		}

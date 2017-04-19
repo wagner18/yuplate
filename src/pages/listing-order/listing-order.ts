@@ -37,13 +37,17 @@ export class ListingOrderPage {
   public current_time: any = new Date();
   public availableDays: Array<any> = [];
 
-  public delivery_time_range: Array<any> = [];
-  public schedule_time_range: any;
   public order_schedule: any;
-  
 
   public take_today: boolean = false;
   public schedule_delivery: boolean = false;
+
+  public dateMin: string = "2017-04-18";
+  public dateMax: string = "2017-05-02";
+  public monthValues: Array<number> = [];
+  public dayValues: Array<number> = [19,20,27,2];
+  public hourValues: Array<number> = [8,9,10,11,12,13,14,15];
+  public minuteValues: Array<number> = [0,15,30,45];
 
   constructor(
     public appCtrl: App,
@@ -67,7 +71,7 @@ export class ListingOrderPage {
     this.formSchedule = new FormGroup({
       delivery_time: new FormControl(''),
       schedule_day: new FormControl(''),
-      schedule_time: new FormControl('')
+      schedule_time: new FormControl({value: '', disabled: true})
     });
 
   }
@@ -165,7 +169,7 @@ export class ListingOrderPage {
     this.take_today = true;
     this.schedule_delivery = false;
     // Set the date availability to schedule
-    this.setSchedule();
+    this.setItinerary();
   }
 
   /**
@@ -175,7 +179,7 @@ export class ListingOrderPage {
     this.schedule_delivery = true;
     this.take_today = false;
     // Set the date availability to schedule
-    this.setSchedule();
+    this.setItinerary();
   }
 
 
@@ -183,12 +187,28 @@ export class ListingOrderPage {
   * Set the available dates and range of time from 
   * the listing schedule with the next 30 days
   */
-  setSchedule() {
+  setItinerary() {
     // User a service method to return the available days within the next 30 days.
-    this.availableDays = this.orderService.setSchedule(this.listing.schedule);
+    this.availableDays = this.orderService.setItinerary(this.listing.schedule);
 
-    console.log(this.availableDays);
-  
+    //set the minimum date parammeter
+    let firstDay = this.availableDays[0].day;
+    this.dateMin = firstDay.getFullYear() +"-"+ firstDay.getMonth() +"-"+ firstDay.getDate();
+
+    //set the maximum date parammeter
+    let lastDay = this.availableDays[this.availableDays.length - 1].day;
+    this.dateMax = lastDay.getFullYear() +"-"+ lastDay.getMonth() +"-"+ lastDay.getDate();
+
+    console.log(this.dateMin, this.dateMax);
+
+
+    this.availableDays.forEach((day, index) => {
+      // set the month range
+      this.monthValues.push(day.day.getMonth());
+      console.log("Months - ", day.day.getMonth());
+    });
+
+    console.log("Days ---- ",this.availableDays);
   }
 
   /**
@@ -197,7 +217,7 @@ export class ListingOrderPage {
   */
   setTimeRange(selectDate) {
     let date = new Date(selectDate);
-    this.schedule_time_range = this.availableDays.find((obj) => {
+    let schedule_time_range = this.availableDays.find((obj) => {
       return obj.day == date.getDay();
     });
   }

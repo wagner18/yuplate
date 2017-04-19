@@ -37,7 +37,7 @@
 		</ion-list>
 
     <ion-list class="delivery-options">
-      <ion-list-header no-lines> Delivery Options </ion-list-header>
+      <ion-list-header> Delivery Options </ion-list-header>
       <ion-segment color="dark" formControlName="delivery_option">
         <ion-segment-button value="Delivery" *ngIf="listing.delivery">
           Delivery
@@ -146,6 +146,29 @@
       </ion-item>
     </ion-list>
 
+
+    <ion-list *ngIf="schedule_delivery">
+      <ion-list-header>
+        Schedule your delivery
+      </ion-list-header>
+
+      <ion-row no-padding class="multi-input-row">
+        <ion-col width-50>
+          <ion-item class="multi-input time-item">
+            <ion-label>Date</ion-label>
+            <ion-datetime formControlName="schedule_day" displayFormat="MMM DD" pickerFormat="MMM-DD" [min]="dateMin" [max]="dateMax" [monthValues]="monthValues" [dayValues]="dayValues">
+            </ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col width-50>
+          <ion-item class="multi-input time-item">
+            <ion-label>Time</ion-label>
+            <ion-datetime formControlName="schedule_time" displayFormat="hh mm a" pickerFormat="hh mm a" [hourValues]="hourValues" [minuteValues]="minuteValues">
+            </ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
 <!--     <ion-list *ngIf="take_today">
       <ion-list-header>
         Estimated Delivery Time
@@ -170,57 +193,34 @@
       </ion-item>
     </ion-list> -->
 
-    <ion-list *ngIf="schedule_delivery">
-    	<ion-list-header>
-    		Schedule
-	    	<div class="list-sub-header">
-	    		Shows the available schedule to the next 15 days
-	    	</div>
-    	</ion-list-header>
 
-      <ion-item *ngFor="let schedule of listing.schedule">
-      <ion-row>
-        <ion-col width-100 class="schedule-data">
-          <div class="data-item">
-            <div class="item-content">
 
-              <h2 class="item-title ">
-                <ion-icon class="title-icon" ios="ios-calendar" md="md-calendar">
-                </ion-icon>
-                {{ schedule?.day }}
-              </h2>
+<!--       <button ion-item *ngFor="let schedule of listing.schedule">
+        <ion-row>
+          <ion-col width-100 class="schedule-data">
+            <div class="data-item">
+              <div class="item-content">
 
-              <div class="item-description">
-                <h2 class="description-text">
-                  <ion-icon class="description-icon" name="clock"></ion-icon>
-                  <span class="description-label">From: </span>{{ schedule?.from_time }} -
-                  <span class="description-label">To: </span>{{ schedule?.to_time }}
+                <h2 class="item-title ">
+                  <ion-icon class="title-icon" ios="ios-calendar" md="md-calendar">
+                  </ion-icon>
+                  {{ schedule?.day }}
                 </h2>
+
+                <div class="item-description">
+                  <h2 class="description-text">
+                    <ion-icon class="description-icon" name="clock"></ion-icon>
+                    <span class="description-label">From: </span>{{ schedule?.from_time }} -
+                    <span class="description-label">To: </span>{{ schedule?.to_time }}
+                  </h2>
+                </div>
+
               </div>
-
             </div>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-item>
+          </ion-col>
+        </ion-row>
+      </button> -->
 
-<!--   	  <ion-item class="button-select">
-  	  	<ion-icon icon-left name="calendar"></ion-icon>
-        <ion-label>Delivery Date</ion-label>
-        <ion-select formControlName="schedule_day" (ngModelChange)="setTimeRange($event)"
-         multiple="false">
-          <ion-option *ngFor="let date of availableDays" value="{{date}}">
-            {{date.toDateString()}}
-          </ion-option>
-        </ion-select>
-      </ion-item>
-
-    	<ion-item>
-    		<ion-label>Set the time</ion-label>
-    		<ion-datetime formControlName="schedule_time" displayFormat="HH:mm"hourValues="{{schedule_time_range?.time_range}}" minuteValues="0,15,30,45">
-    		</ion-datetime>
-    	</ion-item> -->
-      
     </ion-list>
   </form>
 
