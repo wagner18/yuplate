@@ -18,7 +18,7 @@
 
     <ion-slides (click)="presentImageModal()">
       <ion-slide *ngFor="let media of listing?.medias" style="background-color: white">
-        <preload-image [ratio]="{w:3, h:3}" [src]="media.media_path" title="listing.title"></preload-image>
+        <preload-image [ratio]="{w:4, h:3}" [src]="media.media_path" title="listing.title"></preload-image>
       </ion-slide>
     </ion-slides>
 
@@ -49,8 +49,7 @@
       <ion-row no-padding>
         <ion-col no-padding text-left width-50>
           <h2 class="item-price" item-right>
-            {{ listing.currency }}
-            {{ listing.main_price }}
+            {{ listing.main_price | currency: listing.currency: true:'1.2-2'}}
           </h2>
         </ion-col>
         <ion-col no-padding text-right width-50>
@@ -79,7 +78,7 @@
         {{listing.description}}
       </p>
     </ion-item>
-    
+
     <ion-item>
       <ion-icon item-left class="description-icon" name="restaurant"></ion-icon>
       <ion-label>{{ listing.measure_unit }} </ion-label>
@@ -159,8 +158,8 @@
               <div class="item-description">
                 <h2 class="description-text">
                   <ion-icon class="description-icon" name="clock"></ion-icon>
-                  <span class="description-label">From: </span>{{ schedule?.from_time }} -
-                  <span class="description-label">To: </span>{{ schedule?.to_time }}
+                  <span class="description-label">From: </span>{{ schedule?.from_time | momentPipe: ['hh:mm a', 'HH:mm'] }} -
+                  <span class="description-label">To: </span>{{ schedule?.to_time | momentPipe: ['hh:mm a', 'HH:mm'] }}
                 </h2>
               </div>
 
@@ -209,8 +208,7 @@
 		<ion-row class="footer-row">
 			<ion-col width-60>
 				<div class="footer-text">
-					{{ listing.currency }}
-     			{{ listing.main_price }}
+     			{{ listing.main_price | currency: listing.currency: true:'1.2-2' }}
    			</div>
 <!--         <div class="footer-rate">
           <rating  [ngModel]="listing.total_rate" max="5" read-only="true"></rating>

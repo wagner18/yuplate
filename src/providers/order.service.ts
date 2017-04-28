@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import * as moment from 'moment';
+
 // import { Http } from '@angular/http';
 // import 'rxjs/add/operator/map';
 
@@ -69,50 +71,53 @@ export class OrderService {
     // Process the Schedule object to define the business rules
     schedules = schedules.map((day, index) => {
       let time_range = [];
-      let from = parseInt(day.from_time.split(':')[0]);
-      let to   = parseInt(day.to_time.split(':')[0]);
+      let from = day.from_time.split(':');
+      let to   = day.to_time.split(':');
       return {day: day.day_number, from: from, to: to};
     });
 
-    let availableDays: Array<any> = [];
     // User a service method to return the available days within the next 30 days.
-    this.getAvailableDays(schedules).map((day) => {
-        availableDays.push(day);
-    });
-    return availableDays;
+    schedules = this.getScheduleObject(schedules);
+
+    console.log("xXXXXXXx",schedules);
+    return schedules;
   }
 
   /**
   * Return a list of dates that machs the giben weekdays within 30 days
   * @param {day, time_range} - availableDays - list of Objects with week days available to the specific listing
   */
-  getAvailableDays(availableDays){
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = today.getMonth();
-    let date = today.getDate();
+  getScheduleObject(availableDays){
     let days = [];
-
     for(let i = 0; i < 15; i++){
-      let day = new Date(year, month, date + i);
-      availableDays.find((weekday) => {
-        if(day.getDay() == weekday.day){
 
-          let time_range = [];
-          let time = weekday.from;
-          // Set the time range availability
-          while(time <= weekday.to){
-            // check time availability to the current day
-            if(this.current_time.getDate() == day.getDate()){
-              if(time > this.current_time.getHours()) {
-                time_range.push(time);
-              }
+      let day = moment().add(i, 'd'); //new Date(year, month, date + i);
+      availableDays.find((weekday) => {
+        let isValidDay: boolean = true;
+        if(day.day() == weekday.day){
+
+          // check time availability to the current day
+          if(this.current_time.getDate() == day.date()){
+            let to = parseInt(weekday.to[0]);
+            if(this.current_time.getHours() >= to){
+               isValidDay = false;
+               alert(this.current_time.getHours() + "NOTTTT"+ to);
             }else{
-              time_range.push(time);
+              let from = parseInt(weekday.from[0]);
+              if(from < this.current_time.getHours()) {
+                weekday.from[0] = this.current_time.getHours() + 1;
+              }
             }
-            time += 1;
           }
-          days.push({day:day, time_range: time_range.toString()});
+
+          if(isValidDay){
+            let time_range = {min: "", max: ""};
+            time_range.min = day.format("YYYY-MM-DD") +"T"+ weekday.from.join(":");
+            time_range.max = day.format("YYYY-MM-DD") +"T"+ weekday.to.join(":");
+
+            days.push({moment: day, time_range: time_range});
+          }
+          
         }
       });
     }

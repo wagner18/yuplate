@@ -10,14 +10,16 @@ page-listing-order {
 				font-size: 1.6rem;
 
 				.text-title {
-					font-weight: 500px;
+					white-space: pre-line;
+					font-size: 1.8rem;
+					font-weight: 500;
 				}
 
 				.price-label {
-					text-align: right;
+					margin: 0px; 
+					text-align: left;
 					color: $theme-color-2;
 					font-weight: 600;
-					content: " USD";
 				}
 			}
 

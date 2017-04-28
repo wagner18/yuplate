@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController, ViewController, NavParams } from 'ionic-angular';
+import * as moment from 'moment';
 // import { FullDateFormat } from '../../app/pipes/full-date-format';
 
 import { AuthService } from '../../providers/auth.service';
@@ -46,8 +47,8 @@ export class OrderCheckoutPage {
   	console.log(this.order);
 
   	//Set a data object to the schedule's timestamp
-  	this.schedule = new Date(this.order.delivery_schedule);
-    this.schedule = this.schedule.toString().slice(0,21);// + " " + this.delivery_schedule.getHours() +":"+ this.delivery_schedule.getMinutes();
+  	this.schedule = moment(this.order.delivery_schedule).format("LLLL");
+    // this.schedule = this.schedule.toString().slice(0,21);// + " " + this.delivery_schedule.getHours() +":"+ this.delivery_schedule.getMinutes();
 
   	// Set the shipping address - if for delivery
   	if(this.order.delivery_option == "Delivery") {

@@ -19,21 +19,20 @@
   	<ion-item item-left>
 	    <ion-row>
 	    	<ion-col width-30>
-	    		<preload-image [ratio]="{w:1, h:1}" [src]="order.listing.medias[0].media_path">
+	    		<preload-image [ratio]="{w:1, h:1}" [src]="order.listing_snapshot.medias[0].media_path">
           </preload-image>
         </ion-col>
 	    	<ion-col widht-70>
-	    		<h2 text-left>{{ order.listing.title }}</h2>
+	    		<h2 text-left>{{ order.listing_snapshot.title }}</h2>
 			    <h2 text-left>Quantity: {{ order.quantity }}</h2>
 			    <h2 text-left *ngIf="show_delivery_fee">
 			    	<!-- Implemente currency pipi!! -->
-			    	Delivery fee: {{ order.listing.price.currency }} ${{ order.listing.delivery_fee }}
+			    	Delivery fee: {{ order.listing_snapshot.delivery_fee | currency: order.listing_snapshot.currency: true:'1.2-2' }}
 			    </h2>
 			    <div class="price-label" item-right>
 			    	<!-- Implemente currency pipi!! -->
 			    	Price: 
-			    	{{ order.listing.price.currency }}
-			    	${{ order.subtotal }}
+			    	{{ order.subtotal | currency: order.listing_snapshot.currency: true:'1.2-2' }}
 			    </div>
 	    	</ion-col>
 	    </ion-row>
@@ -60,11 +59,9 @@
 
   <ion-list>
   	<ion-item>
-  		<h2>Total Price:</h2>
+  		<h2>Total Price: </h2>
   		<h2 class="price-label" item-right>
-	    	<!-- Implemente currency pipi!! -->
-	    	{{ order.listing.price.currency }}
-	    	${{ order.total_price }}
+	    	{{ order.total_price | currency: order.listing_snapshot.currency: true:'1.2-2'}}
 	    </h2>
   	</ion-item>
   </ion-list>
@@ -107,7 +104,7 @@
 		    	</div>
 		    </ion-list-header>
 		    <ion-item class="address-primary">
-		      <h2 class="address-title">{{ order.listing?.location.address }}</h2>
+		      <h2 class="address-title">{{ order.listing_snapshot?.location.address }}</h2>
 		    </ion-item>
 		  </ion-list>
 
@@ -136,7 +133,7 @@
 	<ion-toolbar class="checkout-footer">
 		<p class="footer-text" item-left>
 			Total Price:
-			<span>{{ order.listing.price.currency }} {{ order.total_price }}</span>
+			<span>{{ order.total_price  | currency: order.listing_snapshot.currency: true:'1.2-2'}}</span>
 		</p>
     <ion-buttons end>
   		<button ion-button class="checkout-button" (click)="proceedPayment()" item-right  icon-left>

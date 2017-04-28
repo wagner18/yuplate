@@ -12,10 +12,7 @@
 <ion-content class="order-content">
 	<form class="form-style" [formGroup]="formOrder">
     <ion-list>
-    	<ion-list-header>
-    		Your Order
-    	</ion-list-header>
-
+    	<ion-item-divider>Your Order</ion-item-divider>
     	<ion-item item-left>
         <ion-row>
           <ion-col width-30>
@@ -27,8 +24,7 @@
             <p text-left>{{ listing.measure_unit }}: {{ listing.unit_value }}</p>
 <!--             <p text-left>{{ listing.listing_type }}</p> -->
             <div class="price-label" item-right>
-              {{ listing.currency }}
-              {{ listing.main_price }}
+              {{ listing.main_price | currency: listing.currency: true:'1.2-2' }}
             </div>
           </ion-col>
         </ion-row>
@@ -37,7 +33,8 @@
 		</ion-list>
 
     <ion-list class="delivery-options">
-      <ion-list-header> Delivery Options </ion-list-header>
+      <!-- <ion-list-header> Delivery Options </ion-list-header> -->
+      <ion-item-divider> Delivery Options </ion-item-divider>
       <ion-segment color="dark" formControlName="delivery_option">
         <ion-segment-button value="Delivery" *ngIf="listing.delivery">
           Delivery
@@ -60,19 +57,19 @@
   	    </ion-item>
         <ion-item>
           <h2>Order Subtotal:</h2>
-          <h2 item-right>${{subtotal}}</h2>
+          <h2 item-right>{{subtotal | currency: listing.currency: true:'1.2-2' }}</h2>
   	    </ion-item>
         <ion-item *ngSwitchCase="'Delivery'">
           <h2>Delivery Fee:</h2>
-          <h2 item-right>${{listing.delivery_fee}}</h2>
+          <h2 item-right>{{listing.delivery_fee | currency: listing.currency: true:'1.2-2' }}</h2>
         </ion-item>
         <ion-item *ngSwitchCase="'Shipping'">
           <h2>Shipping Fee:</h2>
-          <h2 item-right>${{listing.shipping_fee}}</h2>
+          <h2 item-right>{{listing.shipping_fee | currency: listing.currency: true:'1.2-2' }}</h2>
         </ion-item>
         <ion-item>
           <h2>Estimated Tax:</h2>
-          <h2 item-right>$ 0.00</h2>
+          <h2 item-right>$0.00</h2>
         </ion-item>
         <ion-item>
           <ion-label>Total:</ion-label>
@@ -81,13 +78,13 @@
   	  </ion-list>
 
       <ion-list *ngIf="formOrder.value.delivery_option == 'Delivery' || formOrder.value.delivery_option == 'Shipping'">
-        <ion-list-header>
+        <ion-item-divider>
           <p *ngSwitchCase="'Delivery'">Delivery Address</p>
           <p *ngSwitchCase="'Shipping'">Shipping Address</p>
           <div class="list-sub-header">
             Your address will be shown only after confirmed
           </div>
-        </ion-list-header>
+        </ion-item-divider>
 
         <ion-item *ngSwitchCase="'Shipping'">
           <h2 class="content-title" ion-text>
@@ -116,9 +113,9 @@
       </ion-list>
 
       <ion-list *ngSwitchCase="'Carryout'">
-        <ion-list-header>
+        <ion-item-divider>
           Carryout Address
-        </ion-list-header>
+        </ion-item-divider>
         <ion-item>
           <h2 class="content-title" ion-text>
             Processing time
@@ -135,35 +132,49 @@
 
   <form class="form-style" [formGroup]="formSchedule" *ngIf="formOrder.value.delivery_option == 'Delivery' || formOrder.value.delivery_option == 'Carryout'">
     <ion-list radio-group>
-      <ion-item>
-        <ion-label>Take it ASAP</ion-label>
-        <ion-radio value="schuedule_asap" (click)="setScheduleIntime()"></ion-radio>
+
+      <ion-item *ngIf="!isAvailableToday">
+        <h2>Not Available Today</h2>
+        <p>You can schedule a delivery to the next available day.</p>
+      </ion-item>
+      <ion-item *ngIf="isAvailableToday">
+        <ion-label>Take it today ASAP</ion-label>
+        <ion-radio value="schuedule_asap" (click)="setScheduleDelivery('intime')"></ion-radio>
       </ion-item>
 
       <ion-item>
         <ion-label>Schedule Delivery</ion-label>
-        <ion-radio value="schedule_delivery" (click)="setScheduleDelivery()"></ion-radio>
+        <ion-radio value="schedule_delivery" (click)="setScheduleDelivery('schedule')"></ion-radio>
       </ion-item>
     </ion-list>
 
+    <ion-list *ngIf="schedule_delivery == 'intime'">
+      <ion-item-divider>
+        Estimated Delivery
+      </ion-item-divider>
+      <ion-item>
+        <h2 color="secondary" >{{ take_today.calendar() }}</h2>
+      </ion-item>
+    </ion-list>
 
-    <ion-list *ngIf="schedule_delivery">
-      <ion-list-header>
+    <ion-list *ngIf="schedule_delivery == 'schedule'">
+      <ion-item-divider>
         Schedule your delivery
-      </ion-list-header>
+      </ion-item-divider>
 
       <ion-row no-padding class="multi-input-row">
-        <ion-col width-50>
+        <ion-col width-60>
           <ion-item class="multi-input time-item">
             <ion-label>Date</ion-label>
-            <ion-datetime formControlName="schedule_day" displayFormat="MMM DD" pickerFormat="MMM-DD" [min]="dateMin" [max]="dateMax" [monthValues]="monthValues" [dayValues]="dayValues">
+            <ion-datetime formControlName="schedule_day" displayFormat="MMM DD DDD" pickerFormat="YYYY MMM DD" (ionChange)="setTimeRange()" [min]="dateMin" [max]="dateMax" [monthValues]="monthValues" [dayValues]="dayValues">
             </ion-datetime>
           </ion-item>
         </ion-col>
-        <ion-col width-50>
+        <ion-col width-40>
           <ion-item class="multi-input time-item">
             <ion-label>Time</ion-label>
-            <ion-datetime formControlName="schedule_time" displayFormat="hh mm a" pickerFormat="hh mm a" [hourValues]="hourValues" [minuteValues]="minuteValues">
+            <ion-datetime formControlName="schedule_time" displayFormat="hh:mm a" pickerFormat="HH:mm" [min]="time_range.min" [max]="time_range.max">
+            <!-- [hourValues]="hourValues" [minuteValues]="minuteValues"> -->
             </ion-datetime>
           </ion-item>
         </ion-col>
@@ -228,7 +239,7 @@
 
 <ion-footer>
 	<ion-toolbar class="checkout-footer">
-    <p ion-text>Total: {{listing.currency}} {{formOrder.value.total_price}}</p>
+    <p ion-text>Total: {{formOrder.value.total_price | currency: listing.currency: true:'1.2-2' }}</p>
     <ion-buttons end>
   		<button ion-button class="checkout-button" (click)="checkoutOrder()" item-right  icon-left>
         <ion-icon item-left ios="ios-cart" md="md-cart"></ion-icon>

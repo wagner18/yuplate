@@ -110,14 +110,17 @@
   <!-- <ion-row class="feed-item"> -->
 
     <ion-list no-lines>
-
-      <ion-card 
-        class="item-card-content" 
-        *ngFor="let listing of listings; let index = index ">
+      
+      <!-- <ion-card class="item-card-content"> -->
+      <div class="item-card-content" *ngFor="let listing of listings; let index = index ">
 
         <preload-image [ratio]="{w:4, h:3}" [src]="listing.medias[0].media_path"
         (click)="listingDetails(index)">
         </preload-image>
+
+<!--         <preload-image [ratio]="{w:4, h:3}" [src]="listing.medias[0].media_path"
+        (click)="listingDetails(index)">
+        </preload-image> -->
 
 <!--    <ion-slides [options]="slideOptions">
           <ion-slide *ngFor="let media of listing.medias" style="background-color: white">
@@ -125,8 +128,7 @@
           </ion-slide>
         </ion-slides> -->
         <ion-badge class="price-badge" item-right>
-          {{ listing.currency }}
-          {{ listing.main_price }}
+          {{ listing.main_price | currency: listing.currency: true:'1.2-2' }}
         </ion-badge>
 
         <ion-card-title class="item-title">
@@ -138,7 +140,7 @@
         </p>
 
         <ion-row class="status-row">
-          <ion-col no-padding width-35 text-center>
+          <ion-col no-padding width-30 text-center>
             <rating [ngModel]="listing.total_rate" max="5" read-only="true"></rating>
           </ion-col>
           <ion-col no-padding width-40 text-center>
@@ -147,7 +149,7 @@
               {{listing.total_reviews}} Reviews
             </button>
           </ion-col>
-          <ion-col no-padding width-25 text-right>
+          <ion-col no-padding width-30 text-right>
             <button class="action-button" ion-button clear small icon-left>
               <ion-icon name='md-share'></ion-icon>
               Share
@@ -162,7 +164,8 @@
           <h2>{{ listing.short_profile?.fullName }}</h2>
         </ion-item>
 
-      </ion-card>
+      <!-- </ion-card> -->
+      </div>
 
     </ion-list>
 

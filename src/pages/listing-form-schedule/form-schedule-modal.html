@@ -20,7 +20,7 @@
 
     <form class="form-style" [formGroup]="formScheduleModal">
 
-	    <section class="form-section">
+	    <section>
 <!-- 	      <h2 class="section-title">
 	        <p>Hello! Here you can manage your listing schedule </p>
 	        <p>Set up each day and the range of time that your 
@@ -28,8 +28,7 @@
 	      </h2> -->
 	  	</section>
 
-      <section class="form-section">
-
+      <section class="section-button">
         <ion-item no-lines class="button-select">
           <ion-label>Day</ion-label>
           <ion-select formControlName="day" multiple="false">
@@ -38,29 +37,28 @@
             </ion-option>
           </ion-select>
         </ion-item>
-<!--         <ion-item>
-          <ion-label>Week Day</ion-label>
-          <ion-datetime formControlName="day" displayFormat="DDD"
-          dayNames="Tuesday, Wednesday, thursday, Friday, Satarday">
-          </ion-datetime>
-        </ion-item> -->
-
-        <ion-row no-padding class="multi-input-row">
-          <ion-col no-padding width-50>
-            <ion-item class="multi-input time-item">
-            	<ion-label fix>From</ion-label>
-              <ion-datetime formControlName="from_time" displayFormat="HH:mm"></ion-datetime>
-            </ion-item>
-          </ion-col>
-          <ion-col no-padding width-50>
-            <ion-item class="multi-input time-item">
-            	<ion-label fix>To</ion-label>
-              <ion-datetime formControlName="to_time" displayFormat="HH:mm" minuteValues="0,15,30,45"></ion-datetime>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-
       </section>
+<!--         <ion-item>
+        <ion-label>Week Day</ion-label>
+        <ion-datetime formControlName="day" displayFormat="DDD"
+        dayNames="Tuesday, Wednesday, thursday, Friday, Satarday">
+        </ion-datetime>
+      </ion-item> -->
+      <ion-item-divider> Set the range of time</ion-item-divider>
+      <ion-row no-padding class="multi-input-row">
+        <ion-col no-padding width-50>
+          <ion-item class="multi-input time-item">
+          	<ion-label fix>From</ion-label>
+            <ion-datetime formControlName="from_time" displayFormat="hh:mm a" minuteValues="0,15,30,45"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col no-padding width-50>
+          <ion-item class="multi-input time-item">
+          	<ion-label fix>To</ion-label>
+            <ion-datetime formControlName="to_time" displayFormat="hh:mm a" minuteValues="0,15,30,45"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
       
     </form>
 

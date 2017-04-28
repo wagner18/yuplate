@@ -16,10 +16,10 @@
 	ion-item-divider {
 		background-color: color($colors, background, base);
 		/*transparent !important;*/
-		padding: 4px 0px 2px 5px !important;
+		padding: 4px 0px 2px 15px !important;
 		margin: 0px;
 
-		ion-label {
+		ion-label, p {
 			color: $black;
 			font-size: 1.5rem;
 			font-weight: 500;

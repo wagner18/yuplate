@@ -100,7 +100,7 @@ page-listing-details {
 						padding-right: 5px;
 
 						.title-icon	{
-							color: $black-c;
+							color: $theme-color-2;
 							flex: 0 0 12%;
 					    max-width: 12%;
 							padding-right: 2px;
@@ -112,7 +112,7 @@ page-listing-details {
 							font-size: 1.6rem;
 							font-weight: 400;
 							letter-spacing: 0.2px;
-							color: $black-c;
+							color: $theme-color-2;
 							margin-bottom: 0px;
 
 						}
@@ -128,7 +128,7 @@ page-listing-details {
 							}
 
 							.description-icon	{
-								color: $white-d;
+								color: $black-c;
 								flex: 0 0 12%;
 						    max-width: 12%;
 								padding-right: 2px;
@@ -147,7 +147,7 @@ page-listing-details {
 								font-size: 1.5rem;
 								line-height: 1.4;
 								letter-spacing: 0.2px;
-								color: $white-d;
+								color: $black-c;
 							}
 						}
 

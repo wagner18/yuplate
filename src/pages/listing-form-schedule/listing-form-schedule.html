@@ -51,8 +51,8 @@
                       <div class="item-description">
                         <h2 class="description-text">
                           <ion-icon class="description-icon" name="clock"></ion-icon>
-                          <span class="description-label">From: </span>{{schedule?.from_time}} -
-                          <span class="description-label">To: </span>{{schedule?.to_time}}
+                          <span class="description-label">From: </span>{{schedule?.from_time | momentPipe: ['hh:mm a', 'HH:mm']}} -
+                          <span class="description-label">To: </span>{{schedule?.to_time | momentPipe: ['hh:mm a', 'HH:mm']}}
                         </h2>
                       </div>
 

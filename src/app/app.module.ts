@@ -70,6 +70,11 @@ import { Rating } from '../components/rating/rating';
 import { ZoomableImage } from '../components/zoomable-image/zoomable-image';
 
 /*
+ Pipes
+*/
+import { MomentPipe } from './pipes/moment-pipe';
+
+/*
     Import providers
 */
 import { DataService } from '../providers/data.service';
@@ -129,7 +134,9 @@ declare var cordova: any;
     CounterInput,
     Rating,
     GalleryModal,
-    ZoomableImage
+    ZoomableImage,
+
+    MomentPipe
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -142,7 +149,9 @@ declare var cordova: any;
               scrollAssist: false, 
               autoFocusAssist: false 
             }
-        }
+        },
+        dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        dayShortNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     }),
     IonicStorageModule.forRoot()
   ],

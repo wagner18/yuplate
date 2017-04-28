@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { App, NavController, ViewController, NavParams } from 'ionic-angular';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
+import * as moment from 'moment';
 // import { counterRangeValidator } from '../../components/counter-input/counter-input';
 // import { Observable } from 'rxjs/Observable';
 
@@ -34,20 +35,19 @@ export class ListingOrderPage {
 
   // Schedule properties
   public formSchedule: FormGroup;
-  public current_time: any = new Date();
   public availableDays: Array<any> = [];
 
-  public order_schedule: any;
+  public take_today: any;
+  public schedule_delivery: string;
 
-  public take_today: boolean = false;
-  public schedule_delivery: boolean = false;
+  public isAvailableToday: boolean = false;
 
   public dateMin: string = "2017-04-18";
   public dateMax: string = "2017-05-02";
-  public monthValues: Array<number> = [];
-  public dayValues: Array<number> = [19,20,27,2];
-  public hourValues: Array<number> = [8,9,10,11,12,13,14,15];
-  public minuteValues: Array<number> = [0,15,30,45];
+  public monthValues: Array<string> = [];
+  public dayValues: Array<string> = [];
+  public time_range: any = {};
+
 
   constructor(
     public appCtrl: App,
@@ -102,6 +102,8 @@ export class ListingOrderPage {
   ionViewDidLoad() {
     this.subtotal = this.listing.main_price;
     this.formOrder.patchValue({total_price: this.setDeliveryFee(this.subtotal)});
+    // Set the date availability to schedule
+    this.setItinerary();
   }
 
   /**
@@ -163,23 +165,14 @@ export class ListingOrderPage {
   }
 
   /**
-  *
+  * @param option
   */
-  setScheduleIntime() {
-    this.take_today = true;
-    this.schedule_delivery = false;
-    // Set the date availability to schedule
-    this.setItinerary();
-  }
-
-  /**
-  *
-  */
-  setScheduleDelivery() {
-    this.schedule_delivery = true;
-    this.take_today = false;
-    // Set the date availability to schedule
-    this.setItinerary();
+  setScheduleDelivery(option) {
+    if(option == 'schedule'){
+      this.schedule_delivery = "schedule";
+    }else{
+      this.schedule_delivery = "intime";
+    }
   }
 
 
@@ -191,35 +184,49 @@ export class ListingOrderPage {
     // User a service method to return the available days within the next 30 days.
     this.availableDays = this.orderService.setItinerary(this.listing.schedule);
 
+    console.log(this.availableDays);
+
     //set the minimum date parammeter
-    let firstDay = this.availableDays[0].day;
-    this.dateMin = firstDay.getFullYear() +"-"+ firstDay.getMonth() +"-"+ firstDay.getDate();
-
+    let firstDay = this.availableDays[0].moment;
+    this.dateMin = firstDay.format("YYYY-MM-DD");
     //set the maximum date parammeter
-    let lastDay = this.availableDays[this.availableDays.length - 1].day;
-    this.dateMax = lastDay.getFullYear() +"-"+ lastDay.getMonth() +"-"+ lastDay.getDate();
-
-    console.log(this.dateMin, this.dateMax);
+    let lastDay = this.availableDays[this.availableDays.length - 1].moment;
+    this.dateMax = lastDay.format("YYYY-MM-DD");
 
 
-    this.availableDays.forEach((day, index) => {
+    this.availableDays.forEach((day) => {
+
+      console.log(moment().format("YYYY-MM-DD"), day.moment.format("YYYY-MM-DD"));
+
+      // Check if is available take_today
+      if(moment().format("YYYY-MM-DD") == day.moment.format("YYYY-MM-DD")){
+        this.isAvailableToday = true;
+        this.take_today = moment().add(1, 'h');
+      }
+
       // set the month range
-      this.monthValues.push(day.day.getMonth());
-      console.log("Months - ", day.day.getMonth());
+      let month = day.moment.format("MM");
+      if(this.monthValues.indexOf(month) == -1){
+        this.monthValues.push(month);
+      }
+      this.dayValues.push(day.moment.format("DD"));
     });
-
-    console.log("Days ---- ",this.availableDays);
   }
 
   /**
   * Set the time range based on the range for each weekday from the listing
-  * @param selectDate - the date from the onChange event of the date select field
   */
-  setTimeRange(selectDate) {
-    let date = new Date(selectDate);
-    let schedule_time_range = this.availableDays.find((obj) => {
-      return obj.day == date.getDay();
+  setTimeRange() {
+    this.formSchedule.get('schedule_time').enable();
+    let selectedDate = moment(this.formSchedule.value.schedule_day);
+    let date = this.availableDays.find((day) => {
+       if(day.moment.format("YYYY-MM-DD") === selectedDate.format("YYYY-MM-DD")){
+         return day;
+       }
     });
+    this.time_range = date.time_range;
+    console.log("TIME RANGE - ",this.time_range);
+    this.formSchedule.get('schedule_time').reset();
   }
 
   /**
@@ -233,43 +240,31 @@ export class ListingOrderPage {
   /** - MOVE THE ORDER OBJECT THE THE ORDER SERVICE PROVIDER!!!!!
   * Set the Order Checkout object
   */
-  checkoutOrder() {
-    console.log(this.validOrder());
+  checkoutOrder(): void {
     if(this.validOrder()){
-
       this.order = new OrderModel();
 
-      //Process the order scheduleDay
-      if(this.take_today){
-        this.order_schedule = new Date();
-        let delivery_time = this.formSchedule.value.delivery_time.split(":");
-        this.order_schedule.setHours(delivery_time[0]);
-        this.order_schedule.setMinutes(delivery_time[1]);
-
-      }else if(this.schedule_delivery){
-        this.order_schedule = new Date(this.formSchedule.value.schedule_day);
-        let schedule_time = this.formSchedule.value.schedule_time.split(":");
-        this.order_schedule.setHours(schedule_time[0]);
-        this.order_schedule.setMinutes(schedule_time[1]);
-        this.order_schedule.setSeconds(0);;
+      if(this.schedule_delivery == "intime") {
+        this.order.delivery_schedule = this.take_today.valueOf();
+      }else {
+        let schedule_date = this.formSchedule.value.schedule_day+"T"+this.formSchedule.value.schedule_time;
+        this.order.delivery_schedule = moment(schedule_date, "YYYY-MM-DDTHH:mm").valueOf();
       }
-      console.log(this.order_schedule);
 
       // Set a Listing snapshot to the order object
       this.order.listing_snapshot = this.listing;
+      this.order.buyer_uid = this.profile.uid;
+      this.order.seller_uid = this.listing.seller_uid;
 
       // Form data
       this.order.quantity = this.formOrder.value.quantity;
       this.order.delivery_option = this.formOrder.value.delivery_option;
       this.order.total_price = this.formOrder.value.total_price;
       this.order.subtotal = this.subtotal;
-      this.order.delivery_schedule = this.order_schedule.getTime();
 
       if(this.order.delivery_option == "Delivery"){
         this.order.delivery_address = this.primaryAddress;
       }
-      this.order.buyer_uid = this.profile.uid;
-      this.order.seller_uid = this.listing.uid;
 
       // Set the order status
       let order_labels = this.orderService.getStatusLabel();
@@ -278,7 +273,8 @@ export class ListingOrderPage {
       this.order.status_history.push(order_labels.open);
 
       // Update the order with the given key
-      if(this.order_key){
+      if(this.order_key){ 
+
         this.orderService.updateOrder(this.order_key, this.order).then(()=>{
           console.log(this.order);
           // this.nav.push(OrderCheckoutPage, { order: this.order });
@@ -289,9 +285,8 @@ export class ListingOrderPage {
         .catch((error)=>{
           console.log(error.message);
         });
-      }
-      // Create a new order
-      else{ 
+
+      }else { // Create a new order
         // Save the data to the database
         this.orderService.createOrder(this.order).then((result)=>{
           this.order_key = result.key;
