@@ -34,14 +34,9 @@ export class ListingOrderPage {
   public order_key: string;
 
   // Schedule properties
-  public formSchedule: FormGroup;
   public availableDays: Array<any> = [];
-
   public take_today: any;
-  public schedule_delivery: string;
-
   public isAvailableToday: boolean = false;
-
   public dateMin: string = "2017-04-18";
   public dateMax: string = "2017-05-02";
   public monthValues: Array<string> = [];
@@ -63,12 +58,10 @@ export class ListingOrderPage {
   	this.formOrder = new FormGroup({
       quantity: new FormControl(1, Validators.required),
       total_price: new FormControl(0.00, Validators.required),
-      delivery_option: new FormControl("Delivery", Validators.required),
+      delivery_option: new FormControl('', Validators.required),
       delivery_schedule: new FormControl(''),
-      confirmation: new FormControl(false)
-    });
+      confirmation: new FormControl(false),
 
-    this.formSchedule = new FormGroup({
       delivery_time: new FormControl(''),
       schedule_day: new FormControl(''),
       schedule_time: new FormControl({value: '', disabled: true})
@@ -80,18 +73,22 @@ export class ListingOrderPage {
     this.listing = this.params.get('listing');
     this.order_key = this.params.get('order');
 
+    // Fetch the delivery address if the delivery option requires
     if(this.listing.delivery || this.listing.shipping){
-
       this.profile = this.profileService.getCurrentProfile();
-
       if(this.profile.addresses !== undefined ){
         this.primaryAddress = this.profile.addresses.find(function(address){
           return address.primary == true;
         });
       }
+    }
 
-    }else{
+    if(this.listing.delivery) {
+      this.formOrder.patchValue({delivery_option: "Delivery"});
+    }else if(this.listing.carryout){
       this.formOrder.patchValue({delivery_option: "Carryout"});
+    }else{
+      this.formOrder.patchValue({delivery_option: "Shipping"});
     }
 
   }
@@ -165,14 +162,10 @@ export class ListingOrderPage {
   }
 
   /**
-  * @param option
+  *
   */
-  setScheduleDelivery(option) {
-    if(option == 'schedule'){
-      this.schedule_delivery = "schedule";
-    }else{
-      this.schedule_delivery = "intime";
-    }
+  setScheduleDelivery() {
+    console.log("do something dude!");
   }
 
 
@@ -198,7 +191,7 @@ export class ListingOrderPage {
 
       console.log(moment().format("YYYY-MM-DD"), day.moment.format("YYYY-MM-DD"));
 
-      // Check if is available take_today
+      // Check if is available for the current day
       if(moment().format("YYYY-MM-DD") == day.moment.format("YYYY-MM-DD")){
         this.isAvailableToday = true;
         this.take_today = moment().add(1, 'h');
@@ -211,14 +204,19 @@ export class ListingOrderPage {
       }
       this.dayValues.push(day.moment.format("DD"));
     });
+
+    // Set schedule option as default if not available for the current day
+    if(!this.isAvailableToday){
+      this.formOrder.patchValue({delivery_schedule: 'schedule'});
+    }
   }
 
   /**
   * Set the time range based on the range for each weekday from the listing
   */
   setTimeRange() {
-    this.formSchedule.get('schedule_time').enable();
-    let selectedDate = moment(this.formSchedule.value.schedule_day);
+    this.formOrder.get('schedule_time').enable();
+    let selectedDate = moment(this.formOrder.value.schedule_day);
     let date = this.availableDays.find((day) => {
        if(day.moment.format("YYYY-MM-DD") === selectedDate.format("YYYY-MM-DD")){
          return day;
@@ -226,7 +224,7 @@ export class ListingOrderPage {
     });
     this.time_range = date.time_range;
     console.log("TIME RANGE - ",this.time_range);
-    this.formSchedule.get('schedule_time').reset();
+    this.formOrder.get('schedule_time').reset();
   }
 
   /**
@@ -234,7 +232,7 @@ export class ListingOrderPage {
   */
   validOrder(){
     return (this.formOrder.valid);
-     // &&  (this.formSchedule.value.delivery_time != '' ||   this.formSchedule.value.schedule_day != '');
+     // &&  (this.formOrder.value.delivery_time != '' ||   this.formOrder.value.schedule_day != '');
   }
 
   /** - MOVE THE ORDER OBJECT THE THE ORDER SERVICE PROVIDER!!!!!
@@ -244,11 +242,15 @@ export class ListingOrderPage {
     if(this.validOrder()){
       this.order = new OrderModel();
 
-      if(this.schedule_delivery == "intime") {
-        this.order.delivery_schedule = this.take_today.valueOf();
-      }else {
-        let schedule_date = this.formSchedule.value.schedule_day+"T"+this.formSchedule.value.schedule_time;
-        this.order.delivery_schedule = moment(schedule_date, "YYYY-MM-DDTHH:mm").valueOf();
+      if(this.formOrder.value.delivery_option == "Shipping") {
+        this.order.delivery_schedule = moment().add(3, 'd').valueOf();
+      }else{
+        if(this.formOrder.value.delivery_schedule == "asap") {
+          this.order.delivery_schedule = this.take_today.valueOf();
+        }else {
+          let schedule_date = this.formOrder.value.schedule_day+"T"+this.formOrder.value.schedule_time;
+          this.order.delivery_schedule = moment(schedule_date, "YYYY-MM-DDTHH:mm").valueOf();
+        }
       }
 
       // Set a Listing snapshot to the order object
@@ -256,13 +258,14 @@ export class ListingOrderPage {
       this.order.buyer_uid = this.profile.uid;
       this.order.seller_uid = this.listing.seller_uid;
 
-      // Form data
+      // Set order income
       this.order.quantity = this.formOrder.value.quantity;
       this.order.delivery_option = this.formOrder.value.delivery_option;
       this.order.total_price = this.formOrder.value.total_price;
       this.order.subtotal = this.subtotal;
 
-      if(this.order.delivery_option == "Delivery"){
+      // Set order delivery address
+      if(this.order.delivery_option != "Carryout"){
         this.order.delivery_address = this.primaryAddress;
       }
 

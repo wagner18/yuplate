@@ -1,0 +1,99 @@
+page-seller {
+
+	.seller-content{
+		background-color: color($colors, background, base);
+
+		.balance-content {
+			.stats-item {
+				height: 150px;
+
+				.balance-value {
+					color: $black-b;
+					font-size: 3.2rem;
+					font-weight: 200;
+					padding-top: 30px;
+				}
+			}
+
+			@include segment-button-styles($theme-color-4);
+			.segment-list {
+				background-color: $white;
+				padding: 0px;
+				margin: 0px;
+
+				.segment-button {
+					color: $theme-color-2;
+					font-size: 1.6rem;
+					font-weight: 300;
+
+					&.segment-activated	{
+						font-weight: 600;
+						/*border-bottom: solid 2px rgba($theme-color-4, .3);*/
+					}
+				}
+			}
+
+		}
+
+		ion-list {
+				
+			.item-content {
+
+				.item-title	{
+					font-size: 1.6rem;
+					color: $black-b;
+					margin-bottom: 8px;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+
+				.item-price {
+					font-size: 1.4rem;
+					color: $black-c;
+				}
+
+			}
+
+			preload-image {
+				border-radius: 4%;
+				img	{
+					border-radius: 4%;
+				}
+			}
+
+		}
+
+		.add-button-section {
+			padding: 10px;
+
+			.add-button {
+				border-radius: 4px;
+				background-color: $white;
+				height: 60px;
+				color: $black-c;
+				@include element-shadow();
+
+				.button-inner	{
+
+					ion-icon {
+						flex: 0 0 100%;
+				    max-width: 100%;
+						font-size: 2.0em;
+					}
+
+					.button-title	{
+						font-size: 2.1rem;
+						color: $black-c;
+						font-weight: 200;
+						margin: 0px;
+					}
+
+				}
+			}
+
+		}
+
+	}
+
+}

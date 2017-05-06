@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { App, NavController, ViewController, NavParams } from 'ionic-angular';
 
 import { ListingPage } from '../listing/listing';
+import { ProfileOrdersPage } from '../profile-orders/profile-orders';
 
 @Component({
   selector: 'page-order-payment',
@@ -35,6 +36,13 @@ export class OrderPaymentPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OrderPaymentPage');
+  }
+
+  /**
+  *
+  */
+  goToMyOrders(){
+    this.nav.setRoot(ProfileOrdersPage);
   }
 
   /**

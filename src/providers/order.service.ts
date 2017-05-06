@@ -15,6 +15,7 @@ import { ProfileService } from './profile.service';
 export class OrderService {
 
 	private ORDER_REF: string = "orders/";
+  private PROFILE_ORDERS_REF: string = "profile_orders/";
   private profile: any;
 
   public current_time: any = new Date();
@@ -33,11 +34,28 @@ export class OrderService {
   * @param data - Order data
   */
   createOrder(data){
-    return this._auth.getCurrentUser().then((currentUser) => {
-      data.buyer_uid = currentUser.uid;
-      let order_ref = this.ORDER_REF + currentUser.uid + "/";
-      return this._dataService.database.child(order_ref).push(data);
-    });
+    console.log("Creating order", data);
+
+    if(data.seller_uid && data.buyer_uid){
+
+      // Set the firebase reference
+      let order_ref = this.ORDER_REF + data.seller_uid + "/";
+      return this._dataService.database.child(order_ref).push(data).then( (result) => {
+        console.log(result.key);
+
+        // Set the firebase reference
+        // There is many batter ways to code it, I know, but I have not time right now, just make it works!
+        // and stop thinking too much! when you can, you will make it better... :(
+        let profile_orders_ref = this.PROFILE_ORDERS_REF + data.buyer_uid + "/" + result.key;
+        this._dataService.database.child(profile_orders_ref + "/" ).set(data.seller_uid).then( () => {
+          console.log("Buyer reference - ",profile_orders_ref);
+        });
+
+        return result;
+      });
+    }else{
+      throw "Error creating the order: seller or buyer uid undifined";
+    }
   }
 
 
@@ -47,19 +65,59 @@ export class OrderService {
   * @param data - order data
   */
   updateOrder(key, data){
-    return this._auth.getCurrentUser().then((currentUser) => {
-      let order_ref = this.ORDER_REF + currentUser.uid + "/";
-      return this._dataService.database.child(order_ref + key).set(data);
+    let order_ref = this.ORDER_REF + data.seller_uid + "/";
+    return this._dataService.database.child(order_ref + key).set(data);
+  }
+
+  /**
+  * Return the seller's orders
+  */
+  getSellerOrders(){
+    return new Promise((resolve, reject) => {
+      let seller_orders: Array<any> = [];
+      let order_ref = this.ORDER_REF + this.profile.uid;
+      this._dataService.database.child(order_ref).on('value', (orderSnap) => {
+
+        let orders = orderSnap.val();
+        Object.keys(orders).forEach((key) => {
+          seller_orders.push(orders[key]);
+        });
+        resolve(seller_orders);
+      },
+      (error) =>{
+        reject(error);
+      });
+
     });
   }
 
 
   /**
-  *
+  * return the profile's orders
   */
   getProfileOrders(){
-    let order_ref = this.ORDER_REF + this.profile.uid;
-    return this._dataService.database.child(order_ref);
+    return new Promise((resolve, reject) => {
+      let profile_orders: Array<any> = [];
+      let profile_orders_ref = this.PROFILE_ORDERS_REF + this.profile.uid;
+      this._dataService.database.child(profile_orders_ref).once('value', (refSnap) => {
+
+        let orders = refSnap.val();
+        Object.keys(orders).forEach( (order_key) => {
+
+          let seller = orders[order_key];
+          let order_ref = this.ORDER_REF + seller + "/" + order_key;
+          this._dataService.database.child(order_ref).once('value', (orderSnap) => {
+            profile_orders.push(orderSnap.val());
+          });
+
+        });
+        resolve(profile_orders);
+      },
+      (error) => {
+        reject(error);
+      });
+
+    });
   }
 
   /**

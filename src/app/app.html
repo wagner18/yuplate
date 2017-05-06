@@ -9,11 +9,7 @@
           <!-- <h4>{{profileLocation}}</h4> -->
       </ion-item>
 
-      <button ion-item detail-none *ngFor="let page of pages" (click)="openPage(page)">
-        <ion-icon *ngIf="page.icon" name="{{page.icon}}" item-left></ion-icon>
-        {{page.title}}
-      </button>
-      <button ion-item side-menu-item detail-none *ngFor="let page of pushPages" (click)="pushPage(page)">
+      <button ion-item side-menu-item detail-none *ngFor="let page of pages" (click)="openPage(page)">
         <ion-icon *ngIf="page.icon" name="{{page.icon}}" item-left></ion-icon>
         {{page.title}}
       </button>

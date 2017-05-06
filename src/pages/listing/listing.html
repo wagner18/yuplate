@@ -136,8 +136,13 @@
         </ion-card-title>
 
         <p class="item-text">
-          {{ listing.measure_unit }}: {{ listing.unit_value }} 
+          <span *ngIf="listing.distance">{{ listing.distance | distancePipe: 'miles' }} / </span>
+          {{ listing.measure_unit }}: {{ listing.unit_value }}
         </p>
+
+<!--         <p class="item-text">
+          
+        </p> -->
 
         <ion-row class="status-row">
           <ion-col no-padding width-30 text-center>

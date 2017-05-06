@@ -23,6 +23,7 @@ export class DataService {
 	private ROOT_NODE: string = "/";
 	public database: any; 
   public geoFire: any;
+  public GeoFireLib: any;
 
 	public auth: any;
   public storage: any;
@@ -45,6 +46,9 @@ export class DataService {
 
       // Set the Firebase reference to the root node
   	  this.database = firebase.database().ref(this.ROOT_NODE);
+
+      // Expose GeoFire library
+      this.GeoFireLib = GeoFire;
       // GeoFire reference
       this.geoFire = new GeoFire(firebase.database().ref(this.ROOT_NODE + "listings_geofire/"));
 
@@ -67,11 +71,6 @@ export class DataService {
       console.log(error);
     });
   }
-
-  /**
-  *
-  */
-  
 
 
   /**

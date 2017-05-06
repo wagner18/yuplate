@@ -97,9 +97,9 @@ export class ListingPage implements OnDestroy{
     this.listings = [];
     loading.present();
 
-    this.itemService.getLocalItems(25).then( listings => {
-      console.log(listings);
+    this.itemService.getLocalItems(25).then( (listings) => {
 
+      console.log(listings);
       this.listings = listings;
       loading.dismiss();
     });

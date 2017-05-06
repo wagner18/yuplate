@@ -3,18 +3,19 @@ page-order-checkout {
 	.order-content{
 		background-color: color($colors, background, base);
 
-		@include basic-input-style($white, $input-color, $white-d);
-		.text-input {
-			padding-right: 5px;
-			text-align: right;
+		.text-title {
+			font-size: 1.6rem;
+			font-weight: 600px;
+		}
+
+		.text-content {
+			font-size: 1.4rem;
 		}
 
 		.price-label {
 			padding: 0px;
 			margin: 0px;
 			color: $theme-color-2;
-			/*font-weight: 00;*/
-			content: " USD";
 		}
 
 		.list-sub-header {

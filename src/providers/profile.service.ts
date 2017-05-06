@@ -165,7 +165,7 @@ export class ProfileService {
       let current_location = { lat: position.coords.latitude, lng: position.coords.longitude };
       this.profile.location = current_location;
 
-      console.log("MY LOCATIONNNN",current_location);
+      return this.profile;
 
     }, (error) => {
       console.log(error);

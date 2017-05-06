@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, LoadingController } from 'ionic-angular';
 
 import { AuthService } from '../../providers/auth.service';
 import { ProfileService } from '../../providers/profile.service';
@@ -13,11 +13,12 @@ import { OrderService } from '../../providers/order.service';
 })
 export class ProfileOrdersPage {
 
-	public orders: Array<any> = [];
+	public orders: any;
 
   constructor(
   	public nav: NavController, 
   	public params: NavParams,
+    public loadingCtrl: LoadingController,
   	private _authService: AuthService,
   	public profileService: ProfileService,
     public orderService: OrderService,
@@ -32,23 +33,13 @@ export class ProfileOrdersPage {
   *
   */
   loadOrders(){
-  	this.orderService.getProfileOrders().once('value', (orderSnap) => {
-
-  		let orders = orderSnap.val();
-  		this.orders = Object.keys(orderSnap.val()).map((key) => {
-
-  			let schedule = new Date(orders[key].delivery_schedule);
-  			orders[key].schedule = schedule.toString().slice(0,21);
-  			return orders[key];
-  		});
-
-  		// let orders = orderSnap.val();
-  		// this.orders = orders.map((order) => {
-  		// 	return order;
-  		// });
-
-  		console.log(this.orders);
-  	});
+    let loading = this.loadingCtrl.create();
+    loading.present();
+  	this.orderService.getProfileOrders().then( (profile_orders) => {
+      console.log(profile_orders);
+      this.orders = profile_orders;
+      loading.dismiss();
+    });
   }
 
 

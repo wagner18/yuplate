@@ -1,8 +1,8 @@
 import { Component, ViewChild, ElementRef} from '@angular/core';
-import { NavController, ModalController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, ModalController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 
 import { ProfileService } from '../../providers/profile.service';
-import { ListingService } from '../../providers/listing.service';
+import { ListItemService } from '../../providers/list-item.service';
 
 import { GalleryModal } from '../gallery-modal/gallery-modal';
 
@@ -27,11 +27,13 @@ export class ListingDetailsPage {
     public modalCtrl: ModalController,
   	public params: NavParams,
     public alertCtrl: AlertController,
-  	public listingService: ListingService,
-  	private _profileService: ProfileService,
-  ) {}
+  	public itemService: ListItemService,
+    public loadingCtrl: LoadingController,
+  	private profileService: ProfileService
+  ){}
 
   ionViewWillLoad() {
+ 
     // Get the Listing Key Reference form the nav params
     this.listing = this.params.get('listing');
 
@@ -46,6 +48,21 @@ export class ListingDetailsPage {
   ionViewDidLoad() {
     if(this.listing.location.geolocation !== undefined ){
       this.createMap(this.listing.location.geolocation);
+      this.listing['distance'] = 0;
+
+      let loading = this.loadingCtrl.create();
+      loading.present();
+      // Get profile location and distance
+      this.profileService.setCurrentLocation().then((profile) => {
+        profile = this.profileService.getCurrentProfile();
+        if(profile.location !== undefined){
+          let location1 = [ profile.location.lat, profile.location.lng ];
+          let location2 = [ this.listing.location.geolocation.lat, this.listing.location.geolocation.lng ];
+          this.listing.distance = this.itemService.getItemDistance(location1, location2);
+        }
+        loading.dismiss();
+      });
+
     }
   }
 

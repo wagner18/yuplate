@@ -41,7 +41,6 @@ import { ProfileFormAddressPage } from '../pages/profile-form-address/profile-fo
 import { ProfilePaymentMethodPage } from '../pages/profile-payment-method/profile-payment-method';
 import { ProfileOrdersPage } from '../pages/profile-orders/profile-orders';
 import { ProfileFavoritesPage } from '../pages/profile-favorites/profile-favorites';
-
 import { AddressFormModal } from '../pages/profile-form-address/address-form-modal';
 import { LoginPage } from '../pages/login/login';
 import { OrderCheckoutPage } from '../pages/order-checkout/order-checkout';
@@ -50,9 +49,9 @@ import { SignupPage } from '../pages/signup/signup';
 import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
 import { WalkthroughPage } from '../pages/walkthrough/walkthrough';
 
+import { SellerPage } from '../pages/seller/seller';
 
 import { CardFormPage } from '../pages/card-form/card-form';
-
 
 import { TermsOfServicePage } from '../pages/terms-of-service/terms-of-service';
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
@@ -73,6 +72,7 @@ import { ZoomableImage } from '../components/zoomable-image/zoomable-image';
  Pipes
 */
 import { MomentPipe } from './pipes/moment-pipe';
+import { DistancePipe } from './pipes/distance-pipe';
 
 /*
     Import providers
@@ -85,6 +85,8 @@ import { ListingService } from '../providers/listing.service';
 import { ListItemService } from '../providers/list-item.service';
 import { OrderService } from '../providers/order.service';
 import { ProfileService } from '../providers/profile.service';
+
+import { MapProvider } from '../providers/map-provider';
 
 
 declare var cordova: any;
@@ -121,6 +123,9 @@ declare var cordova: any;
     CardFormPage,
 
     WalkthroughPage,
+
+    SellerPage,
+
     SignupPage,
     ForgotPasswordPage,
 
@@ -136,7 +141,8 @@ declare var cordova: any;
     GalleryModal,
     ZoomableImage,
 
-    MomentPipe
+    MomentPipe,
+    DistancePipe
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -187,6 +193,8 @@ declare var cordova: any;
 
     WalkthroughPage,
 
+    SellerPage,
+
     ForgotPasswordPage,
     SignupPage,
 
@@ -202,7 +210,8 @@ declare var cordova: any;
     BaseProvider,
     MediaService,
     ListingService,
-    ListItemService
+    ListItemService,
+    MapProvider
     // OrderService,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

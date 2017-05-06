@@ -173,6 +173,7 @@ export class ListItemService {
   }
 
   /**
+  * Get items based on the user location
   * @param radius = radius in miles
   */
   getLocalItems(radius = 10){
@@ -183,6 +184,7 @@ export class ListItemService {
 
       this.listings = [];
       this.profileService.setCurrentLocation().then(position => {
+
         this.profile = this.profileService.getCurrentProfile();
         if(this.profile.location !== undefined){
 
@@ -192,17 +194,20 @@ export class ListItemService {
           });
 
           geoQuery.on("key_entered", (key, location, distance) => {
-            // console.log(key + " entered query at " + location + " (" + distance + " km from center)");
+            console.log(key + " entered query at " + location + " (" + distance + " km from center)");
 
             this._dataService.database.child(this.LISTING_REF + key).once('value', listingSnap => {
 
-              this.listings.push(listingSnap.val());
-              resolve(this.listings);
+              let listing = listingSnap.val();
+              listing['distance'] = distance;
+              this.listings.push(listing);
 
             }, (error) => {
               console.log(error);
               reject(error);
             });
+
+            resolve(this.listings);
 
           });
 
@@ -211,4 +216,23 @@ export class ListItemService {
 
     });
   }
+
+
+  /**
+  * Return the distance between user and listing
+  * location1 and location1 must have the form [latitude, longitude].
+  * @param location1 = start point
+  * @param location2 = end point
+  */
+  getItemDistance(location1, location2){
+    if(Array.isArray(location1) && Array.isArray(location2)){
+      let distance = this._dataService.GeoFireLib.distance(location1, location2);
+      return distance;
+    }else{
+      console.log("Locations provided is not valid");
+      return null;
+    }
+  }
+
+
 }

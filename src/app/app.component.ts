@@ -14,12 +14,16 @@ import { DataService } from '../providers/data.service';
 import { AuthService } from '../providers/auth.service';
 import { ProfileService } from '../providers/profile.service';
 
+import { MapProvider } from '../providers/map-provider';
+
 import { BaseProvider } from './base.provider';
 
 import { ListingPage } from '../pages/listing/listing';
 import { ProfilePage } from '../pages/profile/profile';
 import { ProfileOrdersPage } from '../pages/profile-orders/profile-orders';
 import { ListingUserPage } from '../pages/listing-user/listing-user';
+
+import { SellerPage } from '../pages/seller/seller';
 
 import { LoginPage } from '../pages/login/login';
 
@@ -45,8 +49,7 @@ export class MyApp {
   public rootPage: any = WalkthroughPage;// LoginPage;// = TabsNavigationPage; // = WalkthroughPage;
   public main_page: { component: any };
 
-  public pages: Array<{title: string, icon: string, component: any}>;
-  public pushPages: Array<{title: string, icon: string, component: any}>;
+  public pages: Array<{title: string, icon: string, component: any, type: string}>;
 
   public profileName: string;
   public profileLocation: string;
@@ -57,6 +60,7 @@ export class MyApp {
     public events: Events,
     public BaseApp: BaseProvider,
     public app: App,
+    public map: MapProvider,
     public menu: MenuController,
     private _dataService: DataService,
     private _authService: AuthService,
@@ -68,15 +72,13 @@ export class MyApp {
     this.main_page = { component: ListingPage };
 
     this.pages = [
-      { title: 'Home', icon: 'home', component: ListingPage },
-      { title: 'Profile', icon: 'contact', component: ProfilePage }
-    ];
-
-    this.pushPages = [
-      { title: 'Listing', icon: 'add-circle', component: ListingUserPage },
-      { title: 'My Orders', icon: 'ios-bookmarks', component: ProfileOrdersPage },
-      { title: 'Subscription', icon: 'create', component: ListingUserPage },
-      { title: 'Drivers Pool', icon: 'ios-car-outline', component: ListingUserPage },
+      { title: 'Home', icon: 'ios-home-outline', component: ListingPage, type: 'root' },
+      { title: 'My Orders', icon: 'ios-bookmarks-outline', component: ProfileOrdersPage, type: 'push'},
+      { title: 'Subscription', icon: 'ios-create-outline', component: ListingUserPage, type: 'push'},
+      { title: 'Seller', icon: 'ios-briefcase-outline', component: SellerPage, type: 'root'},
+      { title: 'Listings', icon: 'ios-add-circle-outline', component: ListingUserPage, type: 'push'},
+      { title: 'Drivers Pool', icon: 'ios-car-outline', component: ListingUserPage, type: 'push'},
+      { title: 'Profile', icon: 'ios-contact-outline', component: ProfilePage, type: 'root'}
     ];
   }
 
@@ -86,6 +88,9 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       Splashscreen.hide();
       StatusBar.styleDefault();
+
+      // Set the map library
+      this.map.setMap();
 
       // no need anymore
       if (this.platform.is('ios')) {
@@ -150,27 +155,28 @@ export class MyApp {
     this.profileImage = userProfile.image;
   }
 
-  logout(){
-    this._authService.signOut();
-    this.menu.close();
-    this.nav.setRoot(LoginPage);
-  }
-
+  /**
+  * Set the navagation through the side menu
+  * @param page = page object listed within the side menu
+  */
   openPage(page) {
     // close the menu when clicking a link from the menu
     this.menu.close().then(() => {
       // navigate to the new page if it is not the current page
-      this.nav.setRoot(page.component);
+      if(page.type === "root"){
+        this.nav.setRoot(page.component);
+      }
+      else if(page.type === "push"){
+        this.app.getRootNav().push(page.component);
+      }
     });
 
   }
 
-  pushPage(page) {
-    // close the menu when clicking a link from the menu
-    this.menu.close().then(() => {
-      // rootNav is now deprecated (since beta 11) (https://forum.ionicframework.com/t/cant-access-rootnav-after-upgrade-to-beta-11/59889)
-      this.app.getRootNav().push(page.component);
-    });
+  logout(){
+    this._authService.signOut();
+    this.menu.close();
+    this.nav.setRoot(LoginPage);
   }
 
 }

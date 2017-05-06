@@ -1,0 +1,102 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+      <!-- <ion-icon ios="ios-contact" md="md-contact"></ion-icon> -->
+      <!-- <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon> -->
+    </button>
+    <ion-title>Seller Dash</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="seller-content">
+
+  <section class="add-button-section">
+    <button ion-button class="add-button" block large (click)="addListing()">
+      <h3 class="button-title">List a product</h3>
+    </button>
+  </section>
+
+	<ion-list class="balance-content">
+		<ion-item class="stats-item" no-lines>
+			<h1 text-center class="balance-value"> $ 2879 </h1>
+
+			<p text-center> 
+			 <button ion-button clear>Manager Balance</button>
+			</p>
+		</ion-item>
+
+		<ion-item>
+			<ion-segment [ngModel]="segment_list" class="segment-list">
+			    <ion-segment-button value="listing" (ionSelect)="showList('listing')">
+           	Listing
+          </ion-segment-button>
+          <ion-segment-button value="orders" (ionSelect)="showList('orders')">
+            Orders
+          </ion-segment-button>
+        </ion-segment>
+		</ion-item>
+	</ion-list>
+
+	<div [ngSwitch]="segment_list">
+		<ion-list *ngSwitchCase="'listing'">
+
+		  <ion-list-header>
+		    Active Listing
+		  </ion-list-header>
+
+	    <button ion-item class="item-content" *ngFor="let listing of listings" (click)="editListing(listing.key)">
+	      <ion-thumbnail item-left large>
+	        <preload-image [ratio]="{w:1, h:1}" [src]="listing?.medias[0].media_path"></preload-image>
+	      </ion-thumbnail>
+	      <h3 class="item-title">{{listing.title}}</h3>
+	      <p class="item-price"> {{listing.price.main_price | currency: listing.currency: true:'1.2-2'}}</p>
+	    </button>
+
+	    <ion-list-header>
+	      Drafts
+	    </ion-list-header>
+
+	    <button ion-item class="item-content" *ngFor="let draft of drafts" (click)="editListing(draft.key)">
+	      <ion-thumbnail item-left large>
+	        <preload-image [ratio]="{w:1, h:1}" [src]="draft?.medias[0].media_path"></preload-image>
+	      </ion-thumbnail>
+	      <h3 class="item-title">{{draft.title}}</h3>
+	      <p class="item-price"> {{draft.price.main_price | currency: draft.price.currency: true:'1.2-2'}}</p>
+	    </button>
+	  </ion-list>
+
+
+		<ion-list *ngSwitchCase="'orders'">
+			<ion-item-divider>Open Orders</ion-item-divider>
+	    <button ion-item class="item-content" *ngFor="let order of orders">
+	      <ion-thumbnail item-left large>
+	        <preload-image [ratio]="{w:1, h:1}" [src]="order.listing_snapshot?.medias[0].media_path"></preload-image>
+	      </ion-thumbnail>
+	      <h3 class="item-title">{{order.listing_snapshot.title}}</h3>
+	      <p class="item-price">{{order.listing_snapshot.main_price | currency: order.listing_snapshot.currency: true:'1.2-2'}}</p>
+	      <p>Delivery option: {{ order.delivery_option}}</p>
+	      <p>Est. Delivery: {{order.delivery_schedule}}</p>
+	    </button>
+	  </ion-list>
+
+	 <ion-list *ngSwitchCase="'orders'">
+			<ion-item-divider>Waiting Payment</ion-item-divider>
+	    <ion-item>
+	    	None
+	    </ion-item>
+
+			<ion-item-divider>Finished Orders</ion-item-divider>
+	    <ion-item>
+	    	None
+	    </ion-item>
+		</ion-list>
+
+	</div>
+
+
+</ion-content>

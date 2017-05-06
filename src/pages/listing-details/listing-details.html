@@ -45,6 +45,9 @@
       <span item-center class="delivery_options" *ngIf="listing.shipping">
          - Shipping
       </span>
+      <p ion-text>
+        {{ listing?.distance | distancePipe: 'miles' }} away
+      </p>
 
       <ion-row no-padding>
         <ion-col no-padding text-left width-50>
@@ -103,16 +106,7 @@
       <h1 item-right>
         <rating class="reviews-button-rate" [ngModel]="listing.total_rate" max="5" read-only="true"></rating>
       </h1>
-    </button> 
-
-    <ion-item-divider>Seller information</ion-item-divider>
-    <ion-item item-left class="item-profile">
-      <ion-avatar item-left>
-        <img src="{{ listing.short_profile?.image }}">
-      </ion-avatar>
-      <h2>{{listing.short_profile?.fullName}}</h2>
-    </ion-item>
-
+    </button>
   </ion-list>
 
   <ion-list>
@@ -198,6 +192,17 @@
         Polices & FAQs
       </h2>
       <p class="content-text">{{listing.additional_policies}}</p>
+    </ion-item>
+  </ion-list>
+
+
+  <ion-list>
+    <ion-item-divider>Seller information</ion-item-divider>
+    <ion-item item-left class="item-profile">
+      <ion-avatar item-left>
+        <img src="{{ listing.short_profile?.image }}">
+      </ion-avatar>
+      <h2>{{listing.short_profile?.fullName}}</h2>
     </ion-item>
   </ion-list>
 

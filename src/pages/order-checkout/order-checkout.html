@@ -18,14 +18,20 @@
 
   	<ion-item item-left>
 	    <ion-row>
+
 	    	<ion-col width-30>
 	    		<preload-image [ratio]="{w:1, h:1}" [src]="order.listing_snapshot.medias[0].media_path">
           </preload-image>
         </ion-col>
+
 	    	<ion-col widht-70>
-	    		<h2 text-left>{{ order.listing_snapshot.title }}</h2>
-			    <h2 text-left>Quantity: {{ order.quantity }}</h2>
-			    <h2 text-left *ngIf="show_delivery_fee">
+	    		<h2 class="text-title">
+	    			{{ order.listing_snapshot.title }}
+	    		</h2>
+			    <h2 class="text-content">
+			    	Quantity: {{ order.quantity }}
+			    </h2>
+			    <h2 class="text-content" *ngIf="show_delivery_fee">
 			    	<!-- Implemente currency pipi!! -->
 			    	Delivery fee: {{ order.listing_snapshot.delivery_fee | currency: order.listing_snapshot.currency: true:'1.2-2' }}
 			    </h2>
@@ -35,6 +41,7 @@
 			    	{{ order.subtotal | currency: order.listing_snapshot.currency: true:'1.2-2' }}
 			    </div>
 	    	</ion-col>
+
 	    </ion-row>
 
 	    <ion-row class="checkout-actions">

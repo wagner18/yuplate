@@ -38,7 +38,7 @@
           <div class="price-label" item-right>
             <!-- Implemente currency pipi!! -->
             Price: 
-            ${{ order.subtotal | currency: order.listing_snapshot.currency: true:'1.2-2' }}
+            {{ order.subtotal | currency: order.listing_snapshot.currency: true:'1.2-2' }}
           </div>
 
           <h2  class="delivery-schedule" text-left>{{ order.schedule }}</h2>

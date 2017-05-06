@@ -10,8 +10,9 @@ page-listing-order {
 				font-size: 1.6rem;
 
 				.text-title {
+					color: $black-b;
 					white-space: pre-line;
-					font-size: 1.8rem;
+					font-size: 1.6rem;
 					font-weight: 500;
 				}
 
@@ -20,6 +21,25 @@ page-listing-order {
 					text-align: left;
 					color: $theme-color-2;
 					font-weight: 600;
+				}
+			}
+
+
+			.delivery-schedule {
+				@include segment-button-styles($theme-color-4);
+				background-color: $white;
+				padding: 0px;
+				margin: 0px;
+
+				.segment-button {
+					color: $theme-color-2;
+					font-size: 1.4rem;
+					font-weight: 300;
+
+					&.segment-activated	{
+						font-weight: 600;
+						/*border-bottom: solid 2px rgba($theme-color-4, .3);*/
+					}
 				}
 			}
 
